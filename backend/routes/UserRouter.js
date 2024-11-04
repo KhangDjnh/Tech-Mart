@@ -4,10 +4,7 @@ const {
   getUserById,
   getAllUsers,
   updateUser,
-  deleteUser,
-  getCartByUser,
-  updateUserCart,
-  deleteUserCart,
+  deleteUser
 } = require("../controllers/UserController.js");
 const { isManager, isCustomer } = require("../middleware/auth.js");
 
@@ -18,7 +15,4 @@ router
   .get(isCustomer, getUserById)
   .put(isCustomer, updateUser)
   .delete(isManager, deleteUser);
-router.route("/:id/cart").get(getCartByUser);
-router.route("/:userId/cart/:productId").post(updateUserCart);
-router.route("/:userId/cart").post(deleteUserCart);
 module.exports = router;

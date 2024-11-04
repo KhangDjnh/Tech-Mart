@@ -6,8 +6,10 @@ const http = require("http");
 const userRouter = require("./routes/UserRouter");
 const registerRouter = require("./routes/RegisterRouter");
 const loginRouter = require("./routes/LoginRouter");
-const forgotPassRouter = require("./routes/ForgotPassRouter");
 const confirmRouter = require("./routes/ConfirmRouter");
+const socketServer = require("./utils/serverSocket");
+const forgotPassRouter = require("./routes/ForgotPassRouter");
+
 
 require("dotenv").config();
 
@@ -34,6 +36,10 @@ mongoose
   .catch((err) => {
     console.log("MongoDB connection failed", err.message);
   });
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the Tech-Mart API!");
+});
 
 app.use("/api/user", userRouter);
 app.use("/api/register", registerRouter);
