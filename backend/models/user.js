@@ -41,7 +41,6 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Follow' 
     }]
->>>>>>> 035ffc4e8a155fc697e84ff6086826eadeef712b
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);
