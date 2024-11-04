@@ -1,39 +1,44 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const userRoutes = require('./routes/user.js');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const http = require("http");
 
-require('dotenv').config();
+const userRouter = require("./routes/UserRouter");
+const registerRouter = require("./routes/RegisterRouter");
+const loginRouter = require("./routes/LoginRouter");
+const forgotPassRouter = require("./routes/ForgotPassRouter");
+const confirmRouter = require("./routes/ConfirmRouter");
 
-const productRoutes = require('./routes/product.js');
+require("dotenv").config();
 
 const app = express();
-
-// Middleware
-app.use(express.static('public'));
+app.use(express.json({ limit: "50mb" }));
 app.use(cors());
-app.use(bodyParser.json());
 
-// Kết nối MongoDB
-// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-//     .then(() => console.log('MongoDB connected'))
-//     .catch(err => console.log(err));
-
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('Đã kết nối thành công với MongoDB Atlas'))
-    .catch(err => console.log('Lỗi kết nối:', err));
-
-// Định nghĩa các route
-app.get('/', (req, res) => {
-    res.send('API đang hoạt động');
-});
-
-// Khởi động server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server đang chạy trên cổng http://localhost:${PORT}`);
+
+const server = http.createServer(app);
+socketServer.registerSocketServer(server);
+
+server.listen(PORT, () => {
+  console.log(`Application listening on ${PORT} !`);
 });
 
-app.use('/api/products', productRoutes);
-app.use('/api/users', userRoutes);
+//configure mongoose
+const uri = process.env.MONGODB_URI;
+mongoose
+  .connect(uri)
+  .then(() => {
+    console.log("MongoDB connection successful...");
+  })
+  .catch((err) => {
+    console.log("MongoDB connection failed", err.message);
+  });
+
+app.use("/api/user", userRouter);
+app.use("/api/register", registerRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/forgot_pass", forgotPassRouter);
+app.use("/api/confirm", confirmRouter);
+
+module.exports = app;
