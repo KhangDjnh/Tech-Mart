@@ -1,23 +1,24 @@
 const User = require("../models/user.js");
-const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
 exports.createUser = async (user) => {
-  const { name, email, password, phone, avatar, role, address } = user;
+  const { username, email, password, phonenumber, address, gender, birthday, role, profilePic, coverPic } = user;
 
   const salt = await bcrypt.genSalt(10);
-  hashPassword = await bcrypt.hash(password, salt);
+  const hashPassword = await bcrypt.hash(password, salt);
 
   const newUser = new User({
-    name,
+    username,
     email,
     password: hashPassword,
-    phone,
-    avatar,
-    emailConfirmed: true,
-    customers: ["6631eca7cdb504839a6da6d1"],
-    role,
+    phonenumber,
     address,
+    gender,
+    birthday,
+    role,
+    profilePic,
+    coverPic,
+    id_following: [], // Assuming an empty array for id_following by default
   });
 
   return await newUser.save();
@@ -32,7 +33,13 @@ exports.getUserById = async (id) => {
 };
 
 exports.updateUser = async (id, user) => {
-  return await User.findByIdAndUpdate(id, user);
+  // If password is updated, hash it before updating the user
+  if (user.password) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  }
+
+  return await User.findByIdAndUpdate(id, user, { new: true }); // Return the updated user
 };
 
 exports.deleteUser = async (id) => {
