@@ -1,6 +1,5 @@
 const userService = require("../services/UserService");
 const cloudinary = require("../utils/cloudinary");
-const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
@@ -11,17 +10,17 @@ exports.createUser = async (req, res) => {
       throw new Error("Email is required.");
     }
 
-    if (req.body.avatar) {
+    if (req.body.profilePic) {
       const uploadedResponse = await cloudinary.uploader.upload(
-        req.body.avatar,
+        req.body.profilePic,
         {
           upload_preset: "TechMarket-User",
         }
       );
       if (!uploadedResponse) {
-        throw new Error("error: can't upload image to cloudinary");
+        throw new Error("Error: Can't upload image to Cloudinary");
       }
-      req.body.avatar = uploadedResponse;
+      req.body.profilePic = uploadedResponse;
       avatarPublicId = uploadedResponse.public_id;
     }
 
@@ -30,9 +29,7 @@ exports.createUser = async (req, res) => {
   } catch (err) {
     try {
       if (avatarPublicId) {
-        const destroyResponse = await cloudinary.uploader.destroy(
-          avatarPublicId
-        );
+        const destroyResponse = await cloudinary.uploader.destroy(avatarPublicId);
         if (!destroyResponse.result === "ok") {
           throw new Error("Failed to delete image from Cloudinary");
         }
@@ -64,81 +61,41 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    if (req.body.avatar) {
-      user = await userService.getUserById(req.params.id);
+    let user = await userService.getUserById(req.params.id);
 
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-      if (user.avatar && user.avatar.public_id) {
-        await cloudinary.uploader.destroy(user.avatar.public_id);
+    if (req.body.profilePic) {
+      if (user.profilePic && user.profilePic.public_id) {
+        await cloudinary.uploader.destroy(user.profilePic.public_id);
       }
 
       const uploadedResponse = await cloudinary.uploader.upload(
-        req.body.avatar,
+        req.body.profilePic,
         {
           upload_preset: "TechMarket-User",
         }
       );
 
       if (!uploadedResponse) {
-        throw new Error("Failed to upload image to cloudinary");
+        throw new Error("Failed to upload image to Cloudinary");
       }
 
-      const { name, email, phone, address, role, password } = req.body;
-      if (password != user.password) {
-        const salt = await bcrypt.genSalt(10);
-        hashPassword = await bcrypt.hash(password, salt);
-        user.password = hashPassword;
-        await user.save();
-      }
-
-      const updatedUser = await userService.updateUser(
-        req.params.id,
-        {
-          $set: {
-            name,
-            email,
-            phone,
-            address,
-            role,
-            avatar: uploadedResponse,
-          },
-        },
-        { new: true }
-      );
-
-      res.status(200).json({ data: updatedUser, status: "success" });
-    } else {
-      user = await userService.getUserById(req.params.id);
-
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-
-      const { name, email, phone, address, role, password } = req.body;
-
-      if (password != user.password) {
-        const salt = await bcrypt.genSalt(10);
-        hashPassword = await bcrypt.hash(password, salt);
-        user.password = hashPassword;
-        await user.save();
-      }
-
-      const updatedUser = await userService.updateUser(
-        req.params.id,
-        {
-          name,
-          email,
-          phone,
-          address,
-          role,
-        },
-        { new: true }
-      );
-      res.status(200).json({ data: updatedUser, status: "success" });
+      req.body.profilePic = uploadedResponse;
     }
+
+    const { username, email, phonenumber, address, gender, birthday, role, password } = req.body;
+
+    if (password && password !== user.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
+      req.body.password = hashPassword;
+    }
+
+    const updatedUser = await userService.updateUser(req.params.id, req.body, { new: true });
+    res.status(200).json({ data: updatedUser, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -152,14 +109,13 @@ exports.deleteUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (user.avatar && user.avatar.public_id) {
-      const destroyResponse = await cloudinary.uploader.destroy(
-        user.avatar.public_id
-      );
+    if (user.profilePic && user.profilePic.public_id) {
+      const destroyResponse = await cloudinary.uploader.destroy(user.profilePic.public_id);
       if (!destroyResponse.result === "ok") {
         throw new Error("Failed to delete image from Cloudinary");
       }
     }
+
     const deletedUser = await userService.deleteUser(req.params.id);
     res.status(200).json({ data: deletedUser, status: "success" });
   } catch (err) {
