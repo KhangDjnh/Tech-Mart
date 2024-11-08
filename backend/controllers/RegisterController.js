@@ -5,10 +5,10 @@ const cloudinary = require("../utils/cloudinary");
 
 exports.registerUser = async (req, res) => {
     const schema = Joi.object({
-        name: Joi.string().min(3).max(30).required(),
+        username: Joi.string().min(3).max(30).required(),
         email: Joi.string().min(3).max(200).required().email(),
         password: Joi.string().min(8).max(1024).required(),
-        phone: Joi.string().min(9).max(22).required(),
+        phonenumber: Joi.string().min(9).max(22).required(),
         avatar: Joi.required()
     });
 
@@ -34,10 +34,10 @@ exports.registerUser = async (req, res) => {
         }
 
         const user = await register.registerUser(req.body);
-
         const token = genAuthToken(user);
 
         res.status(200).send(token);
+        
     } catch (err) {
         console.error("Error:", err);
         res.status(500).send("Internal Server Error");

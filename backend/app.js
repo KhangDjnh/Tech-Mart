@@ -26,7 +26,6 @@ server.listen(PORT, () => {
   console.log(`Application listening on ${PORT} !`);
 });
 
-//configure mongoose
 const uri = process.env.MONGODB_URI;
 mongoose
   .connect(uri)

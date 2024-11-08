@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const { sendConfirmationEmail } = require("../utils/mailserver");
+const { sendConfirmationEmail, verifyConnection } = require("../utils/mailserver");
 const { updateCustomers } = require("../socketHandlers/updates/customers");
 
 function generateToken() {
@@ -9,7 +9,7 @@ function generateToken() {
 }
 
 exports.registerUser = async (user) => {
-  const { name, email, password, phone, avatar } = user;
+  const { username, email, password, phonenumber, avatar } = user;
   const confirmationToken = generateToken();
   const confirmationExpires = Date.now() + 120000;
 
@@ -17,27 +17,45 @@ exports.registerUser = async (user) => {
   hashPassword = await bcrypt.hash(password, salt);
 
   const newUser = new User({
-    name,
+    username,
     email,
     password: hashPassword,
-    phone,
+    phonenumber,
     avatar,
     confirmationToken,
     confirmationExpires,
   });
+  
+  // try {
+  //   const employee = await User.findById("6631eca7cdb504839a6da6d1");
 
-  // auto add a employee for chat purpose
-  const employee = await User.findById("6631eca7cdb504839a6da6d1");
+  //   if (employee) {
+  //     employee.customers = [...employee.customers, newUser._id];
+  //     await employee.save();
+  //     updateCustomers(employee._id.toString());
+  //   }
+
+  //   newUser.customers = [employee?._id];
+  //   await newUser.save();
+
+  //   return newUser;
+  // } catch (error) {
+  //   throw error;
+  // }
+
+  const employee = await User.findById("6631eca7cdb504839a6da6d1"); 
+
   employee.customers = [...employee.customers, newUser._id];
   await employee.save();
 
-  // update list of the customers if the employee is online
   updateCustomers(employee._id.toString());
 
   newUser.customers = [employee._id];
 
   try {
     await newUser.save();
+
+    await verifyConnection();
     sendConfirmationEmail(email, confirmationToken);
 
     const checkConfirmation = async (resolve, reject, startTime) => {
@@ -63,8 +81,8 @@ exports.registerUser = async (user) => {
   } catch (error) {
     throw error;
   }
-};
 
+};
 exports.registerFindUser = async (email) => {
   return await User.findOne({ email: email });
 };
