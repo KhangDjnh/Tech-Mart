@@ -67,6 +67,7 @@ exports.updateUser = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Xử lý hình ảnh nếu có
     if (req.body.profilePic) {
       if (user.profilePic && user.profilePic.public_id) {
         await cloudinary.uploader.destroy(user.profilePic.public_id);
@@ -86,12 +87,23 @@ exports.updateUser = async (req, res) => {
       req.body.profilePic = uploadedResponse;
     }
 
-    const { username, email, phonenumber, address, gender, birthday, role, password } = req.body;
+    const { username, email, phonenumber, address, gender, birthday, role, password, id_shop } = req.body;
 
+    // Hash mật khẩu nếu có cập nhật
     if (password && password !== user.password) {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
       req.body.password = hashPassword;
+    }
+
+    if (id_shop) {
+      // Kiểm tra nếu id_shop chưa có trong mảng id_following
+      if (!user.id_following.includes(id_shop)) {
+        user.id_following.push(id_shop); // Thêm id_shop vào mảng nếu chưa có
+      } else {
+        // Nếu id_shop đã có trong mảng, loại bỏ nó khỏi mảng
+        user.id_following = user.id_following.filter(shopId => shopId.toString() !== id_shop);
+      }
     }
 
     const updatedUser = await userService.updateUser(req.params.id, req.body, { new: true });

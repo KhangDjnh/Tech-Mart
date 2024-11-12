@@ -31,8 +31,8 @@ const UserSchema = new mongoose.Schema({
     },
     role: { 
         type: [String], 
-        enum: ['shop', 'buyer', 'admin'], 
-        default: ['shop', 'buyer']  
+        enum: ['customer','employee', 'manager'], 
+        default: ['customer','employee']  
     },
     profilePic: { 
         type: String 
@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema({
     }],
     id_following: [{ 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Follow' 
+        ref: 'Shop' 
     }]
 }, { timestamps: true });
 
