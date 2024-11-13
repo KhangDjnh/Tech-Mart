@@ -14,15 +14,15 @@ exports.getAllTags = async () => {
 
 exports.getTagById = async (id) => {
   const tag = await Tag.findById(id);
-  return tag || null; // Trả về null nếu không tìm thấy
+  return tag;
 };
 
 exports.updateTag = async (id, tag) => {
   const updatedTag = await Tag.findByIdAndUpdate(id, tag, { new: true });
-  return updatedTag || null; // Trả về null nếu không tìm thấy
+  return updatedTag;
 };
 
 exports.deleteTag = async (id) => {
   const deletedTag = await Tag.findByIdAndDelete(id);
-  return deletedTag || null; // Trả về null nếu không tìm thấy
+  return deletedTag;
 };

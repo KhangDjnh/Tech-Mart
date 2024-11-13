@@ -24,15 +24,15 @@ exports.getAllComments = async () => {
 
 exports.getCommentById = async (id) => {
   const comment = await Comment.findById(id);
-  return comment || null; // Trả về null nếu không tìm thấy
+  return comment;
 };
 
 exports.updateComment = async (id, comment) => {
   const updatedComment = await Comment.findByIdAndUpdate(id, comment, { new: true });
-  return updatedComment || null; // Trả về null nếu không tìm thấy
+  return updatedComment;
 };
 
 exports.deleteComment = async (id) => {
   const deletedComment = await Comment.findByIdAndDelete(id);
-  return deletedComment || null; // Trả về null nếu không tìm thấy
+  return deletedComment;
 };
