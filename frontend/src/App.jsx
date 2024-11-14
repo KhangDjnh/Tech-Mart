@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
-import SellerSidebar from './components/seller/SellerSidebar';
+import { BrowserRouter, Routes, Route} from "react-router-dom"
+import SelllerHome from './pages/seller/home';
+
 function App() {
-  const [selectedTab, setSelectedTab] = useState('dashboard');
-
-  const handleSelectTab = (tabId) => {
-    setSelectedTab(tabId); // Update the selected tab state
-  };
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', flex: 1 }}>
-        <SellerSidebar onSelect={handleSelectTab} />
-      </div>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/seller" element={<SelllerHome />}>
+
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App;
