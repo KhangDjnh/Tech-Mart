@@ -3,7 +3,7 @@ const cartService = require("../Services/CartService");
 exports.createCart = async (req, res) => {
   try {
     const { id_user } = req.body;
-    const newCart = await cartService.createCart({ id_user });
+    const newCart = await cartService.createCart({ id_user, id_product: [] });
     res.status(201).json({ data: newCart, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
