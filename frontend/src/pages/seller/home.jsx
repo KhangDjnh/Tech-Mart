@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
 import SellerSidebar from '../../components/seller/SellerSidebar';
+import './home.css'
+
 function SellerHome() {
-  const [selectedTab, setSelectedTab] = useState('dashboard');
-
-  const handleSelectTab = (tabId) => {
-    setSelectedTab(tabId); // Update the selected tab state
-  };
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div style={{ display: 'flex', flex: 1 }}>
-        <SellerSidebar onSelect={handleSelectTab} />
+    <div className='sellerPage'>
+      <div className='header'>
+
+      </div>
+      <div className='main'>
+        <div className='sidebar'>
+          <SellerSidebar/>
+        </div>
+        <div className='content'>
+          
+        </div>
+      </div>
+      <div className='footer'>
+
       </div>
     </div>
   );
