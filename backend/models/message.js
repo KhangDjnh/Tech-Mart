@@ -23,6 +23,10 @@ const MessageSchema = new mongoose.Schema({
         required: function() {
             return !this.id_user;  // Bắt buộc nếu không có id_user
         }
+    },
+    read: {
+        type: Boolean, 
+        default: false 
     }
 }, { timestamps: true }); 
 
