@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "highest-available-document-mode": "off",
+    "meta-charset-utf-8": "off",
+    "axe/language": "off",
+    "meta-viewport": "off"
+  }
+}
