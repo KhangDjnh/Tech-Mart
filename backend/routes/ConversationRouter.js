@@ -9,7 +9,7 @@ const {
 const { isManager, isCustomer } = require("../middleware/auth.js");
 
 router.route("/").get(getAllConversations).post(createConversation);
-router.route("/conversations/:id").get(getConversationById)
-router.route("/conversations/:id").delete(deleteConversation)
+router.route("/:id").get(getConversationById)
+router.route("/:id").delete(deleteConversation)
 
 module.exports = router;
