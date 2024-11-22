@@ -32,3 +32,9 @@ exports.updateProduct = async (id, product) => {
 exports.deleteProduct = async (id) => {
     return await Product.findByIdAndDelete(id);
 };
+
+exports.searchProductsByKeyword = async (keyword) => {
+    return await Product.find({
+        name: { $regex: keyword, $options: 'i' } // 'i' để không phân biệt hoa thường
+    });
+};

@@ -4,11 +4,15 @@ const {
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    searchProducts
 } = require('../controllers/ProductController');
 const { isManager, isCustomer } = require('../middleware/auth');
 
 const router = express.Router();
+
+router.route('/search')
+    .get(isCustomer, searchProducts);
 
 router.route('/')
     .get(isCustomer, getAllProducts) 

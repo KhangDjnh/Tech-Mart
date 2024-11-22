@@ -61,3 +61,18 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.searchProducts = async (req, res) => {
+    try {
+        const keyword = req.query.keyword || ''; // Lấy từ khóa từ query string
+        const products = await productService.searchProductsByKeyword(keyword);
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: "Không tìm thấy sản phẩm", status: "fail" });
+        }
+
+        res.status(200).json({ data: products, status: "success" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
