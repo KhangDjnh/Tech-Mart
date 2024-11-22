@@ -40,11 +40,11 @@ const UserSchema = new mongoose.Schema({
     coverPic: { 
         type: String 
     },
-    customers: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',
-        default: []
-    }],
+    // customers: [{ 
+    //     type: mongoose.Schema.Types.ObjectId, 
+    //     ref: 'User',
+    //     default: []
+    // }],
     id_following: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Shop' 
