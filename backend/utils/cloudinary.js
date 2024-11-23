@@ -1,13 +1,23 @@
 const dotenv = require("dotenv");
-const cloudinaryModule = require("cloudinary");
-
 dotenv.config();
-const cloudinary = cloudinaryModule.v2;
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
+
+cloudinary.config({ 
+    cloud_name: 'djhnuocm0', 
+    api_key: '785965933447659', 
+    api_secret: '0gD6YjLErOOLkLVR_uEwHDXBskQ' 
 });
 
-module.exports = cloudinary;
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'uploads', // Tên thư mục trên Cloudinary
+      allowed_formats: ['jpg', 'png', 'jpeg'],
+    },
+});
+
+const upload = multer({ storage });
+
+module.exports = { cloudinary, upload };

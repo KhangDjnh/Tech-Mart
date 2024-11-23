@@ -13,6 +13,7 @@ const forgotPassRouter = require("./routes/ForgotPassRouter");
 const cartRouter = require("./routes/CartRouter");
 const commentRouter = require("./routes/CommentRouter");
 const conversationRouter = require("./routes/ConversationRouter");
+const imageRouter = require("./routes/ImageRouter");
 const messageRouter = require("./routes/MessageRouter");
 const orderRouter = require("./routes/OrderRouter");
 const productRouter = require("./routes/ProductRouter");
@@ -61,6 +62,7 @@ app.use("/api/order", orderRouter);
 app.use("/api/product", productRouter);
 app.use("/api/shop", shopRouter);
 app.use("/api/tag", tagRouter);
+app.use('/api/image', imageRouter);
 
 
 module.exports = app;
