@@ -3,6 +3,7 @@ dotenv.config();
 
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({ 
     cloud_name: 'djhnuocm0', 
