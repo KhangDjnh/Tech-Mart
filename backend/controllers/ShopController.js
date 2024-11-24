@@ -70,3 +70,18 @@ exports.deleteShop = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.searchShops = async (req, res) => {
+    try {
+        const keyword = req.query.keyword || ''; // Lấy từ khóa từ query string
+        const shops = await shopService.searchShopsByKeyword(keyword);
+
+        if (shops.length === 0) {
+            return res.status(404).json({ message: "Không tìm thấy cửa hàng", status: "fail" });
+        }
+
+        res.status(200).json({ data: shops, status: "success" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

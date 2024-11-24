@@ -29,3 +29,9 @@ exports.updateShop = async (id, shopData) => {
 exports.deleteShop = async (id) => {
     return await Shop.findByIdAndDelete(id);
 };
+
+exports.searchShopsByKeyword = async (keyword) => {
+    return await Shop.find({
+        name: { $regex: keyword, $options: 'i' } // 'i' để không phân biệt hoa thường
+    });
+};
