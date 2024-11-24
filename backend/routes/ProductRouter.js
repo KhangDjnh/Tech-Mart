@@ -5,11 +5,15 @@ const {
     createProduct,
     updateProduct,
     deleteProduct,
-    searchProducts
+    searchProducts,
+    searchProductsByTagName
 } = require('../controllers/ProductController');
 const { isManager, isCustomer } = require('../middleware/auth');
 
 const router = express.Router();
+
+router.route('/tags/search')
+    .get(isCustomer, searchProductsByTagName); // Tìm sản phẩm theo tên tag
 
 router.route('/search')
     .get(isCustomer, searchProducts);

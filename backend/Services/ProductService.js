@@ -38,3 +38,12 @@ exports.searchProductsByKeyword = async (keyword) => {
         name: { $regex: keyword, $options: 'i' } // 'i' để không phân biệt hoa thường
     });
 };
+
+exports.searchProductsByTagName = async (tagName) => {
+    const Tag = require("../models/tag"); // Model của Tag
+    const tag = await Tag.findOne({ name: { $regex: tagName, $options: 'i' } }); // Tìm tag theo tên
+
+    if (!tag) return []; // Nếu không tìm thấy tag, trả về mảng rỗng
+
+    return await Product.find({ id_tag: tag._id }); // Tìm sản phẩm theo `id_tag`
+};

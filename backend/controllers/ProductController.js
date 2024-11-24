@@ -76,3 +76,18 @@ exports.searchProducts = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.searchProductsByTagName = async (req, res) => {
+    try {
+        const { tagName } = req.query; 
+        const products = await productService.searchProductsByTagName(tagName);
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: "Không tìm thấy sản phẩm nào", status: "fail" });
+        }
+
+        res.status(200).json({ data: products, status: "success" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
