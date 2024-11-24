@@ -13,7 +13,7 @@ const { isManager, isCustomer } = require('../middleware/auth');
 const router = express.Router();
 
 router.route('/tags/search')
-    .get(isCustomer, searchProductsByTagName); // Tìm sản phẩm theo tên tag
+    .get(isCustomer, searchProductsByTagName); 
 
 router.route('/search')
     .get(isCustomer, searchProducts);
