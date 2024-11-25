@@ -1,5 +1,5 @@
 const userService = require("../services/UserService");
-const cloudinary = require("../utils/cloudinary");
+const imageService = require("../services/ImageService");
 const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
@@ -10,33 +10,18 @@ exports.createUser = async (req, res) => {
       throw new Error("Email is required.");
     }
 
+    // Xử lý upload ảnh thông qua ImageService
     if (req.body.profilePic) {
-      const uploadedResponse = await cloudinary.uploader.upload(
-        req.body.profilePic,
-        {
-          upload_preset: "TechMarket-User",
-        }
-      );
-      if (!uploadedResponse) {
+      const uploadedImage = await imageService.uploadImage(req.body.profilePic, "TechMarket-User");
+      if (!uploadedImage) {
         throw new Error("Error: Can't upload image to Cloudinary");
       }
-      req.body.profilePic = uploadedResponse;
-      avatarPublicId = uploadedResponse.public_id;
+      req.body.profilePic = uploadedImage; // Lưu thông tin ảnh vào user
     }
 
     const user = await userService.createUser(req.body);
     res.status(200).json({ data: user, status: "success" });
   } catch (err) {
-    try {
-      if (avatarPublicId) {
-        const destroyResponse = await cloudinary.uploader.destroy(avatarPublicId);
-        if (!destroyResponse.result === "ok") {
-          throw new Error("Failed to delete image from Cloudinary");
-        }
-      }
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -69,22 +54,16 @@ exports.updateUser = async (req, res) => {
 
     // Xử lý hình ảnh nếu có
     if (req.body.profilePic) {
+      // Xóa ảnh cũ
       if (user.profilePic && user.profilePic.public_id) {
-        await cloudinary.uploader.destroy(user.profilePic.public_id);
+        await imageService.deleteImage(user.profilePic.public_id);
       }
-
-      const uploadedResponse = await cloudinary.uploader.upload(
-        req.body.profilePic,
-        {
-          upload_preset: "TechMarket-User",
-        }
-      );
-
-      if (!uploadedResponse) {
+      // Tải ảnh mới lên
+      const uploadedImage = await imageService.uploadImage(req.body.profilePic, "TechMarket-User");
+      if (!uploadedImage) {
         throw new Error("Failed to upload image to Cloudinary");
       }
-
-      req.body.profilePic = uploadedResponse;
+      req.body.profilePic = uploadedImage;
     }
 
     const { username, email, phonenumber, address, gender, birthday, role, password, id_shop } = req.body;
@@ -122,8 +101,8 @@ exports.deleteUser = async (req, res) => {
     }
 
     if (user.profilePic && user.profilePic.public_id) {
-      const destroyResponse = await cloudinary.uploader.destroy(user.profilePic.public_id);
-      if (!destroyResponse.result === "ok") {
+      const deleteResponse = await imageService.deleteImage(user.profilePic.public_id);
+      if (!deleteResponse.result === "ok") {
         throw new Error("Failed to delete image from Cloudinary");
       }
     }

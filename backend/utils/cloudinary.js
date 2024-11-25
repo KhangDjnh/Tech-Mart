@@ -12,11 +12,14 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-      folder: 'uploads', // Tên thư mục trên Cloudinary
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    const folderName = req.body.folder || 'uploads'; // Lấy tên thư mục từ request, mặc định là 'uploads'
+    return {
+      folder: folderName,
       allowed_formats: ['jpg', 'png', 'jpeg'],
-    },
+    };
+  },
 });
 
 const upload = multer({ storage });
