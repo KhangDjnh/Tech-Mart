@@ -14,9 +14,9 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    const folderName = req.body.folder || 'uploads'; // Lấy tên thư mục từ request, mặc định là 'uploads'
+    const modelType = req.body.modelType || 'uploads'; // Nhận modelType từ body
     return {
-      folder: folderName,
+      folder: `${modelType}s`, // Tên thư mục trên Cloudinary
       allowed_formats: ['jpg', 'png', 'jpeg'],
     };
   },

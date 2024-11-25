@@ -13,7 +13,10 @@ exports.uploadImage = async (filePath, folder) => {
 
 exports.deleteImage = async (publicId) => {
   try {
-    await cloudinary.uploader.destroy(publicId);
+    const result = await cloudinary.uploader.destroy(publicId);
+    if (result.result !== 'ok') {
+      throw new Error(`Failed to delete image: ${publicId}`);
+    }
     return { success: true };
   } catch (err) {
     throw new Error(`Delete image failed: ${err.message}`);
