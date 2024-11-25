@@ -79,7 +79,7 @@ exports.searchProducts = async (req, res) => {
 
 exports.searchProductsByTagName = async (req, res) => {
     try {
-        const { tagName } = req.query; 
+        const tagName = req.query.keyword; 
         const products = await productService.searchProductsByTagName(tagName);
 
         if (products.length === 0) {
