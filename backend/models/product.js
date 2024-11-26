@@ -30,9 +30,9 @@ const ProductSchema = new mongoose.Schema({
         required: true, 
         min: 0 
     },
-    images: { 
+    images: [{ 
         type: String 
-    },
+    }],
     rating: { 
         type: Number, 
         min: 0, 

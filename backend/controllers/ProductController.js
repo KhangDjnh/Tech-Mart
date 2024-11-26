@@ -1,4 +1,5 @@
 const productService = require("../Services/ProductService");
+const imageService = require("../services/ImageService");
 
 exports.createProduct = async (req, res) => {
     try {

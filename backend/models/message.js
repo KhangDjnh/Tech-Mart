@@ -8,8 +8,10 @@ const MessageSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        required: true
     },
+    images:[{
+        type: String,
+    }],
     id_user: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',  // Người dùng gửi tin nhắn
