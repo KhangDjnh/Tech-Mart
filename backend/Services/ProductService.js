@@ -1,7 +1,8 @@
 const Product = require('../models/product');
 
 exports.createProduct = async (product) => {
-    const { id_tag, id_shop, name, description, price, stock, image, rating } = product;
+    const { id_tag, id_shop, name, description, price, stock, rating } = product;
+    const images = req.files.map(file => file.path);
 
     const newProduct = new Product({
         id_tag,
@@ -10,7 +11,7 @@ exports.createProduct = async (product) => {
         description,
         price,
         stock,
-        image,
+        images,
         rating
     });
 

@@ -2,8 +2,16 @@ const productService = require("../Services/ProductService");
 
 exports.createProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, price, stock, image, rating } = req.body;
-        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, price, stock, image, rating });
+        const { id_tag, id_shop, name, description, price, stock, images, rating } = req.body;
+         // Xử lý upload ảnh
+         let uploadedImages = [];
+         if (req.files && req.files.length > 0) {
+             for (const file of req.files) {
+                 const uploadedImage = await imageService.uploadImage(file.path, 'TechMarket-Product');
+                 uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
+             }
+         }
+        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, price, stock, images: uploadedImages, rating });
         res.status(201).json({ data: newProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -40,7 +48,17 @@ exports.updateProduct = async (req, res) => {
             return res.status(404).json({ error: 'Product not found' });
         }
 
-        const updatedProduct = await productService.updateProduct(req.params.id, { id_tag, id_shop, name, description, price, stock, image, rating });
+        // Xử lý upload ảnh khi cập nhật
+        let uploadedImages = product.images;
+        if (req.files && req.files.length > 0) {
+            uploadedImages = [];
+            for (const file of req.files) {
+                const uploadedImage = await imageService.uploadImage(file.path, 'TechMarket-Product');
+                uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
+            }
+        }
+
+        const updatedProduct = await productService.updateProduct(req.params.id, { id_tag, id_shop, name, description, price, stock, images: uploadedImages, rating });
         res.status(200).json({ data: updatedProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -53,6 +71,14 @@ exports.deleteProduct = async (req, res) => {
 
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
+        }
+
+        // Xóa các ảnh liên quan
+        if (product.images && product.images.length > 0) {
+            for (const imageUrl of product.images) {
+                const publicId = extractPublicIdFromUrl(imageUrl); // Cần hàm để lấy publicId từ URL ảnh
+                await imageService.deleteImage(publicId);
+            }
         }
 
         const deletedProduct = await productService.deleteProduct(req.params.id);

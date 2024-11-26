@@ -1,4 +1,4 @@
-const userService = require("../services/UserService");
+const userService = require("../Services/UserService");
 const imageService = require("../services/ImageService");
 const bcrypt = require("bcrypt");
 
@@ -17,6 +17,15 @@ exports.createUser = async (req, res) => {
         throw new Error("Error: Can't upload image to Cloudinary");
       }
       req.body.profilePic = uploadedImage; // Lưu thông tin ảnh vào user
+    }
+
+    // Xử lý upload coverPic
+    if (req.body.coverPic) {
+      const uploadedCoverImage = await imageService.uploadImage(req.body.coverPic, "TechMarket-User-Cover");
+      if (!uploadedCoverImage) {
+        throw new Error("Error: Can't upload cover image to Cloudinary");
+      }
+      req.body.coverPic = uploadedCoverImage; // Lưu thông tin ảnh cover vào user
     }
 
     const user = await userService.createUser(req.body);
@@ -66,6 +75,19 @@ exports.updateUser = async (req, res) => {
       req.body.profilePic = uploadedImage;
     }
 
+    // Xử lý coverPic nếu có
+    if (req.body.coverPic) {
+      if (user.coverPic && user.coverPic.public_id) {
+        await imageService.deleteImage(user.coverPic.public_id); // Xóa ảnh cover cũ
+      }
+      const uploadedCoverImage = await imageService.uploadImage(req.body.coverPic, "TechMarket-User-Cover");
+      if (!uploadedCoverImage) {
+        throw new Error("Failed to upload cover image to Cloudinary");
+      }
+      req.body.coverPic = uploadedCoverImage;
+    }
+
+
     const { username, email, phonenumber, address, gender, birthday, role, password, id_shop } = req.body;
 
     // Hash mật khẩu nếu có cập nhật
@@ -104,6 +126,13 @@ exports.deleteUser = async (req, res) => {
       const deleteResponse = await imageService.deleteImage(user.profilePic.public_id);
       if (!deleteResponse.result === "ok") {
         throw new Error("Failed to delete image from Cloudinary");
+      }
+    }
+
+     if (user.coverPic && user.coverPic.public_id) {
+      const deleteCoverResponse = await imageService.deleteImage(user.coverPic.public_id);
+      if (!deleteCoverResponse.result === "ok") {
+        throw new Error("Failed to delete cover image from Cloudinary");
       }
     }
 
