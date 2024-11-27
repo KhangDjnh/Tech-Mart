@@ -11,42 +11,53 @@ import MenuListComposition from './MenuList';
 export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" elevation={0}>
-        <Toolbar>
-          <Box sx = {{marginLeft: '  0px'}}>
-            <Logo />
-          </Box>
-          {/* Search */}
-          <Box sx={{ flexGrow: 1, mx: 2 }}>
-            <Search />
-          </Box>
+      <AppBar 
+        position="static" 
+        elevation={0} 
+        sx={{
+          borderRadius: "8px",
+          overflow: "hidden",
+        }}
+      >
+          <Toolbar>
+            <Box sx={{
+              maxWidth: "1200px", 
+              margin: "0 auto",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+            }}>
+              <Logo />
+              <Box sx={{ flexGrow: 1, mx: 2 }}>
+                <Search />
+              </Box>
 
-          {/* Menu Buttons */}
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <MenuListComposition
-              buttonLabel="Laptop"
-              menuItems={['MacBook', 'Dell', 'Lenovo', 'Asus']}
-            />
-            <MenuListComposition
-              buttonLabel="Smartphone"
-              menuItems={['iPhone', 'Samsung', 'Xiaomi', 'OnePlus']}
-            />
-            <MenuListComposition
-              buttonLabel="Television"
-              menuItems={['Samsung', 'LG', 'Sony', 'Panasonic']}
-            />
-            <MenuListComposition
-              buttonLabel="Tablet"
-              menuItems={['iPad', 'Samsung Galaxy Tab', 'Lenovo Tab']}
-            />
-          </Box>
-          <Box sx={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
-            <ShoppingCartIcon />
-          </Box>
-          <Box sx={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
-            <Profile />
-          </Box>
-        </Toolbar>
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                <MenuListComposition
+                  buttonLabel="Laptop"
+                  menuItems={['MacBook', 'Dell', 'Lenovo', 'Asus']}
+                />
+                <MenuListComposition
+                  buttonLabel="Smartphone"
+                  menuItems={['iPhone', 'Samsung', 'Xiaomi', 'OnePlus']}
+                />
+                <MenuListComposition
+                  buttonLabel="Television"
+                  menuItems={['Samsung', 'LG', 'Sony', 'Panasonic']}
+                />
+                <MenuListComposition
+                  buttonLabel="Tablet"
+                  menuItems={['iPad', 'Samsung Galaxy Tab', 'Lenovo Tab']}
+                />
+              </Box>
+              <Box sx={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
+                <ShoppingCartIcon />
+              </Box>
+              <Box sx={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
+                <Profile />
+              </Box>
+            </Box>
+          </Toolbar>
       </AppBar>
     </Box>
   );
