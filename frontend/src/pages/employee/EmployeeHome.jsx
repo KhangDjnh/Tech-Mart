@@ -1,7 +1,7 @@
-import SellerSidebar from '../../components/seller/SellerSidebar';
+import SellerSidebar from '../../components/employee/SellerSidebar';
 import './home.css'
 
-function SellerHome() {
+function EmployeeHome() {
   return (
     <div className='sellerPage'>
       <div className='header'>
@@ -22,4 +22,4 @@ function SellerHome() {
   );
 }
 
-export default SellerHome;
+export default EmployeeHome;

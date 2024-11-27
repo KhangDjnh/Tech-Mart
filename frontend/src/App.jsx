@@ -1,14 +1,9 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom"
-import SelllerHome from './pages/seller/home';
-
+import AppRouter from "./router/AppRouters";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/seller" element={<SelllerHome />}>
-
-        </Route>
-      </Routes>
+    <BrowserRouter future={{ v7_startTransition: true }}>
+      <AppRouter />
     </BrowserRouter>
   )
 }
