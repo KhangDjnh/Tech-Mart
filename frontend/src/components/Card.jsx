@@ -1,20 +1,19 @@
 //Card
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Card({ product }) {
+  const navigate = useNavigate();
   const handleProductClick = () => {
-    // Điều hướng đến trang thông tin sản phẩm
-    window.location.href = `/product/${product.id}`;
+    window.location.href = `/product/${product.id}`;//`/product/${product.name}`
   };
 
   const handleOrderClick = () => {
-    // Điều hướng đến trang đặt hàng
     window.location.href = `/order/${product.id}`;
   };
 
   return (
     <div className="w-[240px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
-      {/* Phần hình ảnh */}
       <div
         className="relative overflow-hidden rounded-md cursor-pointer m-0"
         onClick={handleProductClick}
@@ -29,7 +28,6 @@ function Card({ product }) {
         </div>
       </div>
 
-      {/* Phần thông tin sản phẩm */}
       <div className="mt-4">
         <h3
           className="text-lg font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0"
@@ -43,7 +41,6 @@ function Card({ product }) {
         <div className="text-gray-500 line-through text-center">{product.originalPrice}đ</div>
       </div>
 
-      {/* Nút mua hàng */}
       <div className="flex justify-center mt-4 mb-2 m-0">
         <button
           onClick={handleOrderClick}

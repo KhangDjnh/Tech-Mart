@@ -4,6 +4,7 @@ import Home from '../pages/customer/Home';
 import Profiles from '../components/Profile';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import DetailProduct from '../pages/customer/DetailProduct';
 import CustomerRoutes from './CustomerRouters';
 import EmployeeRoutes from './EmployeeRouters';
 //import ManagerRoutes from './ManagerRoutes';
@@ -16,6 +17,8 @@ function AppRouter() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profiles" element={<Profiles />} />
+        <Route path="/product/:id" element={<DetailProduct  />} />
+
         <Route path="/customer/*" element={<CustomerRoutes />} />
         <Route path="/employee/*" element={<EmployeeRoutes />} />
         {/* <Route path="/manager/*" element={<ManagerRoutes />} />
