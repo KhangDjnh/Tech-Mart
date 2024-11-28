@@ -1,8 +1,17 @@
 const Message = require('../models/message');
 
-exports.createMessage = async (data) => {
-    const message = new Message(data);
-    return await message.save();
+exports.createMessage = async (messageData) => {
+    const { id_conversation, content, id_user, id_shop, images } = messageData;
+    
+    const newMessage = new Message({
+        id_conversation,
+        content,
+        id_user,
+        id_shop,
+        images: images || []  // Store image URLs or identifiers
+    });
+    
+    return await newMessage.save();
 };
 
 exports.getMessageById = async (id) => {

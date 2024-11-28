@@ -13,6 +13,9 @@ const ShopSchema = new mongoose.Schema({
     avatar:{
         type: String,
     },
+    cover:{
+        type: String,
+    },
     description: { 
         type: String 
     },

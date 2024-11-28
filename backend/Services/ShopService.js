@@ -1,14 +1,17 @@
-const Shop = require('../models/shop'); 
+const Shop = require('../models/shop');
 
 exports.createShop = async (shopData) => {
-    const { id_user, name, description, address } = shopData;
-    
+    const { id_user, name, description, address, avatar, cover } = shopData;
+
+    // Tạo mới shop với thông tin và avatar, cover mặc định nếu có
     const newShop = new Shop({
         id_user,
         name,
         description,
         address,
-        id_follower: [], 
+        avatar: avatar || "TechMarket-User/default_user", // Avatar mặc định nếu không có
+        cover: cover || "TechMarket-User/default_cover",  // Cover mặc định nếu không có
+        id_follower: [],
     });
 
     return await newShop.save();
