@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const genAuthToken = require("../utils/genAuthToken");
 
-
 exports.loginUser = async (req, res) => {
 
     const schema = Joi.object({
@@ -23,7 +22,7 @@ exports.loginUser = async (req, res) => {
         let userInDB = await loginService.loginUser(req.body.email);
 
         if (!userInDB) {
-           return  res.status(400).send("The account and email address do not exist.");
+           return res.status(400).send("The account and email address do not exist.");
         }
 
         const isValid = await bcrypt.compare(req.body.password, userInDB.password);
@@ -32,7 +31,22 @@ exports.loginUser = async (req, res) => {
 
         const token = genAuthToken(userInDB);
 
-        res.send(token);
+        // Trả về cả token và thông tin người dùng
+        res.send({
+            token,
+            user: {
+                id: userInDB._id,
+                username: userInDB.username,
+                email: userInDB.email,
+                phonenumber: userInDB.phonenumber,
+                address: userInDB.address,
+                gender: userInDB.gender,
+                birthday: userInDB.birthday,
+                profilePic: userInDB.profilePic,
+                coverPic: userInDB.coverPic,
+                role: userInDB.role
+            }
+        });
 
     } catch (err) {
         res.status(500).json({ error: err.message });

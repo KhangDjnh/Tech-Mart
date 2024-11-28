@@ -1,5 +1,6 @@
 const userService = require("../Services/UserService");
 const imageService = require("../services/ImageService");
+const User = require('../models/user');
 const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
@@ -12,10 +13,7 @@ exports.createUser = async (req, res) => {
 
    // Kiểm tra và đặt ảnh avatar mặc định nếu không có
    if (!req.body.profilePic) {
-    req.body.profilePic = {
-      public_id: "default_user",
-      url: "/TechMarket-User/default_user.png" // Đường dẫn tới ảnh mặc định
-    };
+    req.body.profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg"
   } else {
     const uploadedImage = await imageService.uploadImage(req.body.profilePic, "TechMarket-User");
     if (!uploadedImage) {
@@ -26,10 +24,7 @@ exports.createUser = async (req, res) => {
 
   // Kiểm tra và đặt ảnh cover mặc định nếu không có
   if (!req.body.coverPic) {
-    req.body.coverPic = {
-      public_id: "default_cover",
-      url: "/TechMarket-User-Cover/default_cover.png" // Đường dẫn tới ảnh cover mặc định
-    };
+    req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png" // Đường dẫn tới ảnh cover mặc định
   } else {
     const uploadedCoverImage = await imageService.uploadImage(req.body.coverPic, "TechMarket-User-Cover");
     if (!uploadedCoverImage) {
@@ -151,5 +146,34 @@ exports.deleteUser = async (req, res) => {
     res.status(200).json({ data: deletedUser, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.createAdminUser = async () => {
+  try {
+    // Kiểm tra xem đã có người dùng admin chưa
+    const adminUser = await User.findOne({ username: 'admin' });
+
+    if (!adminUser) {
+      // Nếu chưa có người dùng admin, tạo mới
+      const hashedPassword = await bcrypt.hash('admin123', 10); // Mã hóa mật khẩu
+
+      const newAdmin = new User({
+        username: 'admin',
+        password: hashedPassword,
+        email: 'admin@example.com', // Email mặc định cho admin
+        phonenumber: '0123456789',  // Số điện thoại mặc định
+        role: ['manager'], // Gán vai trò là manager
+        profilePic: 'https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg', // Avatar mặc định
+        coverPic: 'https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png', // Cover mặc định
+      });
+
+      await newAdmin.save();
+      console.log('Admin user created successfully admin@example.com admin123');
+    } else {
+      console.log('Admin user already exists admin@example.com admin123');
+    }
+  } catch (err) {
+    console.error('Error creating admin user:', err.message);
   }
 };

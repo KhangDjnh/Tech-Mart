@@ -11,10 +11,10 @@ exports.createShop = async (req, res) => {
     // Nếu không cung cấp avatar hoặc cover, lấy từ user
     const user = await userService.getUserById(id_user);
     if (!shopAvatar) {
-      shopAvatar = user && user.profilePic ? user.profilePic : "TechMarket-User/default_user";
+      shopAvatar = user.profilePic; 
     }
     if (!shopCover) {
-      shopCover = user && user.coverPic ? user.coverPic : "TechMarket-User/default_cover";
+      shopCover = user.coverPic;
     }
 
     const newShop = await shopService.createShop({ id_user, name, avatar: shopAvatar, cover: shopCover });
@@ -65,7 +65,7 @@ exports.updateShop = async (req, res) => {
     } else if (!shop.avatar) {
       // Nếu không có avatar, dùng ảnh mặc định của user
       const user = await userService.getUserById(shop.id_user);
-      shop.avatar = user && user.profilePic ? user.profilePic : "TechMarket-User/default_user";
+      shop.avatar = user.profilePic;
     }
 
     // Nếu có cập nhật cover
@@ -76,7 +76,7 @@ exports.updateShop = async (req, res) => {
       shop.cover = cover;
     } else if (!shop.cover) {
       const user = await userService.getUserById(shop.id_user);
-      shop.cover = user && user.coverPic ? user.coverPic : "TechMarket-User/default_cover";
+      shop.cover = user.coverPic;
     }
 
     // Cập nhật id_follower
@@ -113,7 +113,7 @@ exports.deleteShop = async (req, res) => {
     // Xóa avatar trên Cloudinary nếu có
     if (shop.avatar && shop.avatar.public_id) {
       const deleteResponse = await imageService.deleteImage(shop.avatar.public_id);
-      if (!deleteResponse.result === "ok") {
+      if (deleteResponse.result !== "ok") {
         throw new Error("Failed to delete avatar from Cloudinary");
       }
     }
@@ -121,7 +121,7 @@ exports.deleteShop = async (req, res) => {
     // Xóa cover trên Cloudinary nếu có
     if (shop.cover && shop.cover.public_id) {
       const deleteResponse = await imageService.deleteImage(shop.cover.public_id);
-      if (!deleteResponse.result === "ok") {
+      if (deleteResponse.result !== "ok") {
         throw new Error("Failed to delete cover from Cloudinary");
       }
     }

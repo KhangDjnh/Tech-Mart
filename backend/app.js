@@ -48,6 +48,19 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Tech-Mart API!");
 });
 
+const { cloudinary } = require("./utils/cloudinary");
+cloudinary.api.ping()
+  .then(() => {
+    console.log("Cloudinary connection successful...");
+    const { createAdminUser } = require('./controllers/UserController'); 
+    createAdminUser();
+  })
+  .catch((err) => {
+    console.log("Cloudinary connection failed", err.message);
+  });
+
+
+
 app.use("/api/user", userRouter);
 app.use("/api/register", registerRouter);
 app.use("/api/login", loginRouter);
