@@ -13,7 +13,7 @@ export default function MenuListComposition({ buttonLabel, menuItems }) {
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen); // Toggle trạng thái open
+    setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
@@ -21,19 +21,18 @@ export default function MenuListComposition({ buttonLabel, menuItems }) {
       return;
     }
 
-    setOpen(false); // Đóng menu
+    setOpen(false);
   };
 
   const handleListKeyDown = (event) => {
     if (event.key === 'Tab') {
       event.preventDefault();
-      setOpen(false); // Đóng menu khi nhấn phím Tab
+      setOpen(false);
     } else if (event.key === 'Escape') {
-      setOpen(false); // Đóng menu khi nhấn phím Escape
+      setOpen(false);
     }
   };
 
-  // Đảm bảo focus lại vào nút khi menu đóng
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -52,7 +51,7 @@ export default function MenuListComposition({ buttonLabel, menuItems }) {
           aria-controls={open ? 'composition-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
-          onClick={handleToggle} // Sử dụng sự kiện click
+          onClick={handleToggle}
           sx={{ color: 'white', fontWeight: 'bold' }}
         >
           {buttonLabel}
@@ -63,7 +62,8 @@ export default function MenuListComposition({ buttonLabel, menuItems }) {
           role={undefined}
           placement="bottom-start"
           transition
-          disablePortal
+          //disablePortal
+          sx={{ zIndex: 1300 }}
         >
           {({ TransitionProps, placement }) => (
             <Grow

@@ -1,44 +1,46 @@
 import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function Register() {
   return (
-    <div style={styles.container}>
-      <div style={styles.formContainer}>
-        <h2 style={styles.title}>ĐĂNG KÝ</h2>
-        <div style={styles.socialButtons}>
-          <button style={styles.facebookButton}>+ Facebook</button>
-          <button style={styles.googleButton}>+ Google</button>
+    <div>
+      <Navbar />
+      <div style={styles.container}>
+        <div style={styles.formContainer}>
+          <h2 style={styles.title}>ĐĂNG KÝ</h2>
+          <div style={styles.socialButtons}>
+            <button style={styles.facebookButton}>+ Facebook</button>
+            <button style={styles.googleButton}>+ Google</button>
+          </div>
+          <form style={styles.form}>
+            <label style={styles.label}>
+              Họ và Tên
+              <input type="text" placeholder="Nhập họ và tên" style={styles.input} />
+            </label>
+            <label style={styles.label}>
+              Số điện thoại
+              <input type="text" placeholder="Nhập số điện thoại" style={styles.input} />
+            </label>
+            <label style={styles.label}>
+              Email
+              <input type="email" placeholder="Nhập email" style={styles.input} />
+            </label>
+            <label style={styles.label}>
+              Mật khẩu
+              <input type="password" placeholder="Nhập mật khẩu" style={styles.input} />
+            </label>
+            <label style={styles.label}>
+              Nhập lại mật khẩu
+              <input type="password" placeholder="Nhập lại mật khẩu" style={styles.input} />
+            </label>
+            <button type="submit" style={styles.registerButton}>
+              ĐĂNG KÝ
+            </button>
+          </form>
         </div>
-        <form style={styles.form}>
-          <label style={styles.label}>
-            Họ và Tên
-            <input type="text" placeholder="Nhập họ và tên" style={styles.input} />
-          </label>
-          <label style={styles.label}>
-            Số điện thoại
-            <input type="text" placeholder="Nhập số điện thoại" style={styles.input} />
-          </label>
-          <label style={styles.label}>
-            Email
-            <input type="email" placeholder="Nhập email" style={styles.input} />
-          </label>
-          <label style={styles.label}>
-            Xác nhận email
-            <input type="email" placeholder="Xác nhận email" style={styles.input} />
-          </label>
-          <label style={styles.label}>
-            Mật khẩu
-            <input type="password" placeholder="Nhập mật khẩu" style={styles.input} />
-          </label>
-          <label style={styles.label}>
-            Nhập lại mật khẩu
-            <input type="password" placeholder="Nhập lại mật khẩu" style={styles.input} />
-          </label>
-          <button type="submit" style={styles.registerButton}>
-            ĐĂNG KÝ
-          </button>
-        </form>
       </div>
+      <Footer />
     </div>
   );
 }

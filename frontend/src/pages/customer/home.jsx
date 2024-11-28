@@ -23,15 +23,10 @@ function CustomerHome() {
         minHeight: "100vh",
       }}
     >
-      {/* Thanh Appbar */}
       <Appbar />
-
-      {/* Phần Slide */}
-      <Box sx={{ margin: "0 150px" }}>
+      <Box sx={{ margin: "0 150px", position: "relative", zIndex: 1 }}>
         <Slide />
       </Box>
-
-      {/* Danh sách sản phẩm */}
       <Box
         sx={{
           flex: 1,
@@ -47,14 +42,11 @@ function CustomerHome() {
             gap: "15px",
           }}
         >
-          {/* Lặp qua danh sách sản phẩm */}
           {products.map((product) => (
             <Card key={product.id} product={product} />
           ))}
         </Box>
       </Box>
-
-      {/* Footer */}
       <Footer />
     </Box>
   );

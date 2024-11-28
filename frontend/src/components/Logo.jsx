@@ -13,7 +13,7 @@ const Logo = () => {
         }}
       >
         <img
-          src="../public/logo.png" 
+          src="/logo.png" 
           alt="Logo"
           style={{
             height: "46px",

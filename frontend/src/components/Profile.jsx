@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
@@ -15,11 +16,16 @@ import Logout from '@mui/icons-material/Logout'
 function Profiles() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
+  const navigate = useNavigate()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+  const handleLogout = () => {
+    //localStorage.removeItem('token');
+    navigate('/login');
   }
   return (
     <Box>
@@ -52,24 +58,24 @@ function Profiles() {
           <Avatar alt='anhnong247' src='https://kenh14cdn.com/203336854389633024/2021/12/24/photo-1-16403154970581655966552.jpg' sx={{ width: 28, height: 28, mr: 2 }}/> Profile
         </MenuItem>
         <MenuItem >
-          <Avatar sx={{ width: 28, height: 28, mr: 2 }}/> My account
+          <Avatar sx={{ width: 28, height: 28, mr: 2, color: '7BD3EA' }}/> My account
         </MenuItem>
         <Divider />
         <MenuItem >
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
+            <PersonAdd fontSize="small" style={{ color: '7BD3EA' }}/>
           </ListItemIcon>
           Add another account
         </MenuItem>
         <MenuItem >
           <ListItemIcon>
-            <Settings fontSize="small" />
+            <Settings fontSize="small" style={{ color: '7BD3EA' }}/>
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem >
+        <MenuItem onClick={handleLogout} >
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout fontSize="small" style={{ color: '7BD3EA' }}/>
           </ListItemIcon>
           Logout
         </MenuItem>

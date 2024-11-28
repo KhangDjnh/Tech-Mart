@@ -17,6 +17,7 @@ export default function Navbar() {
         sx={{
           borderRadius: "8px",
           overflow: "hidden",
+          zIndex: 1201,
         }}
       >
           <Toolbar>
