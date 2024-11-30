@@ -1,17 +1,16 @@
-import React from 'react';
+import {useState} from 'react';
 import Sidebar from '../common/Sidebar/Sidebar';
 
-function SellerSidebar({}) {
+function SellerSidebar() {
+  const [activeItemId, setActiveItemId] = useState(null);
   const sellerMenuItems = [
-    { id: 'order', dropIcon: 'bi-chevron-down toggle-btn', label: 'Đơn Hàng', 
-      subItems: ['Tất cả', 'Đơn hủy', 'Trả hàng/Hoàn tiền'],
-      routes: ['/seller', '/seller', '/seller']},
-    { id: 'product', dropIcon: 'bi-chevron-down toggle-btn', label: 'Sản Phẩm', 
-      subItems: ['Tất Cả Sản Phẩm', 'Thêm Sản Phẩm', 'Sản Phẩm Vi Phạm'],
-      routes: ['/seller', '/seller', '/seller']}
+    { id: 'order', label: 'Đơn Hàng'},
+    { id: 'product', label: 'Sản Phẩm'},
+    { id: 'customer-info', label: 'Thông Tin Khách Hàng'},
+    { id: 'chat-support', label: 'Hỗ Trợ Khách Hàng'}
   ];
 
-  return <Sidebar sidebarItems={sellerMenuItems} />;
+  return <Sidebar sidebarItems={sellerMenuItems} isActive={(id) => activeItemId === id} onClick={(id) => setActiveItemId(id)}/>;
 }
 
 export default SellerSidebar;
