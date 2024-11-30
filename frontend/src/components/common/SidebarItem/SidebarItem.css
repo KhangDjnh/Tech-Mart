@@ -3,31 +3,14 @@
     justify-content:space-between;
     display: flex;
     cursor: pointer;
+    transition: ease-in 0.1s;
+    color: white;
 }
 .sidebarItem-title:hover{
-    background-color: darkgrey;
+    background-color: #5e9cdb;
 }
 
-.sidebarItem-title > .bi-chevron-down.toggle-btn::before{
-    margin-left: auto;
-    transition: transform .3s;
-}
-.sidebarItem-title.expanded > .bi-chevron-down.toggle-btn::before{
-    transform: rotate(180deg);
-}
-
-.sidebarItem-subMenu{
-    list-style-type: none;
-    padding: 0px;
-}
-
-.sidebarItem-subItem{
-    padding: 1rem 0;
-    padding-inline-start: 30px;
-    background-color: #ffffff;
-    cursor: pointer;
-}
-
-.sidebarItem-subItem:hover{
-    background-color: #dcdcdc;
+.sidebarItem-title.active{
+    color: #5e9cdb;
+    background-color: rgb(243, 254, 255);
 }

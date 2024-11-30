@@ -1,23 +1,16 @@
-import React from 'react';
+import {useState} from 'react';
 import Sidebar from '../common/Sidebar/Sidebar';
 
-function SellerSidebar({}) {
+function SellerSidebar() {
+  const [activeItemId, setActiveItemId] = useState(null);
   const sellerMenuItems = [
-    { id: 'products', dropIcon: 'bi-chevron-down toggle-btn', label: 'Quản Lý Sản Phẩm', 
-      subItems: ['Tất Cả Sản Phẩm', 'Thêm Sản Phẩm', 'Cài Đặt Sản Phẩm', 'Sản Phẩm Vi Phạm']},
-    { id: 'orders', dropIcon: 'bi-chevron-down toggle-btn', label: 'Quản Lý Đơn Hàng', 
-      subItems: ['Tất cả', 'Đơn hủy', 'Trả hàng/Hoàn tiền'] },
-    { id: '1', dropIcon: 'bi-chevron-down toggle-btn', label: 'Quản Lý Sản Phẩm', 
-      subItems: ['Tất Cả Sản Phẩm', 'Thêm Sản Phẩm', 'Cài đặt Sản Phẩm', 'Sản Phẩm Vi Phạm']},
-    { id: '2', dropIcon: 'bi-chevron-down toggle-btn', label: 'Quản Lý Sản Phẩm', 
-      subItems: ['Tất Cả Sản Phẩm', 'Thêm Sản Phẩm', 'Cài đặt Sản Phẩm', 'Sản Phẩm Vi Phạm']},
-    { id: '3', dropIcon: 'bi-chevron-down toggle-btn', label: 'Quản Lý Sản Phẩm', 
-      subItems: ['Tất Cả Sản Phẩm', 'Thêm Sản Phẩm', 'Cài đặt Sản Phẩm', 'Sản Phẩm Vi Phạm']},
-    { id: '4', dropIcon: 'bi-chevron-down toggle-btn', label: 'Quản Lý Sản Phẩm', 
-      subItems: ['Tất Cả Sản Phẩm', 'Thêm Sản Phẩm', 'Cài đặt Sản Phẩm', 'Sản Phẩm Vi Phạm']}
+    { id: 'order', label: 'Đơn Hàng'},
+    { id: 'product', label: 'Sản Phẩm'},
+    { id: 'customer-info', label: 'Thông Tin Khách Hàng'},
+    { id: 'chat-support', label: 'Hỗ Trợ Khách Hàng'}
   ];
 
-  return <Sidebar sidebarItems={sellerMenuItems} />;
+  return <Sidebar sidebarItems={sellerMenuItems} isActive={(id) => activeItemId === id} onClick={(id) => setActiveItemId(id)}/>;
 }
 
 export default SellerSidebar;
