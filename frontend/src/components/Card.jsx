@@ -1,56 +1,57 @@
-//Card
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { formatNumber } from "../utils/formatNumber.js";
 
 function Card({ product }) {
-  const navigate = useNavigate();
-  const handleProductClick = () => {
-    window.location.href = `/product/${product.id}`;//`/product/${product.name}`
-  };
+    const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
 
-  const handleOrderClick = () => {
-    window.location.href = `/order/${product.id}`;
-  };
+    return (
+        <Link to={`/products/${product._id}`}>
+            <div
+                className=" w-[260px] h-[360px] hover:scale-[102%]  bg-white  grid grid-rows-[55%,45%]">
+                <figure
+                    style={{
+                        backgroundImage: `url(${product?.image?.url})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                    }}>
+                </figure>
 
-  return (
-    <div className="w-[240px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
-      <div
-        className="relative overflow-hidden rounded-md cursor-pointer m-0"
-        onClick={handleProductClick}
-      >
-        <img
-          src={product.image}
-          alt={product.name}
-          className="transition-transform duration-300 hover:scale-110"
-        />
-        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-          - {product.discount}%
-        </div>
-      </div>
+                <div className="p-2 relative">
+                    <p className={'text-gray-500'}>{product.brand}</p>
+                    <h2 className=" text-2xl font-medium !line-clamp-1  ">{product.name}</h2>
+                    <p className={'text-gray-600 line-clamp-1 italic'}>{product.desc}</p>
+                    <div className={'mt-2'}>
 
-      <div className="mt-4">
-        <h3
-          className="text-lg font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0"
-          onClick={handleProductClick}
-        >
-          {product.name}
-        </h3>
-        <div className="mt-2 text-red-600 font-semibold text-xl text-center">
-          {product.discountPrice}đ
-        </div>
-        <div className="text-gray-500 line-through text-center">{product.originalPrice}đ</div>
-      </div>
+                        {
+                            product.sale ?
+                                <div>
+                                    <div className={' text-start'}>
+                                        <p className={'text-gray-500  font-normal'}>
+                                            <span
+                                                className={'line-through'}> {formatNumber(product.price)}<span>đ</span></span>
+                                            <span className={'text-red-600 ml-2'}>-{product.sale}</span>
+                                        </p>
+                                        <p className={'text-black text-xl font-medium'}>
+                                            {formatNumber(discountedPrice)}
+                                            <span className={' text-lg'}>đ</span>
+                                        </p>
+                                    </div>
+                                </div> :
+                                <p className={'text-black text-xl font-medium'}>
+                                    {formatNumber(product.price)}
+                                    <span className={'text-lg'}>đ</span>
+                                </p>
 
-      <div className="flex justify-center mt-4 mb-2 m-0">
-        <button
-          onClick={handleOrderClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"
-        >
-          MUA HÀNG
-        </button>
-      </div>
-    </div>
-  );
+                        }
+                    </div>
+                    <div className={'text-end text-[10px] absolute bottom-0 right-0 mx-1'}>Click để xem chi tiết</div>
+                </div>
+
+            </div>
+        </Link>
+    )
+        ;
 }
 
 export default Card;

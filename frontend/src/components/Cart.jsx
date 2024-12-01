@@ -8,7 +8,7 @@ import {
     deleteCart,
     increaseCartItemQuantity, uncheckAllItems
 } from "../store/actions/cartAction.js";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";        
 import { formatNumber } from "../utils/formatNumber.js";
 import { checkoutApi, productApi } from "../../api/productApi.js";
 
