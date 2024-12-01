@@ -1,5 +1,5 @@
-const userService = require("../services/UserService");
-const forgotPassService = require("../services/ForgotPassService");
+const userService = require("../Services/UserService");
+const forgotPassService = require("../Services/ForgotPassService");
 
 exports.forgotPassword = async (req, res) => {
   try {

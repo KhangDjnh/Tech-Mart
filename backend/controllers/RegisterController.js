@@ -1,4 +1,4 @@
-const register = require("../services/RegisterService");
+const register = require("../Services/RegisterService");
 const Joi = require("joi");
 const genAuthToken = require("../utils/genAuthToken");
 const cloudinary = require("../utils/cloudinary");

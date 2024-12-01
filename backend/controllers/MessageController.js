@@ -1,5 +1,5 @@
 const messageService = require('../Services/MessageService');
-const imageService = require("../services/ImageService");
+const imageService = require("../Services/ImageService");
 
 exports.createMessage = async (req, res) => {
     try {
