@@ -9,7 +9,7 @@ function generateToken() {
 }
 
 exports.registerUser = async (user) => {
-  const { username, email, password, phonenumber, avatar } = user;
+  const { username, email, password, phonenumber, profilePic, coverPic } = user;
   const confirmationToken = generateToken();
   const confirmationExpires = Date.now() + 120000;
 
@@ -21,7 +21,8 @@ exports.registerUser = async (user) => {
     email,
     password: hashPassword,
     phonenumber,
-    avatar,
+    profilePic,
+    coverPic,
     confirmationToken,
     confirmationExpires,
   });
@@ -43,14 +44,14 @@ exports.registerUser = async (user) => {
   //   throw error;
   // }
 
-  const employee = await User.findById("6631eca7cdb504839a6da6d1"); 
+//  // const employee = await User.findById("6631eca7cdb504839a6da6d1"); 
 
-  employee.customers = [...employee.customers, newUser._id];
-  await employee.save();
+  // employee.customers = [...employee.customers, newUser._id];
+  // await employee.save();
 
-  updateCustomers(employee._id.toString());
+  // updateCustomers(employee._id.toString());
 
-  newUser.customers = [employee._id];
+// // newUser.customers = [employee._id];
 
   try {
     await newUser.save();
