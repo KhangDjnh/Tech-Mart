@@ -1,8 +1,10 @@
 import { Box } from '@mui/material';
 import './ProductManager.css'
 import ProductCard from './ProductCard';
+import { useNavigate } from 'react-router-dom';
 
 function ProductList({}){
+  const navigate = useNavigate();
   const products = Array.from({ length: 20 }, (_, index) => ({
     id: index + 1,
     image: "https://m.media-amazon.com/images/I/71JqyTBiXrL.jpg",
@@ -13,10 +15,10 @@ function ProductList({}){
   }));
 
   const handleAddClick = () => {
-    //navigate to add page
+    navigate("new");
   }
   return (
-    <div className='productList'>
+    <div>
       <div className="headerInProductManager">
         Danh Sách Sản Phẩm
       </div>
