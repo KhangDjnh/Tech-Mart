@@ -85,7 +85,7 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
           >
             <Typography id="transition-modal-title" variant="h6" component="h2">
               <div className={"flex justify-between"} >
-                <p>Trò chuyện với shop</p>
+                <span>Trò chuyện với shop</span>
                 <div className={"px-2 hover:bg-gray-200"} onClick={handleStart}>
                   <RemoveIcon />
                 </div>
@@ -109,7 +109,7 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
                   ) )
                   :(
                       <div  className={"flex justify-center items-center !h-full flex-col"}  >
-                        <p>Hãy đăng nhập để tiếp tục</p>
+                        <span>Hãy đăng nhập để tiếp tục</span>
                         <Link to={'/login'}>
                           <Button variant={'contained'} className={'!mt-10 p-6 text-2xl font-bold'}>Đăng nhâp</Button>
                         </Link>
