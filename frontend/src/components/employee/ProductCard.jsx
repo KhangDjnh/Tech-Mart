@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 function ProductCard({ product }) {
   const navigate = useNavigate();
   const handleEditClick = () => {
-    window.location.href = `/product/${product.id}`;//`/product/${product.name}`
+    navigate(`:${product.id}`)
   };
 
   const handleDeleteClick = () => {
-    window.location.href = `/order/${product.id}`;
+    window.location.href = `/order/${product.id}`; //need change
   };
 
   return (
