@@ -38,7 +38,7 @@ exports.updateTag = async (req, res) => {
             return res.status(404).json({ error: "Tag not found" });
         }
 
-        const updatedTag = await tagService.updateTag(req.params.id, { name });
+        const updatedTag = await tagService.updateTag(req.params.id, req.body, { new: true });
 
         res.status(200).json({ data: updatedTag, status: "success" });
     } catch (err) {
