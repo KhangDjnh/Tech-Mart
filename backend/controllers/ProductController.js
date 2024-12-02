@@ -4,7 +4,7 @@ const imageService = require("../Services/ImageService");
 exports.createProduct = async (req, res) => {
     try {
         const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
-        console.log("Request", req); 
+        console.log(req.files); 
          // Xử lý upload ảnh
          let uploadedImages = [];
          if (req.files && req.files.length > 0) {
