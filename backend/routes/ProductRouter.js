@@ -20,7 +20,7 @@ router.route('/search')
     .get(isCustomer, searchProducts);
 
 router.route('/')
-    .get(isCustomer, getAllProducts) 
+    .get(getAllProducts) 
     .post(isManager, createProduct); 
 router.route('/:id')
     .get(isCustomer, getProductById) 
