@@ -11,6 +11,17 @@ exports.createUser = async (req, res) => {
       throw new Error("Email is required.");
     }
 
+    console.log(req.file); // TODO: Only for debug
+    // {
+    //   fieldname: 'image',
+    //   originalname: 'fakurian-design-ICTjWYzpoc0-unsplash.jpg',
+    //   encoding: '7bit',
+    //   mimetype: 'image/jpeg',
+    //   path: 'https://res.cloudinary.com/djhnuocm0/image/upload/v1733167565/uploadss/h8kpmgpaueqje4nbvwzw.jpg',
+    //   size: 275042,
+    //   filename: 'uploadss/h8kpmgpaueqje4nbvwzw'
+    // }
+
     // Kiểm tra và đặt ảnh avatar mặc định nếu không có
     let profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
     if (req.file?.profilePic) {
