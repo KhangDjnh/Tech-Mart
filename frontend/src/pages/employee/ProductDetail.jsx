@@ -1,36 +1,26 @@
-
 import { useParams } from "react-router-dom";
-import "./ProductManager.css"
-import { useEffect, useState } from "react";
+import "../../components/employee/ProductManager.css"
+import { useState } from "react";
 
 function ProductDetail(){
   const [images, setImages] = useState([]);
-  const param = useParams();
-  const [product, setProduct] = useState(null)
-  const isNew = !param.id;
-  useEffect(() => {
-    //FetchProductById(id);
-  }, [param.id]);
-  // const FetchProductById = async(id) => {
-  //   if(id){
-  //     setProduct(await getProductById(id));
-  //   }
-  // }
+  const { id } = useParams;
+  const isNew = !id;
+  const FetchProductById = async(id) => {
+    if(id){
+      const product = await getProductById(id);
+      return product;
+    }else return;
+  }
+  const product = FetchProductById(id);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
     setImages(files);
   };
-  const handleInputChange = (e) => {
-    const {name, value} = e.target;
-    setProduct(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }
   const handleSubmit = (e) => {
     e.preventDefault();
-    //Do something
+    //Do somthing
   }
 
   return(
@@ -55,31 +45,26 @@ function ProductDetail(){
               </div>)}
             <input type="file" name="image"
               accept="image/*" multiple
-              onChange={(e) => {handleImageChange(e); handleInputChange(e);}}
+              value={product ? product.images : null}
+              onChange={handleImageChange}
             /> <br />
           </div>
           <div className="textSide">
             <label>Tên sản phẩm: </label> <br />
-            <input type="text" name="name" onChange={handleInputChange}
+            <input type="text" name="name"
               placeholder="Nhập tên sản phẩm"/> <br />
-            <label>Danh mục: </label> <br />
-            <select name="id_tag" onChange={handleInputChange}>
-              <option value="" disabled selected>--Chọn danh mục--</option>
-              <option value="Laptop">Laptop</option>
-              <option value="Smartphone">Smart Phone</option>
-              <option value="Television">Television</option>
-              <option value="Tablet">Tablet</option>
-            </select>
-            <br />
+            <label>Tag: </label> <br />
+            <input type="text" name="id_tag"
+              placeholder="Nhập tag"/> <br />
             <label>Giá bán: </label> <br />
-            <input type="number" name="price" min="1" onChange={handleInputChange}
+            <input type="number" name="price" min="1"
               placeholder="Nhập giá (VNĐ)"/> <br />
             <label>Số lượng trong kho: </label> <br />
-            <input type="number" name="stock" min="0" onChange={handleInputChange}
+            <input type="number" name="stock" min="0"
               placeholder="Nhập số lượng"   
             /> <br />
             <label>Mô tả chi tiết: </label> <br />
-            <textarea name="description" rows="5" onChange={handleInputChange}
+            <textarea name="description" rows="5"
               placeholder="Nhập thông tin chi tiết"
             /> <br />
             <button type="submit"
