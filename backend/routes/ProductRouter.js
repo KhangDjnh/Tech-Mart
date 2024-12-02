@@ -8,7 +8,7 @@ const {
     searchProducts,
     searchProductsByTagName
 } = require('../controllers/ProductController');
-const { isManager, isCustomer } = require('../middleware/auth');
+const { isManager, isCustomer, isEmployee } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -20,11 +20,11 @@ router.route('/search')
 
 router.route('/')
     .get(isCustomer, getAllProducts) 
-    .post(isManager, createProduct); 
+    .post(isEmployee, createProduct); 
 
 router.route('/:id')
     .get(isCustomer, getProductById) 
-    .put(isManager, updateProduct)  
-    .delete(isManager, deleteProduct); 
+    .put(isEmployee, updateProduct)  
+    .delete(isEmployee, deleteProduct); 
 
 module.exports = router;
