@@ -125,7 +125,7 @@ function Navbar({ userDetails }) {
                     href={"/"}
                     className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
                 >
-                    TECH MARKET
+                    TECH MART
                 </a>
 
                 <div className=" ml-[160px] flex items-center max-lg:hidden ">
