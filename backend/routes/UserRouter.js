@@ -7,6 +7,7 @@ const {
   deleteUser
 } = require("../controllers/UserController.js");
 const { isManager, isCustomer } = require("../middleware/auth.js");
+const upload = require('../utils/cloudinary.js');
 
 const router = express.Router();
 router.route("/").get(isManager, getAllUsers).post(isManager, createUser);
@@ -15,4 +16,5 @@ router
   .get(isCustomer, getUserById)
   .put(isCustomer, updateUser)
   .delete(isManager, deleteUser);
+
 module.exports = router;

@@ -9,6 +9,7 @@ const {
     searchProductsByTagName
 } = require('../controllers/ProductController');
 const { isManager, isCustomer } = require('../middleware/auth');
+const upload = require('../utils/cloudinary');
 
 const router = express.Router();
 
@@ -21,7 +22,6 @@ router.route('/search')
 router.route('/')
     .get(isCustomer, getAllProducts) 
     .post(isManager, createProduct); 
-
 router.route('/:id')
     .get(isCustomer, getProductById) 
     .put(isManager, updateProduct)  

@@ -1,8 +1,8 @@
 const { cloudinary } = require('../utils/cloudinary');
 
-exports.uploadImage = async (filePath, folder) => {
+exports.uploadImage = async (req, folder) => {
   try {
-    const result = await cloudinary.uploader.upload(filePath, {
+    const result = await cloudinary.uploader.upload(req.file.path, {
       folder: folder,
     });
     return result.secure_url; // Trả về link ảnh sau khi upload
