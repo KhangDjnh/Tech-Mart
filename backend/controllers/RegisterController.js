@@ -25,8 +25,8 @@ exports.registerUser = async (req, res) => {
             if (!req.body.profilePic) {
                 req.body.profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
             } else {
-                const uploadedProfilePic = await cloudinary.uploader.upload(req.body.profilePic, {
-                    upload_preset: "TechMarket-User",
+                const uploadedProfilePic = await cloudinary.upload.upload(req.body.profilePic, {
+                    upload_preset: "TechMart-User",
                 });
 
                 if (!uploadedProfilePic) {
@@ -39,7 +39,7 @@ exports.registerUser = async (req, res) => {
                 req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png";
             } else {
                 const uploadedCoverPic = await cloudinary.uploader.upload(req.body.coverPic, {
-                    upload_preset: "TechMarket-User-Cover",
+                    upload_preset: "TechMart-User-Cover",
                 });
 
                 if (!uploadedCoverPic) {
@@ -52,6 +52,7 @@ exports.registerUser = async (req, res) => {
 
         const user = await register.registerUser(req.body);
         const token = genAuthToken(user);
+        console.log(`Khangdjnh01 ${token}`);
 
         res.status(200).send(token);
 
