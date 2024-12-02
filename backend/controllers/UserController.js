@@ -1,5 +1,5 @@
 const userService = require("../Services/UserService");
-const imageService = require("../services/ImageService");
+const imageService = require("../Services/ImageService");
 const User = require('../models/user');
 const bcrypt = require("bcrypt");
 

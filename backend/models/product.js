@@ -21,9 +21,19 @@ const ProductSchema = new mongoose.Schema({
         trim: true 
     },
     price: { 
-        type: Number, 
-        required: true, 
+        type: Number,
         min: 0 
+    },
+    realprice:
+    {
+        type: Number,
+        required: true, 
+        min: 0
+    },
+    discount:
+    {
+        type: Number,
+        min: 0
     },
     stock: { 
         type: Number, 

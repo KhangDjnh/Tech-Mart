@@ -1,15 +1,18 @@
 const Product = require('../models/product');
 
 exports.createProduct = async (product) => {
-    const { id_tag, id_shop, name, description, price, stock, rating } = product;
+    const { id_tag, id_shop, name, description, realprice, discount = 0, stock, rating } = product;
     const images = req.files.map(file => file.path);
-
+    const price = Math.ceil(realprice * (100 - discount) / 100); // Tính giá price làm tròn lên
+    
     const newProduct = new Product({
         id_tag,
         id_shop,
         name,
         description,
-        price,
+        realprice,
+        discount,
+        price, // Gán giá tính toán
         stock,
         images,
         rating
@@ -26,9 +29,24 @@ exports.getAllProducts = async () => {
     return await Product.find(); 
 };
 
-exports.updateProduct = async (id, product) => {
-    return await Product.findByIdAndUpdate(id, product, { new: true });
-};
+exports.updateProduct = async (id, productData) => {
+    const { realprice, discount } = productData;
+  
+    // Nếu có realprice hoặc discount, tính lại price
+    if (realprice !== undefined || discount !== undefined) {
+      const existingProduct = await Product.findById(id);
+  
+      if (!existingProduct) {
+        throw new Error("Product not found");
+      }
+  
+      const updatedRealprice = realprice ?? existingProduct.realprice; // Lấy realprice mới hoặc giữ giá trị cũ
+      const updatedDiscount = discount ?? existingProduct.discount; // Lấy discount mới hoặc giữ giá trị cũ
+      productData.price = Math.ceil(updatedRealprice * (100 - updatedDiscount) / 100); // Tính lại price
+    }
+  
+    return await Product.findByIdAndUpdate(id, productData, { new: true });
+  };
 
 exports.deleteProduct = async (id) => {
     return await Product.findByIdAndDelete(id);

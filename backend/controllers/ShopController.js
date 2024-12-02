@@ -1,5 +1,5 @@
 const shopService = require("../Services/ShopService");
-const imageService = require("../services/ImageService");
+const imageService = require("../Services/ImageService");
 const userService = require("../Services/UserService");
 
 exports.createShop = async (req, res) => {

@@ -1,4 +1,4 @@
-const loginService = require("../services/LoginService");
+const loginService = require("../Services/LoginService");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const genAuthToken = require("../utils/genAuthToken");

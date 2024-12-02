@@ -1,9 +1,9 @@
 const productService = require("../Services/ProductService");
-const imageService = require("../services/ImageService");
+const imageService = require("../Services/ImageService");
 
 exports.createProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, price, stock, images, rating } = req.body;
+        const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
          // Xử lý upload ảnh
          let uploadedImages = [];
          if (req.files && req.files.length > 0) {
@@ -12,7 +12,7 @@ exports.createProduct = async (req, res) => {
                  uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
              }
          }
-        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, price, stock, images: uploadedImages, rating });
+        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, realprice, discount, stock, images: uploadedImages, rating });
         res.status(201).json({ data: newProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -42,13 +42,13 @@ exports.getAllProducts = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, price, stock, image, rating } = req.body;
-        const product = await productService.getProductById(req.params.id);
+        const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
 
+        // Kiểm tra sản phẩm tồn tại
+        const product = await productService.getProductById(req.params.id);
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
-
         // Xử lý upload ảnh khi cập nhật
         let uploadedImages = product.images;
         if (req.files && req.files.length > 0) {
@@ -59,7 +59,21 @@ exports.updateProduct = async (req, res) => {
             }
         }
 
-        const updatedProduct = await productService.updateProduct(req.params.id, { id_tag, id_shop, name, description, price, stock, images: uploadedImages, rating });
+        const updatedData = {
+            id_tag,
+            id_shop,
+            name,
+            description,
+            realprice,
+            discount,
+            stock,
+            images: uploadedImages,
+            rating,
+        };
+
+        // Cập nhật sản phẩm
+        const updatedProduct = await productService.updateProduct(req.params.id, updatedData);
+
         res.status(200).json({ data: updatedProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
