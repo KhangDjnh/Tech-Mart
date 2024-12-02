@@ -15,7 +15,7 @@ function ProductList({}){
   }));
 
   const handleAddClick = () => {
-    navigate("new");
+    navigate("/employee/product/new");
   }
   return (
     <div>
