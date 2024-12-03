@@ -4,19 +4,22 @@ const {
     getOrderById,
     createOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getOrdersByUser
 } = require('../controllers/OrderController');
 const { isManager, isCustomer } = require('../middleware/auth');
 
 const router = express.Router();
 
+router.route('/user/:id').get(getOrdersByUser);
+
 router.route('/')
     .get(isManager, getAllOrders) 
-    .post(isCustomer, createOrder); 
+    .post(createOrder); 
 
 router.route('/:id')
-    .get(isCustomer, getOrderById) 
-    .put(isCustomer, updateOrder)  
-    .delete(isCustomer, deleteOrder); 
+    .get(getOrderById) 
+    .put(updateOrder)  
+    .delete(deleteOrder); 
 
 module.exports = router;
