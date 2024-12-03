@@ -1,8 +1,7 @@
 const Product = require('../models/product');
 
 exports.createProduct = async (product) => {
-    const { id_tag, id_shop, name, description, realprice, discount = 0, stock, rating } = product;
-    const images = req.files.map(file => file.path);
+    const { id_tag, id_shop, name, description, realprice, discount = 0, stock, images, rating } = product;
     const price = Math.ceil(realprice * (100 - discount) / 100); // Tính giá price làm tròn lên
     
     const newProduct = new Product({

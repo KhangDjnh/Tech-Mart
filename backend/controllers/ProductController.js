@@ -1,16 +1,18 @@
 const productService = require("../Services/ProductService");
 const imageService = require("../Services/ImageService");
 
+// MUST READ: Logic upload ảnh đã được thực hiện từ tầng middleware (tuy không nên nhưng nó là như thế và giờ không nên sửa nữa)
+//        ==> Không cần dùng service upload ảnh nữa, dùng luôn file.path
 exports.createProduct = async (req, res) => {
     try {
         const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
-        console.log(req.files); 
+        const files = req.files;
          // Xử lý upload ảnh
-         let uploadedImages = [];
-         if (req.files && req.files.length > 0) {
-             for (const file of req.files) {
-                 const uploadedImage = await imageService.uploadImage(file.path, 'TechMarket-Product');
-                 uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
+         const uploadedImages = [];
+         if (files && files.length > 0) {
+             for (const file of files) {
+                console.log(file.path); // TODO: Remove, for debug only
+                uploadedImages.push(file.path); // Lưu thông tin các ảnh đã upload
              }
          }
         const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, realprice, discount, stock, images: uploadedImages, rating });
