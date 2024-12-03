@@ -26,6 +26,8 @@ const storage = new CloudinaryStorage({
       folder = 'TechMarket-Shop'; // Thư mục cho ảnh avatar shop
     } else if (file.fieldname === 'cover') {
       folder = 'TechMarket-Shop-Cover'; // Thư mục cho ảnh cover-shop
+    } else if (file.fieldname === 'messImage') {
+      folder = 'TechMarket-Message'; // Thư mục cho ảnh mess
     } else {
       folder = 'TechMarket-Others'; // Thư mục mặc định nếu không phải là các trường trên
     }

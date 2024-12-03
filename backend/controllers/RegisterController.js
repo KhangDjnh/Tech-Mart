@@ -22,32 +22,20 @@ exports.registerUser = async (req, res) => {
 
         if (userInDB) return res.status(400).send("User already exists...");
         else {
-            if (!req.body.profilePic) {
+            // Kiểm tra và đặt ảnh avatar mặc định nếu không có
+            if (!req.files || !req.files.profilePic) {
                 req.body.profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
             } else {
-                const uploadedProfilePic = await cloudinary.uploader.upload(req.body.profilePic, {
-                    upload_preset: "TechMarket-User",
-                });
-
-                if (!uploadedProfilePic) {
-                    throw new Error("Error: Can't upload profile image to Cloudinary");
-                }
-
-                req.body.profilePic = uploadedProfilePic.url; 
-            } 
-            if (!req.body.coverPic) {
-                req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png";
-            } else {
-                const uploadedCoverPic = await cloudinary.uploader.upload(req.body.coverPic, {
-                    upload_preset: "TechMarket-User-Cover",
-                });
-
-                if (!uploadedCoverPic) {
-                    throw new Error("Error: Can't upload cover image to Cloudinary");
-                }
-
-                req.body.coverPic = uploadedCoverPic.url;
+                req.body.profilePic = req.files.profilePic[0].path;
             }
+
+            // Kiểm tra và đặt ảnh cover mặc định nếu không có
+            if (!req.files || !req.files.coverPic) {
+                req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
+            } else {
+                req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
+            }
+
         }
 
         const user = await register.registerUser(req.body);
