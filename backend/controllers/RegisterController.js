@@ -22,20 +22,32 @@ exports.registerUser = async (req, res) => {
 
         if (userInDB) return res.status(400).send("User already exists...");
         else {
-            // Kiểm tra và đặt ảnh avatar mặc định nếu không có
-            if (!req.files || !req.files.profilePic) {
+            if (!req.body.profilePic) {
                 req.body.profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
             } else {
-                req.body.profilePic = req.files.profilePic[0].path;
-            }
+                const uploadedProfilePic = await cloudinary.upload.upload(req.body.profilePic, {
+                    upload_preset: "TechMart-User",
+                });
 
-            // Kiểm tra và đặt ảnh cover mặc định nếu không có
-            if (!req.files || !req.files.coverPic) {
-                req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
+                if (!uploadedProfilePic) {
+                    throw new Error("Error: Can't upload profile image to Cloudinary");
+                }
+
+                req.body.profilePic = uploadedProfilePic.url; 
+            } 
+            if (!req.body.coverPic) {
+                req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png";
             } else {
-                req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
-            }
+                const uploadedCoverPic = await cloudinary.uploader.upload(req.body.coverPic, {
+                    upload_preset: "TechMart-User-Cover",
+                });
 
+                if (!uploadedCoverPic) {
+                    throw new Error("Error: Can't upload cover image to Cloudinary");
+                }
+
+                req.body.coverPic = uploadedCoverPic.url;
+            }
         }
 
         const user = await register.registerUser(req.body);
