@@ -4,19 +4,27 @@ const imageService = require("../Services/ImageService");
 exports.createProduct = async (req, res) => {
     try {
         const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
-        console.log(req.files); 
-         // Xử lý upload ảnh
-         let uploadedImages = [];
-         if (req.files && req.files.length > 0) {
-             for (const file of req.files) {
-                 const uploadedImage = await imageService.uploadImage(file.path, 'TechMarket-Product');
-                 uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
-             }
-         }
+        //console.log(req.files); 
+        const files = req.files;
+        // Xử lý upload ảnh
+        let uploadedImages = [];
+        // if (req.files && req.files.length > 0) {
+        //      for (const file of req.files) {
+        //          const uploadedImage = await imageService.uploadImage(file.path);
+        //          uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
+        //      }
+        //  }
+        if (files && files.length > 0) {
+            for (const file of files) {
+               console.log(file.path); // TODO: Remove, for debug only
+               uploadedImages.push(file.path); // Lưu thông tin các ảnh đã upload
+            }
+        }
         const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, realprice, discount, stock, images: uploadedImages, rating });
         res.status(201).json({ data: newProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
+        console.log(err.message); 
     }
 };
 
@@ -50,13 +58,14 @@ exports.updateProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
-        // Xử lý upload ảnh khi cập nhật
-        let uploadedImages = product.images;
-        if (req.files && req.files.length > 0) {
-            uploadedImages = [];
-            for (const file of req.files) {
-                const uploadedImage = await imageService.uploadImage(file.path, 'TechMarket-Product');
-                uploadedImages.push(uploadedImage); // Lưu thông tin các ảnh đã upload
+        
+        const files = req.files;
+        // Xử lý upload ảnh
+        let uploadedImages = [];
+        if (files && files.length > 0) {
+            for (const file of files) {
+               console.log(file.path); // TODO: Remove, for debug only
+               uploadedImages.push(file.path); // Lưu thông tin các ảnh đã upload
             }
         }
 
@@ -89,14 +98,7 @@ exports.deleteProduct = async (req, res) => {
             return res.status(404).json({ error: 'Product not found' });
         }
 
-        // Xóa các ảnh liên quan
-        if (product.images && product.images.length > 0) {
-            for (const imageUrl of product.images) {
-                const publicId = extractPublicIdFromUrl(imageUrl); // Cần hàm để lấy publicId từ URL ảnh
-                await imageService.deleteImage(publicId);
-            }
-        }
-
+        // Xóa sản phẩm mà không cần xóa ảnh
         const deletedProduct = await productService.deleteProduct(req.params.id);
         res.status(200).json({ data: deletedProduct, status: "success" });
     } catch (err) {

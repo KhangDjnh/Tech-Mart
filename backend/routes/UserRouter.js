@@ -18,10 +18,7 @@ router
 router
   .route("/")
   .get(isManager, getAllUsers)
-  //new
-  .post(isManager, upload.single('image'), createUser);
-  // old
-  //.post(isManager, upload.fields([{ name: 'profilePic', maxCount: 1 }, { name: 'coverPic', maxCount: 1 }]), createUser);
+  .post(isManager, upload.fields([{ name: 'profilePic', maxCount: 1 }, { name: 'coverPic', maxCount: 1 }]), createUser);
 router
   .route("/:id")
   .get(getUserById)

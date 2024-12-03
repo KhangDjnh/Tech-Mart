@@ -1,10 +1,8 @@
 const { cloudinary } = require('../utils/cloudinary');
 
-exports.uploadImage = async (req, folder) => {
+exports.uploadImage = async (req) => {
   try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: folder,
-    });
+    const result = await cloudinary.uploader.upload(req.file.path);
     return result.secure_url; // Trả về link ảnh sau khi upload
   } catch (err) {
     throw new Error(`Upload image failed: ${err.message}`);

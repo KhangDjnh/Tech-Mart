@@ -11,37 +11,20 @@ exports.createUser = async (req, res) => {
       throw new Error("Email is required.");
     }
 
-    console.log(req.file); // TODO: Only for debug
-    // {
-    //   fieldname: 'image',
-    //   originalname: 'fakurian-design-ICTjWYzpoc0-unsplash.jpg',
-    //   encoding: '7bit',
-    //   mimetype: 'image/jpeg',
-    //   path: 'https://res.cloudinary.com/djhnuocm0/image/upload/v1733167565/uploadss/h8kpmgpaueqje4nbvwzw.jpg',
-    //   size: 275042,
-    //   filename: 'uploadss/h8kpmgpaueqje4nbvwzw'
-    // }
+    console.log(req.files);
 
     // Kiểm tra và đặt ảnh avatar mặc định nếu không có
     if (!req.files || !req.files.profilePic) {
       req.body.profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
     } else {
-      const uploadedImage = await imageService.uploadImage(req.files.profilePic[0], "TechMarket-User");
-      if (!uploadedImage) {
-        throw new Error("Error: Can't upload image to Cloudinary");
-      }
-      req.body.profilePic = uploadedImage.url;
+      req.body.profilePic = req.files.profilePic[0].path; 
     }
 
     // Kiểm tra và đặt ảnh cover mặc định nếu không có
     if (!req.files || !req.files.coverPic) {
       req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
     } else {
-      const uploadedCoverImage = await imageService.uploadImage(req.files.coverPic[0], "TechMarket-User-Cover");
-      if (!uploadedCoverImage) {
-        throw new Error("Error: Can't upload cover image to Cloudinary");
-      }
-      req.body.coverPic = uploadedCoverImage.url;
+      req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
     req.body.cart = req.body.cart || [];
@@ -73,40 +56,24 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+    const { username, email, password, phonenumber, address, gender, birthday, role, id_shop, cart } = req.body;
+
     let user = await userService.getUserById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    console.log(req.files); // In ra thông tin các file đã tải lên
+
     // Xử lý hình ảnh nếu có
-    if (req.body.profilePic) {
-      // Xóa ảnh cũ
-      if (user.profilePic && user.profilePic.public_id) {
-        await imageService.deleteImage(user.profilePic.public_id);
-      }
-      // Tải ảnh mới lên
-      const uploadedImage = await imageService.uploadImage(req.body.profilePic, "TechMarket-User");
-      if (!uploadedImage) {
-        throw new Error("Failed to upload image to Cloudinary");
-      }
-      req.body.profilePic = uploadedImage;
+    if (req.files && req.files.profilePic) {
+      req.body.profilePic = req.files.profilePic[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
-    // Xử lý coverPic nếu có
-    if (req.body.coverPic) {
-      if (user.coverPic && user.coverPic.public_id) {
-        await imageService.deleteImage(user.coverPic.public_id); // Xóa ảnh cover cũ
-      }
-      const uploadedCoverImage = await imageService.uploadImage(req.body.coverPic, "TechMarket-User-Cover");
-      if (!uploadedCoverImage) {
-        throw new Error("Failed to upload cover image to Cloudinary");
-      }
-      req.body.coverPic = uploadedCoverImage;
+    if (req.files && req.files.coverPic) {
+      req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
     }
-
-
-    const { password, id_shop, cart } = req.body;
 
     // Hash mật khẩu nếu có cập nhật
     if (password && password !== user.password) {
@@ -125,15 +92,17 @@ exports.updateUser = async (req, res) => {
       }
     }
 
-     // Cập nhật cart nếu có trong yêu cầu
-     if (cart && Array.isArray(cart)) {
+    // Cập nhật cart nếu có trong yêu cầu
+    if (cart && Array.isArray(cart)) {
       req.body.cart = cart.map(item => ({
         product: item.product,
         quantity: Math.max(1, Math.min(item.quantity, 10)) // Giới hạn số lượng từ 1 đến 10
       }));
     }
 
+    // Cập nhật thông tin người dùng vào cơ sở dữ liệu
     const updatedUser = await userService.updateUser(req.params.id, req.body, { new: true });
+
     res.status(200).json({ data: updatedUser, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -9,6 +9,7 @@ const {
     searchProductsByTagName
 } = require('../controllers/ProductController');
 const { isManager, isCustomer, isEmployee } = require('../middleware/auth');
+const { upload } = require('../utils/cloudinary.js');
 
 const router = express.Router();
 
@@ -20,11 +21,11 @@ router.route('/search')
 
 router.route('/')
     .get(getAllProducts) 
-    .post(isEmployee, createProduct); 
+    .post(isEmployee, upload.array('images', 10), createProduct); 
 
 router.route('/:id')
     .get(getProductById) 
-    .put(isEmployee, updateProduct)  
+    .put(isEmployee, upload.array('images', 10), updateProduct)  
     .delete(isEmployee, deleteProduct); 
 
 module.exports = router;
