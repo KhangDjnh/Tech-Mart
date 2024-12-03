@@ -6,6 +6,9 @@ const ProductSchema = new mongoose.Schema({
         ref: 'Tag', 
         required: true 
     },
+    brand: {
+        type: String, 
+    },
     id_shop: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Shop', 

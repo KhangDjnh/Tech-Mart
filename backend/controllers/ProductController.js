@@ -3,7 +3,7 @@ const imageService = require("../Services/ImageService");
 
 exports.createProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
+        const { id_tag, id_shop, name, description, realprice, discount, stock, rating, brand } = req.body;
         //console.log(req.files); 
         const files = req.files;
         // Xử lý upload ảnh
@@ -20,7 +20,7 @@ exports.createProduct = async (req, res) => {
                uploadedImages.push(file.path); // Lưu thông tin các ảnh đã upload
             }
         }
-        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, realprice, discount, stock, images: uploadedImages, rating });
+        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, realprice, discount, stock, images: uploadedImages, rating, brand });
         res.status(201).json({ data: newProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -50,7 +50,7 @@ exports.getAllProducts = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, realprice, discount, stock, rating } = req.body;
+        const { id_tag, id_shop, name, description, realprice, discount, stock, rating, brand } = req.body;
 
         // Kiểm tra sản phẩm tồn tại
         const product = await productService.getProductById(req.params.id);
@@ -78,6 +78,7 @@ exports.updateProduct = async (req, res) => {
             stock,
             images: uploadedImages,
             rating,
+            brand,
         };
 
         // Cập nhật sản phẩm

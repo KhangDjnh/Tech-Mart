@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 
 exports.createProduct = async (product) => {
-    const { id_tag, id_shop, name, description, realprice, discount = 0, stock, images, rating } = product;
+    const { id_tag, id_shop, name, description, realprice, discount = 0, stock, images, rating, brand } = product;
    
     const price = Math.ceil(realprice * (100 - discount) / 100); // Tính giá price làm tròn lên
     
@@ -9,6 +9,7 @@ exports.createProduct = async (product) => {
         id_tag,
         id_shop,
         name,
+        brand,
         description,
         realprice,
         discount,
