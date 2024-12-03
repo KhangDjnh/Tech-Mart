@@ -1,4 +1,5 @@
 import TextField from "@mui/material/TextField";
+import { Close } from "@mui/icons-material"; // Import Close icon
 import {
   Button,
   FormControl,
@@ -62,7 +63,10 @@ function Login({ login }) {
   }, []);
   return (
     <div className={" w-full h-[100vh] flex justify-center items-center"}>
-      <div className="flex flex-col justify-center items-center w-[36vw] bg-white  shadow-[0px_0px_10px] shadow-gray-500 ">
+      <div className="flex flex-col justify-center items-center w-[36vw] bg-white shadow-[0px_0px_10px] shadow-gray-500 relative">
+        <Link to="/" className="absolute top-0 right-0 text-gray-500 hover:text-gray-700">
+          <Close />
+        </Link>
         <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
         <div className="px-10 pb-5 rounded-md  flex flex-col justify-center items-center w-full mt-10 ">
           <h1 className="font-medium text-xl mb-6 mt-3">Đăng nhập</h1>
@@ -71,7 +75,7 @@ function Login({ login }) {
             <OutlinedInput
               value={email}
               onChange={handleEmailChange}
-              type="email" 
+              type="email"
               label="Email"
             />
           </FormControl>
