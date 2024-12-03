@@ -1,5 +1,5 @@
 const Order = require("../models/order.js");
-
+const User = require("../models/user.js");
 const Product = require('../models/product'); // Đảm bảo rằng bạn đã import model Product
 
 exports.createOrder = async (order) => {
@@ -7,37 +7,66 @@ exports.createOrder = async (order) => {
 
   // Khởi tạo đơn hàng mới với total_price mặc định là 0
   const newOrder = new Order({
-      id_user,
-      id_product: id_product || [], // Nếu không có sản phẩm, khởi tạo mảng rỗng
-      total_price: 0,
-      status,
-      address,
+    id_user,
+    id_product: id_product || [], // Nếu không có sản phẩm, khởi tạo mảng rỗng
+    total_price: 0,
+    status,
+    address,
   });
 
-  // Lưu đơn hàng tạm thời
-  const savedOrder = await newOrder.save();
-
   // Tính tổng giá trị đơn hàng nếu có sản phẩm
-  if (savedOrder.id_product.length > 0) {
-      let totalPrice = 0;
-      
-      // Lặp qua từng sản phẩm và tính tổng giá trị
-      for (const item of savedOrder.id_product) {
-          const product = await Product.findById(item.product); // Tìm product bằng ID
-          const productPrice = product ? product.price : 0; // Lấy giá của sản phẩm, nếu không có thì mặc định là 0
-          const quantity = item.quantity;
+  if (newOrder.id_product.length > 0) {
+    let totalPrice = 0;
+    const insufficientStockProducts = [];
 
-          // Kiểm tra giá trị hợp lệ trước khi tính toán
-          if (typeof productPrice === 'number' && !isNaN(productPrice) && typeof quantity === 'number' && !isNaN(quantity)) {
-              totalPrice += productPrice * quantity;
-          }
+    for (const item of newOrder.id_product) {
+      const product = await Product.findById(item.product); // Tìm product bằng ID
+      
+      if (!product) {
+        throw new Error(`Product with ID ${item.product} not found.`);
       }
 
-      savedOrder.total_price = totalPrice;
-      return await savedOrder.save();
+      const { price, stock } = product; // Lấy giá và stock của sản phẩm
+      const quantity = item.quantity;
+
+      if (stock < quantity) {
+        insufficientStockProducts.push(product.name);
+      } else {
+        // Tính tổng giá trị khi stock hợp lệ
+        totalPrice += price * quantity;
+      }
+    }
+
+    // Nếu có sản phẩm hết hàng, trả về thông báo lỗi
+    if (insufficientStockProducts.length > 0) {
+      throw new Error(`Insufficient stock for products: ${insufficientStockProducts.join(", ")}`);
+    }
+
+    // Nếu đủ stock, tiến hành trừ stock và cập nhật
+    for (const item of newOrder.id_product) {
+      const product = await Product.findById(item.product);
+      product.stock -= item.quantity; // Trừ stock
+      await product.save(); // Lưu lại thay đổi
+    }
+
+    // Cập nhật total_price
+    newOrder.total_price = totalPrice;
+
+    // Cập nhật giỏ hàng của người dùng
+    const user = await User.findById(id_user);
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    user.cart = user.cart.filter(cartItem => {
+      const orderedItem = id_product.find(orderItem => orderItem.product.toString() === cartItem.product.toString());
+      return !orderedItem; // Loại bỏ sản phẩm đã đặt hàng khỏi cart
+    });
+
+    await user.save(); // Lưu thay đổi giỏ hàng
   }
 
-  return savedOrder; // Trả về đơn hàng nếu không có sản phẩm
+  return await newOrder.save(); // Lưu và trả về đơn hàng
 };
 
 
