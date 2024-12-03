@@ -51,12 +51,36 @@ exports.updateUser = async (id, user) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
   }
+  
+  return await User.findByIdAndUpdate(id, user, { new: true }); // Return the updated user
+};
 
-  if (user.cart && !Array.isArray(user.cart)) {
-    throw new Error('Cart must be an array of objects with product and quantity fields.');
+exports.updateCart = async (existingCart, newCart) => {
+  // Sao chép cart hiện tại để tránh thay đổi trực tiếp trên dữ liệu cũ
+  let updatedCart = [...existingCart];
+
+  // Duyệt qua từng item trong cart mới
+  for (let item of newCart) {
+    const { product, quantity } = item;
+
+    if (quantity > 0) {
+      // Kiểm tra xem sản phẩm đã có trong cart chưa
+      const existingItem = updatedCart.find(cartItem => cartItem.product.toString() === product.toString());
+
+      if (existingItem) {
+        // Nếu có, cập nhật quantity
+        existingItem.quantity = quantity;
+      } else {
+        // Nếu chưa có, thêm vào cart
+        updatedCart.push({ product, quantity });
+      }
+    } else {
+      // Nếu quantity = 0, xóa sản phẩm khỏi cart
+      updatedCart = updatedCart.filter(cartItem => cartItem.product.toString() !== product.toString());
+    }
   }
 
-  return await User.findByIdAndUpdate(id, user, { new: true }); // Return the updated user
+  return updatedCart;
 };
 
 exports.deleteUser = async (id) => {

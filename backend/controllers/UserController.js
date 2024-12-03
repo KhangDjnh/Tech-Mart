@@ -125,12 +125,9 @@ exports.updateUser = async (req, res) => {
       }
     }
 
-     // Cập nhật cart nếu có trong yêu cầu
-     if (cart && Array.isArray(cart)) {
-      req.body.cart = cart.map(item => ({
-        product: item.product,
-        quantity: Math.max(1, Math.min(item.quantity, 10)) // Giới hạn số lượng từ 1 đến 10
-      }));
+    // Xử lý cart
+    if (cart && Array.isArray(cart)) {
+      req.body.cart = await userService.updateCart(user.cart, cart);
     }
 
     const updatedUser = await userService.updateUser(req.params.id, req.body, { new: true });
