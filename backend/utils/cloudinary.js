@@ -37,5 +37,6 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage });
+// storage là CloudinaryStorage không phải RAM => Tức là đã upload ở tầng middleware 
 
 module.exports = { cloudinary, upload };
