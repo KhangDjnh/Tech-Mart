@@ -8,17 +8,17 @@ import {
     InputLabel,
     OutlinedInput,
 } from "@mui/material";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {useEffect, useState} from "react";
-import {connect} from "react-redux";
-import {getActions} from "../../store/actions/authAction.js";
-import {Link, useNavigate} from "react-router-dom";
-import {notify} from "../../utils/toastify.js";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { getActions } from "../../store/actions/authAction.js";
+import { Link, useNavigate } from "react-router-dom";
+import { notify } from "../../utils/toastify.js";
 import eventEmitter from "../../utils/eventEmitter.js";
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-function CreateAccount({register}) {
+function CreateAccount({ register }) {
     const profilePic =
         "https://res.cloudinary.com/dlgyapagf/image/upload/v1712984661/TechMarket-User/avatar_default/avatar-default_l2kmh0.jpg";
     const navigate = useNavigate();
@@ -91,26 +91,41 @@ function CreateAccount({register}) {
                 <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
                 <div className="px-10  rounded-md  flex flex-col justify-center items-center w-full  mt-10">
                     <h1 className="font-medium text-xl mb-6 mt-3">Tạo tài khoản</h1>
-                    <TextField
-                        label="UserName"
-                        className="w-full !my-4 "
-                        value={username}
-                        onChange={handleNameChange}
-                    />
+                    <FormControl variant="outlined" className={"w-full !my-4"}>
+                        <InputLabel htmlFor="outlined-adornment-username">UserName</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-username"
+                            value={username}
+                            onChange={handleNameChange}
+                            label="UserName"
+                            type="username"
+                        />
+                    </FormControl>
+
                     <div className={"grid grid-cols-2 gap-3 w-full"}>
-                        <TextField
-                            label="Email"
-                            className="w-full !my-4"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                        <TextField
-                            label="Số điện thoại"
-                            className="w-full !my-4"
-                            value={phonenumber}
-                            onChange={handlePhoneChange}
-                        />
+                        <FormControl variant="outlined" className={"w-full !my-4"}>
+                            <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                type="email"
+                                label="Email"
+                            />
+                        </FormControl>
+
+                        <FormControl variant="outlined" className={"w-full !my-4"}>
+                            <InputLabel htmlFor="outlined-adornment-phonenumber">Số điện thoại</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-phonenumber"
+                                value={phonenumber}
+                                onChange={handlePhoneChange}
+                                label="Số điện thoại"
+                                type="phonenumber"
+                            />
+                        </FormControl>
                     </div>
+
                     {/* <TextField label="Địa chỉ" className="w-full !my-4" /> */}
                     <div className={"grid grid-cols-2 gap-3 w-full"}>
                         <FormControl variant="outlined" className={"w-full !my-4"}>
@@ -129,7 +144,7 @@ function CreateAccount({register}) {
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                     </InputAdornment>
                                 }
@@ -151,7 +166,7 @@ function CreateAccount({register}) {
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
                                         >
-                                            {showPassword ? <VisibilityOff/> : <Visibility/>}
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                     </InputAdornment>
                                 }
@@ -168,14 +183,14 @@ function CreateAccount({register}) {
                             >
                                 Tạo tài khoản
                             </Button> : <Button variant="contained"
-                                                className={"!my-4 w-[200px] h-[50px]"} disabled={true}>
-                                <CircularProgress className={'h-4'}/>
+                                className={"!my-4 w-[200px] h-[50px]"} disabled={true}>
+                                <CircularProgress className={'h-4'} />
                             </Button>
                         }
                     </div>
                 </div>
                 <div className={'flex justify-end items-center w-full p-6'}><Link to={'/login'}
-                                                                                  className={'underline hover:text-blue-700 hover:cursor-pointer'}>Trở
+                    className={'underline hover:text-blue-700 hover:cursor-pointer'}>Trở
                     về trang đăng nhập</Link></div>
             </div>
         </div>
