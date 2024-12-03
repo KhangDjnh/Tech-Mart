@@ -5,16 +5,19 @@ const userService = require("../Services/UserService");
 exports.createShop = async (req, res) => {
   try {
     const { id_user, name, avatar, cover } = req.body;
-    let shopAvatar = avatar;
-    let shopCover = cover;
 
-    // Nếu không cung cấp avatar hoặc cover, lấy từ user
-    const user = await userService.getUserById(id_user);
-    if (!shopAvatar) {
-      shopAvatar = user.profilePic; 
+    // Kiểm tra và đặt ảnh avatar mặc định nếu không có
+    if (!req.files || !req.files.avatar) {
+      req.body.avatar = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
+    } else {
+      req.body.avatar = req.files.avatar[0].path; 
     }
-    if (!shopCover) {
-      shopCover = user.coverPic;
+
+    // Kiểm tra và đặt ảnh cover mặc định nếu không có
+    if (!req.files || !req.files.cover) {
+      req.body.cover = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
+    } else {
+      req.body.cover = req.files.cover[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
     const newShop = await shopService.createShop({ id_user, name, avatar: shopAvatar, cover: shopCover });
@@ -54,29 +57,13 @@ exports.updateShop = async (req, res) => {
       return res.status(404).json({ error: "Shop not found" });
     }
 
-    // Nếu có cập nhật avatar
-    if (avatar) {
-      // Xóa avatar cũ nếu có
-      if (shop.avatar && shop.avatar.public_id) {
-        await imageService.deleteImage(shop.avatar.public_id);
-      }
-      // Lưu avatar mới
-      shop.avatar = avatar;
-    } else if (!shop.avatar) {
-      // Nếu không có avatar, dùng ảnh mặc định của user
-      const user = await userService.getUserById(shop.id_user);
-      shop.avatar = user.profilePic;
+    // Xử lý hình ảnh nếu có
+    if (req.files && req.files.avatar) {
+      req.body.avatar = req.files.avatar[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
-    // Nếu có cập nhật cover
-    if (cover) {
-      if (shop.cover && shop.cover.public_id) {
-        await imageService.deleteImage(shop.cover.public_id);
-      }
-      shop.cover = cover;
-    } else if (!shop.cover) {
-      const user = await userService.getUserById(shop.id_user);
-      shop.cover = user.coverPic;
+    if (req.files && req.files.coverPic) {
+      req.body.cover = req.files.cover[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
     // Cập nhật id_follower
