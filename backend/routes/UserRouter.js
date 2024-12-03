@@ -5,6 +5,7 @@ const {
   getAllUsers,
   updateUser,
   deleteUser,
+  updateUserCart,
   getCart
 } = require("../controllers/UserController.js");
 const { isManager, isCustomer } = require("../middleware/auth.js");
@@ -13,7 +14,7 @@ const { upload } = require('../utils/cloudinary.js');
 
 const router = express.Router();
 router
-  .route("/getcart/:id").get(isCustomer, getCart);
+  .route("/cart/:id").get(getCart).put(updateUserCart);
 
 router
   .route("/")

@@ -135,6 +135,34 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+exports.updateUserCart = async (req, res) => {
+  try {
+    let user = await userService.getUserById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const { cart } = req.body;
+
+    if (!cart || !Array.isArray(cart)) {
+      return res.status(400).json({ error: "Cart must be a valid array." });
+    }
+
+    // Cập nhật cart của user
+    req.body.cart = await userService.updateCart(user.cart, cart);
+
+    // Lưu lại thay đổi
+    user.cart = req.body.cart;
+    const updatedUser = await user.save();
+
+    // Trả về phản hồi
+    res.status(200).json({ data: user.cart, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.createAdminUser = async () => {
   try {
     // Kiểm tra xem đã có người dùng admin chưa
