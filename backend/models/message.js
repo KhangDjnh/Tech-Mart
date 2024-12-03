@@ -9,7 +9,7 @@ const MessageSchema = new mongoose.Schema({
     content: {
         type: String,
     },
-    images:[{
+    messImages:[{
         type: String,
     }],
     id_user: { 

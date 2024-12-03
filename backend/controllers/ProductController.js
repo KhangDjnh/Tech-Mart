@@ -24,7 +24,6 @@ exports.createProduct = async (req, res) => {
         res.status(201).json({ data: newProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
-        console.log(err.message); 
     }
 };
 
