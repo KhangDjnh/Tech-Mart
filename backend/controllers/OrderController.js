@@ -73,3 +73,21 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getOrdersByUser = async (req, res) => {
+  try {
+    const userId = req.params.id; // Lấy user_id từ URL params
+
+    // Gọi phương thức tìm kiếm đơn hàng theo user_id
+    const orders = await orderService.getOrdersByUserId(userId);
+
+    res.status(200).json({
+      data: orders,
+      status: 'success'
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+};
