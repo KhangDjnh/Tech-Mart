@@ -9,8 +9,8 @@ exports.createShop = async (shopData) => {
         name,
         description,
         address,
-        avatar: avatar || "TechMarket-User/default_user", // Avatar mặc định nếu không có
-        cover: cover || "TechMarket-User/default_cover",  // Cover mặc định nếu không có
+        avatar: avatar || "TechMart-User/default_user", // Avatar mặc định nếu không có
+        cover: cover || "TechMart-User/default_cover",  // Cover mặc định nếu không có
         id_follower: [],
     });
 

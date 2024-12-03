@@ -43,7 +43,7 @@ export default function ForgotPassword({register}) {
         <div className={" w-full h-[100vh] flex justify-center items-center"}>
             <div
                 className="flex flex-col justify-center items-center w-[40vw] bg-white   shadow-[0px_0px_10px] shadow-gray-500 my-44">
-                <div className={"uppercase font-bold text-3xl mt-8"}>TeckMarket</div>
+                <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
                 <div className="px-10  rounded-md  flex flex-col justify-center items-center w-full  mt-10">
                     <h1 className="font-medium text-xl mb-6 mt-3">Quên mật khẩu</h1>
                     <div className={"grid grid-cols-[80%,20%] gap-3 w-full"}>

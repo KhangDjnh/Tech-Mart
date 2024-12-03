@@ -17,19 +17,19 @@ const storage = new CloudinaryStorage({
     let folder;
     // Xác định thư mục dựa trên fieldname của file
     if (file.fieldname === 'profilePic') {
-      folder = 'TechMarket-User'; // Thư mục cho ảnh profile
+      folder = 'TechMart-User'; // Thư mục cho ảnh profile
     } else if (file.fieldname === 'coverPic') {
-      folder = 'TechMarket-Cover-User'; // Thư mục cho ảnh cover
+      folder = 'TechMart-Cover-User'; // Thư mục cho ảnh cover
     } else if (file.fieldname === 'images') {
-      folder = 'TechMarket-Product'; // Thư mục cho ảnh sản phẩm
+      folder = 'TechMart-Product'; // Thư mục cho ảnh sản phẩm
     } else if (file.fieldname === 'avatar') {
-      folder = 'TechMarket-Shop'; // Thư mục cho ảnh avatar shop
+      folder = 'TechMart-Shop'; // Thư mục cho ảnh avatar shop
     } else if (file.fieldname === 'cover') {
       folder = 'TechMarket-Shop-Cover'; // Thư mục cho ảnh cover-shop
     } else if (file.fieldname === 'messImage') {
       folder = 'TechMarket-Message'; // Thư mục cho ảnh mess
     } else {
-      folder = 'TechMarket-Others'; // Thư mục mặc định nếu không phải là các trường trên
+      folder = 'TechMart-Others'; // Thư mục mặc định nếu không phải là các trường trên
     }
     return {
       folder: folder, // Tên thư mục trên Cloudinary

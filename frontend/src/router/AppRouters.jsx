@@ -101,17 +101,19 @@ function AppRouters() {
                 <Route
                     path="/products/:productID"
                     element={
-                        <PrivateRoute roles={['customer', 'employee', 'manager']}>
-                            <DetailProduct />
-                        </PrivateRoute>
+                        <DetailProduct />
+                        // <PrivateRoute roles={['customer', 'employee', 'manager']}>
+                        //     <DetailProduct />
+                        // </PrivateRoute>
                     }
                 />
                 <Route
                     path="/cart"
                     element={
-                        <PrivateRoute roles={['customer']}>
-                            <ShoppingCart />
-                        </PrivateRoute>
+                        <ShoppingCart />
+                        // <PrivateRoute roles={['customer']}>
+                        //     <ShoppingCart />
+                        // </PrivateRoute>
                     }
                 />
 
