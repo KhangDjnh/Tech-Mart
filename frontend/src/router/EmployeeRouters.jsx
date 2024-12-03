@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import EmployeeHome from '../pages/employee/EmployeeHome';
 import ProductList from '../components/employee/ProductManager/ProductList';
 import ProductDetail from '../components/employee/ProductManager/ProductDetail';
-import OrderManager from '../components/employee/OrderManager/OrderManager';
+import OrderList from '../components/employee/OrderManager/OrderList';
 import CustomerInfo from '../pages/employee/CustomerInfo';
 import ChatSupport from '../pages/employee/ChatSupport';
 import ProductManager from '../pages/employee/ProductManager';
@@ -13,7 +13,7 @@ function EmployeeRoutes() {
     <Routes>
       <Route path="/" element={<EmployeeHome />}>
         <Route index element={<ProductList/>} />
-        <Route path="order" element={<OrderManager />} />
+        <Route path="order" element={<OrderList />} />
         <Route path="product" element={<ProductManager/>}>
           <Route index element={<ProductList/>} />
           <Route path="new" element={<ProductDetail />} />

@@ -8,8 +8,7 @@ const {
     searchProducts,
     searchProductsByTagName
 } = require('../controllers/ProductController');
-const { isManager, isCustomer } = require('../middleware/auth');
-const upload = require('../utils/cloudinary');
+const { isManager, isCustomer, isEmployee } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -20,11 +19,12 @@ router.route('/search')
     .get(isCustomer, searchProducts);
 
 router.route('/')
-    .get(getAllProducts) 
-    .post(isManager, createProduct); 
+    .get(isCustomer, getAllProducts) 
+    .post(isEmployee, createProduct); 
+
 router.route('/:id')
     .get(isCustomer, getProductById) 
-    .put(isManager, updateProduct)  
-    .delete(isManager, deleteProduct); 
+    .put(isEmployee, updateProduct)  
+    .delete(isEmployee, deleteProduct); 
 
 module.exports = router;

@@ -22,15 +22,6 @@ import { productApi } from "../../api/productApi.js";
 import { fetchData } from "../store/actions/productAction.js";
 import ForgotPassword from "../pages/customer/ForgotPassword.jsx";
 
-
-import EmployeeHome from '../pages/employee/EmployeeHome';
-import ProductList from '../components/employee/ProductManager/ProductList';
-import ProductDetail from '../components/employee/ProductManager/ProductDetail';
-import OrderManager from '../components/employee/OrderManager/OrderManager.jsx';
-import CustomerInfo from '../pages/employee/CustomerInfo';
-import ChatSupport from '../pages/employee/ChatSupport';
-import ProductManager from '../pages/employee/ProductManager';
-
 function ScrollToTop() {
     const { pathname } = useLocation();
     useEffect(() => {
@@ -57,17 +48,6 @@ function AppRouters() {
             <ScrollToTop />
             <Routes>
                 {/* Shared */}
-                <Route path="/employee" element={<EmployeeHome />}>
-                    <Route index element={<ProductList/>} />
-                    <Route path="order" element={<OrderManager />} />
-                    <Route path="product" element={<ProductManager/>}>
-                    <Route index element={<ProductList/>} />
-                        <Route path="new" element={<ProductDetail />} />
-                        <Route path=":id" element={<ProductDetail />} />
-                    </Route>
-                    <Route path="customer-info" element={<CustomerInfo />} />
-                    <Route path="chat-support" element={<ChatSupport />} />
-                </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/confirmemail" element={<ConfirmEmail />} />
                 <Route path={'/forgotpassword'} element={<ForgotPassword />} />

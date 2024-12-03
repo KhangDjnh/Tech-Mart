@@ -4,8 +4,6 @@ function DeleteWarning({ product, showModal, setShowModal }){
     setShowModal(false);
   };
 
-
-  // change this
   const handleConfirm = () => {
     // Delete logic here
     setShowModal(false);

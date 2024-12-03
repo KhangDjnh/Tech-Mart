@@ -8,8 +8,6 @@ function ProductDetail(){
   const param = useParams();
   const [product, setProduct] = useState(null)
   const isNew = !param.id;
-
-  // change this
   useEffect(() => {
     //FetchProductById(id);
   }, [param.id]);
@@ -62,10 +60,10 @@ function ProductDetail(){
           </div>
           <div className="textSide">
             <label>Tên sản phẩm: </label> <br />
-            <input type="text" name="name" onChange={handleInputChange} required
+            <input type="text" name="name" onChange={handleInputChange}
               placeholder="Nhập tên sản phẩm"/> <br />
             <label>Danh mục: </label> <br />
-            <select name="id_tag" onChange={handleInputChange} required>
+            <select name="id_tag" onChange={handleInputChange}>
               <option value="" disabled selected>--Chọn danh mục--</option>
               <option value="Laptop">Laptop</option>
               <option value="Smartphone">Smart Phone</option>
@@ -74,14 +72,14 @@ function ProductDetail(){
             </select>
             <br />
             <label>Giá bán: </label> <br />
-            <input type="number" name="price" min="1" onChange={handleInputChange} required
+            <input type="number" name="price" min="1" onChange={handleInputChange}
               placeholder="Nhập giá (VNĐ)"/> <br />
             <label>Số lượng trong kho: </label> <br />
-            <input type="number" name="stock" min="0" onChange={handleInputChange} required
+            <input type="number" name="stock" min="0" onChange={handleInputChange}
               placeholder="Nhập số lượng"   
             /> <br />
             <label>Mô tả chi tiết: </label> <br />
-            <textarea name="description" rows="5" onChange={handleInputChange} required
+            <textarea name="description" rows="5" onChange={handleInputChange}
               placeholder="Nhập thông tin chi tiết"
             /> <br />
             <button type="submit"

@@ -12,7 +12,7 @@ let socket = null;
 export const connectWithSocketServer = (userDetails) => {
   const jwtToken = userDetails;
 
-  socket = io('http://localhost:5000', {
+  socket = io('https://techmarket-release.onrender.com/', {
     auth: {
       token: jwtToken,
     },

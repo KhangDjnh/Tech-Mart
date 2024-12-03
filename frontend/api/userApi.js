@@ -9,10 +9,10 @@ export const userApi = {
     async createUser(data) {
         try {
             // {
-            //   "username": "dat",
+            //   "name": "dat",
             //   "email": "test@gmail.com",
             //   "password": "123456",
-            //   "phonenumber": "123456",
+            //   "phone": "123456",
             //   "address": "Ha Noi",
             //   "role": "manager"
             // }
@@ -26,18 +26,18 @@ export const userApi = {
     async updateUser(data, userId) {
         try {
             // {
-            //   "username": "dat",
+            //   "name": "dat",
             //   "email": "test@gmail.com",
             //   "password": "123456",
-            //   "phonenumber": "123456",
+            //   "phone": "123456",
             //   "address": "Ha Noi",
             //   "role": "manager"
             // }
             const url = `/user/${userId}`;
             return await api.put(url, {
-                username: data.username,
+                name: data.name,
                 email: data.email,
-                phonenumber: data.phonenumber,
+                phone: data.phone,
                 address: data.address,
                 role: data.role,
                 password: data.password
