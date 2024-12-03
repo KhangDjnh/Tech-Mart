@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 function ProductList({}){
   const navigate = useNavigate();
+
+  // change this
   const products = Array.from({ length: 20 }, (_, index) => ({
     id: index + 1,
     image: "https://m.media-amazon.com/images/I/71JqyTBiXrL.jpg",
@@ -13,6 +15,7 @@ function ProductList({}){
     discountPrice: "29.290.000",
     originalPrice: "31.990.000",
   }));
+
 
   const handleAddClick = () => {
     navigate("/employee/product/new");

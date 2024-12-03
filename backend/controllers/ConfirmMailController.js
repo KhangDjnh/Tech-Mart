@@ -3,6 +3,8 @@ const User = require("../models/user");
 
 exports.confirmEmail = async (req, res) => {
   const { token } = req.query;
+  console.log(`Khangdjnh02 ${token}`);
+
   const user = await User.findOne({
     confirmationToken: token,
     confirmationExpires: { $gt: Date.now() },

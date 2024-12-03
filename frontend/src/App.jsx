@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './App.css';
-import './output.css';
 import AppRouter from "./router/AppRouters";
 import Toastify from "./components/toastify/Toastify"
 import { BrowserRouter } from "react-router-dom";

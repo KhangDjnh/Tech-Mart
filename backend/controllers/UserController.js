@@ -14,6 +14,13 @@ exports.createUser = async (req, res) => {
     console.log(req.files);
 
     // Kiểm tra và đặt ảnh avatar mặc định nếu không có
+    let profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
+    if (req.file?.profilePic) {
+      const uploadedImage = await imageService.uploadImage(req.file.profilePic, "TechMarket-User");
+      if (!uploadedImage) {
+        throw new Error("Error: Can't upload image to Cloudinary");
+      }
+      profilePic = uploadedImage;
     if (!req.files || !req.files.profilePic) {
       req.body.profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
     } else {
@@ -21,6 +28,14 @@ exports.createUser = async (req, res) => {
     }
 
     // Kiểm tra và đặt ảnh cover mặc định nếu không có
+    let coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
+    if (req.file?.coverPic) {
+      const uploadedCoverImage = await imageService.uploadImage(req.file.coverPic, "TechMarket-User-Cover");
+      if (!uploadedCoverImage) {
+        throw new Error("Error: Can't upload cover image to Cloudinary");
+      }
+      coverPic = uploadedCoverImage;
+    }
     if (!req.files || !req.files.coverPic) {
       req.body.coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
     } else {
@@ -29,6 +44,27 @@ exports.createUser = async (req, res) => {
 
     req.body.cart = req.body.cart || [];
 
+=======
+    let profilePic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732809983/TechMarket-User/default_user.jpg";
+    if (req.file?.profilePic) {
+      const uploadedImage = await imageService.uploadImage(req.file.profilePic, "TechMarket-User");
+      if (!uploadedImage) {
+        throw new Error("Error: Can't upload image to Cloudinary");
+      }
+      profilePic = uploadedImage;
+    }
+
+    // Kiểm tra và đặt ảnh cover mặc định nếu không có
+    let coverPic = "https://res.cloudinary.com/djhnuocm0/image/upload/v1732810068/TechMarket-User-Cover/default_cover.png"; // Đường dẫn tới ảnh cover mặc định
+    if (req.file?.coverPic) {
+      const uploadedCoverImage = await imageService.uploadImage(req.file.coverPic, "TechMarket-User-Cover");
+      if (!uploadedCoverImage) {
+        throw new Error("Error: Can't upload cover image to Cloudinary");
+      }
+      coverPic = uploadedCoverImage;
+    }
+
+>>>>>>> parent of 25a4919 (Merge branch 'master' into fix/multer_user_route)
     const user = await userService.createUser(req.body);
     res.status(200).json({ data: user, status: "success" });
   } catch (err) {
@@ -67,6 +103,25 @@ exports.updateUser = async (req, res) => {
     console.log(req.files); // In ra thông tin các file đã tải lên
 
     // Xử lý hình ảnh nếu có
+    if (req.file?.profilePic) {
+      // Tải ảnh mới lên
+      const uploadedImage = await imageService.uploadImage(req.file.profilePic, "TechMarket-User");
+      if (!uploadedImage) {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+      req.body.profilePic = uploadedImage;
+    }
+
+    // Xử lý coverPic nếu có
+    if (req.file?.coverPic) {
+      const uploadedCoverImage = await imageService.uploadImage(req.file.coverPic, "TechMarket-User-Cover");
+      if (!uploadedCoverImage) {
+        throw new Error("Failed to upload cover image to Cloudinary");
+      }
+      req.body.coverPic = uploadedCoverImage;
+    }
+
+    const { username, email, phonenumber, address, gender, birthday, role, password, id_shop } = req.body;
     if (req.files && req.files.profilePic) {
       req.body.profilePic = req.files.profilePic[0].path;  // Lấy URL ảnh từ file tải lên
     }
@@ -75,6 +130,28 @@ exports.updateUser = async (req, res) => {
       req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
+=======
+    if (req.file?.profilePic) {
+      // Tải ảnh mới lên
+      const uploadedImage = await imageService.uploadImage(req.file.profilePic, "TechMarket-User");
+      if (!uploadedImage) {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+      req.body.profilePic = uploadedImage;
+    }
+
+    // Xử lý coverPic nếu có
+    if (req.file?.coverPic) {
+      const uploadedCoverImage = await imageService.uploadImage(req.file.coverPic, "TechMarket-User-Cover");
+      if (!uploadedCoverImage) {
+        throw new Error("Failed to upload cover image to Cloudinary");
+      }
+      req.body.coverPic = uploadedCoverImage;
+    }
+
+    const { username, email, phonenumber, address, gender, birthday, role, password, id_shop } = req.body;
+
+>>>>>>> parent of 25a4919 (Merge branch 'master' into fix/multer_user_route)
     // Hash mật khẩu nếu có cập nhật
     if (password && password !== user.password) {
       const salt = await bcrypt.genSalt(10);
@@ -121,7 +198,8 @@ exports.deleteUser = async (req, res) => {
       }
     }
 
-    if (user.coverPic && user.coverPic.public_id) {
+     if (user.coverPic && user.coverPic.public_id) {
+     if (user.coverPic && user.coverPic.public_id) {
       const deleteCoverResponse = await imageService.deleteImage(user.coverPic.public_id);
       if (!deleteCoverResponse.result === "ok") {
         throw new Error("Failed to delete cover image from Cloudinary");

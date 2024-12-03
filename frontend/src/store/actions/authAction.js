@@ -33,13 +33,21 @@ const setIsLoggedIn = (isLoggedIn) => {
 const login = (userDetails, navigate) => {
   return async (dispatch) => {
     const response = await loginUser(userDetails);
+    console.log("Response Data:", response?.data);
     if (response.error) {
       eventEmitter.emit("error", response.exception.response.data);
     } else {
       eventEmitter.emit("success");
-      localStorage.setItem("token", response?.data);
-      const userDetails = jwtDecode(response?.data);
-      console.log(userDetails);
+
+      const token = response?.data?.token; 
+      if (!token) {
+        console.error("Token is missing in the response");
+        return;
+      }
+      localStorage.setItem("token", token);
+      const userDetails = jwtDecode(token);
+      console.log("Decoded User Details:",userDetails);
+
       localStorage.setItem(
         "session",
         JSON.stringify({ isLoggedIn: true, userDetails: userDetails })
