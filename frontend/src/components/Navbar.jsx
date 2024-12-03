@@ -41,9 +41,10 @@ function Navbar({ userDetails }) {
     const fetchData = async (id) => {
         try {
             const res = await productApi.getUserCart(id);
-            const cartItems = res.data.data;
-            //console.log('cartItem', cartItems);
-    
+            const cartItems = res.data?.data || [];
+            console.log('Response data:', res.data);
+            console.log('Cart items:', cartItems);
+
             const cartData = product
                 .filter(item => cartItems.some(cartItem => cartItem.product._id === item._id))
                 .map(item => {
@@ -55,7 +56,7 @@ function Navbar({ userDetails }) {
                     };
                 });
     
-            dispatch(getCart(cartData)); // Dispatch dữ liệu cập nhật
+            dispatch(getCart(cartData));
         } catch (error) {
             console.error('Error fetching user cart:', error);
         }

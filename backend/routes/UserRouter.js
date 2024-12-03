@@ -13,8 +13,10 @@ const { isManager, isCustomer } = require("../middleware/auth.js");
 const { upload } = require('../utils/cloudinary.js');
 
 const router = express.Router();
-router
-  .route("/cart/:id").get(getCart).put(updateUserCart);
+
+router.route("/cart/:id").get(getCart);
+router.route("/:userId/cart/:productId").post(updateUserCart);
+
 
 router
   .route("/")

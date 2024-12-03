@@ -1,5 +1,6 @@
-// import { forgotPassword } from "../../Backend/controllers/ForgotPassController.js";
+//import { forgotPassword } from "../../Backend/controllers/ForgotPassController.js";
 import { api, setHeaders } from "./api.js";
+
 
 export const productApi = {
   getProduct() {
@@ -23,7 +24,7 @@ export const productApi = {
     return api.put(url, data, setHeaders());
   },
   getUserCart(userId) {
-    const url = `/user/getcart/${userId}/`;
+    const url = `/user/cart/${userId}`;
     return api.get(url, setHeaders());
   },
   updateUserCart(userId, productId) {

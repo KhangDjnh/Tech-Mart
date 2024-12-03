@@ -137,35 +137,35 @@ exports.deleteUser = async (req, res) => {
 
 exports.updateUserCart = async (req, res) => {
   try {
-    let user = await userService.getUserById(req.params.id);
+    const userId = req.params.userId;
+    const productId = req.params.productId;
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    const user = await userService.getUserById(userId);
+    if (!user.cart) {
+      user.cart = [];
+    }
+    const isProductInUserCart = user.cart.includes(productId);
+
+    if (isProductInUserCart) {
+      return res
+        .status(409)
+        .json({ error: "The product already exists in your cart." });
     }
 
-    const { cart } = req.body;
+    user.cart = [...user.cart, productId];
 
-    if (!cart || !Array.isArray(cart)) {
-      return res.status(400).json({ error: "Cart must be a valid array." });
-    }
+    await user.save();
 
-    // Cập nhật cart của user
-    req.body.cart = await userService.updateCart(user.cart, cart);
-
-    // Lưu lại thay đổi
-    user.cart = req.body.cart;
-    const updatedUser = await user.save();
-
-    // Trả về phản hồi
-    res.status(200).json({ data: user.cart, status: "success" });
+    res.json(user);
   } catch (err) {
+    //console.error("Error updating user cart:", err);
     res.status(500).json({ error: err.message });
   }
 };
 
+
 exports.createAdminUser = async () => {
   try {
-    // Kiểm tra xem đã có người dùng admin chưa
     const adminUser = await User.findOne({ username: 'admin' });
 
     if (!adminUser) {

@@ -24,7 +24,7 @@ exports.verifyConnection = async () => {
 };
 
 exports.sendConfirmationEmail = (email, token) => {
-  const PORT = process.env.PORT || 5000;
+  const PORT = 5173;
   const url = `http://localhost:${PORT}`;
 
   const mailOptions = {
@@ -33,7 +33,7 @@ exports.sendConfirmationEmail = (email, token) => {
     subject: "Confirm your TechMart account",
     html: `<p>Hello,</p>
            <p>Please click on the link below to confirm your TechMart account:</p>
-           <a href="${url}/api/confirm?token=${token}">Confirm Account</a>
+           <a href="http://localhost:5173/confirmemail">Confirm Account</a>
            <p>If you did not request this, please ignore this email.</p>`,
   };
   transporter.sendMail(mailOptions, (error, info) => {

@@ -33,7 +33,6 @@ const setIsLoggedIn = (isLoggedIn) => {
 const login = (userDetails, navigate) => {
   return async (dispatch) => {
     const response = await loginUser(userDetails);
-    //console.log("Response:", response);
     if (response.error) {
       eventEmitter.emit("error", response.exception.response.data);
     } else {
@@ -45,7 +44,6 @@ const login = (userDetails, navigate) => {
       }
       localStorage.setItem("token", token);
       const userDetails = jwtDecode(token);
-      console.log(userDetails);
       localStorage.setItem(
         "session",
         JSON.stringify({ isLoggedIn: true, userDetails: userDetails })
@@ -59,9 +57,12 @@ const login = (userDetails, navigate) => {
 
 const register = (userDetails, navigate) => {
   return async (dispatch) => {
+    console.log('User details:', userDetails);
     const response = await registerUser(userDetails);
+    console.log('respond', response);
     console.log(response);
     if (response.error) {
+      console.log('Error details:', response.exception?.response?.data);
       eventEmitter.emit("error", response.exception.response.data);
     } else {
       eventEmitter.emit("success");

@@ -25,7 +25,7 @@ function DetailProductContent({ product }) {
         setProductShow(product);
         setCount(0);
     }, [product]);
-
+    
     function addCount() {
         setCount(count + 1);
     }
@@ -54,7 +54,8 @@ function DetailProductContent({ product }) {
             </Breadcrumbs>
             <div className="flex flex-col lg:flex-row mt-4">
                 <div className="lg:basis-1/2">
-                    <img src={productShow?.image?.url} alt="" className="bg-cover bg-no-repeat bg-center w-[90%] mx-auto" />
+                    <img src={productShow?.images?.[0]} alt="Product Image" className="bg-cover bg-no-repeat bg-center w-[90%] mx-auto" />
+                    {/* <ImageSlide images={productShow.images} /> */}
                 </div>
                 <div className="lg:basis-1/2 mt-4 lg:mt-0">
                     <h1 className="font-bold text-2xl lg:text-lg">{productShow?.name}</h1>
@@ -86,16 +87,17 @@ function DetailProductContent({ product }) {
                         <h1 className="ml-4 md:mr-1">Còn: {productShow?.stock}</h1>
                     </div>
                     <div className="hidden md:grid grid-cols-2 mt-8 gap-3 ">
-                        <Button variant="contained" startIcon={<AddShoppingCartIcon />}
-                            onClick={async () => {
-                                notify('info', 'Added to cart');
-                                await productApi.updateUserCart(userID, productShow._id);
-                                dispatch(addCart({
-                                    ...productShow,
-                                    quantity: count,
-                                    checked: true
-                                }));
-                            }}>Thêm vào giỏ hàng</Button>
+                    <Button variant="contained" startIcon={<AddShoppingCartIcon />}
+                        onClick={async () => {
+                            notify('info', 'Added to cart');
+                            //await productApi.updateUserCart(userID, productShow._id);
+                            dispatch(addCart({
+                                ...productShow,
+                                quantity: count,
+                                checked: true
+                            }));
+                        }}>Thêm vào giỏ hàng</Button>
+
                         <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1}
                             onClick={async () => {
                                 await checkoutApi.checkout({ userId: userID, cartItems: productPurchased });

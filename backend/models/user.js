@@ -45,19 +45,7 @@ const UserSchema = new mongoose.Schema({
         ref: 'Shop' 
     }],
     customers: [{ type: mongoose.Schema.Types.Object, ref: "User" }],
-    cart: [{
-        product: {
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Product', // Tham chiếu đến model Product (sản phẩm trong giỏ hàng)
-            required: true 
-        },
-        quantity: {
-            type: Number,
-            required: true,
-            min: 1, // Số lượng tối thiểu là 1
-            max: 10 // Số lượng tối đa là 10
-        }
-    }]
+    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);

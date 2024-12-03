@@ -14,6 +14,7 @@ import { checkoutApi, productApi } from "../../api/productApi.js";
 
 function Cart() {
     const productsWithQuantity = useSelector(state => state.cart.data)
+    console.log('productsWithQuantity:', productsWithQuantity);
     const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
     const [numberOfProductsPurchased, setNumberOfProductsPurchased] = useState(0)
     const [totalPayment, setTotalPayment] = useState(0)
@@ -75,7 +76,7 @@ function Cart() {
                     <div className="flex items-center">
                         <Checkbox checked={e.checked} onChange={() => handleCheckItem(e._id, !e.checked)} />
                         <Link to={`/products/${e._id}`} className="flex items-center">
-                            <img src={e.image?.url} alt="" className="w-24 h-20 mr-4 md:mr-1 object-cover" />
+                            <img src={e.images?.[0]} alt="" className="w-24 h-20 mr-4 md:mr-1 object-cover" />
                             <p className="line-clamp-2">{e.name}</p>
                         </Link>
                     </div>
