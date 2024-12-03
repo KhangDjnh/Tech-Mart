@@ -44,6 +44,7 @@ exports.createUser = async (req, res) => {
       req.body.coverPic = uploadedCoverImage.url;
     }
 
+    req.body.cart = req.body.cart || [];
 
     const user = await userService.createUser(req.body);
     res.status(200).json({ data: user, status: "success" });
@@ -105,7 +106,7 @@ exports.updateUser = async (req, res) => {
     }
 
 
-    const { username, email, phonenumber, address, gender, birthday, role, password, id_shop } = req.body;
+    const { password, id_shop, cart } = req.body;
 
     // Hash mật khẩu nếu có cập nhật
     if (password && password !== user.password) {
@@ -122,6 +123,14 @@ exports.updateUser = async (req, res) => {
         // Nếu id_shop đã có trong mảng, loại bỏ nó khỏi mảng
         user.id_following = user.id_following.filter(shopId => shopId.toString() !== id_shop);
       }
+    }
+
+     // Cập nhật cart nếu có trong yêu cầu
+     if (cart && Array.isArray(cart)) {
+      req.body.cart = cart.map(item => ({
+        product: item.product,
+        quantity: Math.max(1, Math.min(item.quantity, 10)) // Giới hạn số lượng từ 1 đến 10
+      }));
     }
 
     const updatedUser = await userService.updateUser(req.params.id, req.body, { new: true });
@@ -186,5 +195,21 @@ exports.createAdminUser = async () => {
     }
   } catch (err) {
     console.error('Error creating admin user:', err.message);
+  }
+};
+
+exports.getCart = async (req, res) => {
+  try {
+    const user = await userService.getUserById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const cart = await userService.getCartByUserId(user);
+
+    res.status(200).json({ data: cart, status: 'success' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

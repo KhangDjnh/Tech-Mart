@@ -31,8 +31,8 @@ const UserSchema = new mongoose.Schema({
     },
     role: { 
         type: [String], 
-        enum: ['customer','employee', 'manager'], 
-        default: ['customer','employee']  
+        enum: ['customer', 'employee', 'manager'], 
+        default: ['customer', 'employee']  
     },
     profilePic: { 
         type: String 
@@ -40,14 +40,22 @@ const UserSchema = new mongoose.Schema({
     coverPic: { 
         type: String 
     },
-    // customers: [{ 
-    //     type: mongoose.Schema.Types.ObjectId, 
-    //     ref: 'User',
-    //     default: []
-    // }],
     id_following: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Shop' 
+    }],
+    cart: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Product', // Tham chiếu đến model Product (sản phẩm trong giỏ hàng)
+            required: true 
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            min: 1, // Số lượng tối thiểu là 1
+            max: 10 // Số lượng tối đa là 10
+        }
     }]
 }, { timestamps: true });
 
