@@ -19,13 +19,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 function CreateAccount({register}) {
-    const avatar =
+    const profilePic =
         "https://res.cloudinary.com/dlgyapagf/image/upload/v1712984661/TechMarket-User/avatar_default/avatar-default_l2kmh0.jpg";
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [phone, setPhone] = useState("");
-    const [name, setName] = useState("");
+    const [phonenumber, setPhone] = useState("");
+    const [username, setName] = useState("");
     const [loading, setLoadind] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);
@@ -55,15 +55,14 @@ function CreateAccount({register}) {
     function registerHandling() {
         setLoadind(true)
         const userDetails = {
-            name,
+            username,
             email,
             password,
-            phone,
-            avatar,
+            phonenumber,
+            profilePic,
         };
 
         register(userDetails, navigate);
-
     }
 
     useEffect(() => {
@@ -89,13 +88,13 @@ function CreateAccount({register}) {
         <div className={" w-full h-[100vh] flex justify-center items-center"}>
             <div
                 className="flex flex-col justify-center items-center w-[40vw] bg-white   shadow-[0px_0px_10px] shadow-gray-500 my-44">
-                <div className={"uppercase font-bold text-3xl mt-8"}>TeckMarket</div>
+                <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
                 <div className="px-10  rounded-md  flex flex-col justify-center items-center w-full  mt-10">
                     <h1 className="font-medium text-xl mb-6 mt-3">Tạo tài khoản</h1>
                     <TextField
-                        label="Họ và tên"
+                        label="UserName"
                         className="w-full !my-4 "
-                        value={name}
+                        value={username}
                         onChange={handleNameChange}
                     />
                     <div className={"grid grid-cols-2 gap-3 w-full"}>
@@ -108,7 +107,7 @@ function CreateAccount({register}) {
                         <TextField
                             label="Số điện thoại"
                             className="w-full !my-4"
-                            value={phone}
+                            value={phonenumber}
                             onChange={handlePhoneChange}
                         />
                     </div>

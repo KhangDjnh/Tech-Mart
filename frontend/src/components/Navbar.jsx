@@ -41,16 +41,26 @@ function Navbar({ userDetails }) {
     const fetchData = async (id) => {
         try {
             const res = await productApi.getUserCart(id);
-            const cartData = product.filter((item) => res.data.includes(item._id)).map(e => ({
-                ...e,
-                quantity: 0,
-                checked: false
-            }));
-            dispatch(getCart(cartData))
+            const cartItems = res.data.data;
+            //console.log('cartItem', cartItems);
+    
+            const cartData = product
+                .filter(item => cartItems.some(cartItem => cartItem.product._id === item._id))
+                .map(item => {
+                    const foundItem = cartItems.find(cartItem => cartItem.product._id === item._id);
+                    return {
+                        ...item,
+                        quantity: foundItem ? foundItem.quantity : 0,
+                        checked: false
+                    };
+                });
+    
+            dispatch(getCart(cartData)); // Dispatch dữ liệu cập nhật
         } catch (error) {
             console.error('Error fetching user cart:', error);
         }
     };
+    
     useEffect(() => {
         if (userID) {
             fetchData(userID);
@@ -125,7 +135,7 @@ function Navbar({ userDetails }) {
                     href={"/"}
                     className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
                 >
-                    TECH MARKET
+                    TECH MART
                 </a>
 
                 <div className=" ml-[160px] flex items-center max-lg:hidden ">

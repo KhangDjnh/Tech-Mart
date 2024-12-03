@@ -33,12 +33,18 @@ const setIsLoggedIn = (isLoggedIn) => {
 const login = (userDetails, navigate) => {
   return async (dispatch) => {
     const response = await loginUser(userDetails);
+    //console.log("Response:", response);
     if (response.error) {
       eventEmitter.emit("error", response.exception.response.data);
     } else {
       eventEmitter.emit("success");
-      localStorage.setItem("token", response?.data);
-      const userDetails = jwtDecode(response?.data);
+      const token = response?.data?.token;
+      if (!token) {
+        console.error("No token received from API");
+        return;
+      }
+      localStorage.setItem("token", token);
+      const userDetails = jwtDecode(token);
       console.log(userDetails);
       localStorage.setItem(
         "session",
