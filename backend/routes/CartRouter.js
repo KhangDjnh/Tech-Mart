@@ -12,10 +12,10 @@ const router = express.Router();
 
 router.route('/')
     .get(isManager, getAllCarts) 
-    .post(isCustomer, createCart); 
+    .post(isManager, createCart); 
 
 router.route('/:id')
-    .get(isCustomer, getCartById) 
+    .get(isManager, getCartById) 
     .put(isCustomer, updateCart)  
     .delete(isCustomer, deleteCart); 
 
