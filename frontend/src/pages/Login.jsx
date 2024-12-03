@@ -66,12 +66,15 @@ function Login({ login }) {
         <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
         <div className="px-10 pb-5 rounded-md  flex flex-col justify-center items-center w-full mt-10 ">
           <h1 className="font-medium text-xl mb-6 mt-3">Đăng nhập</h1>
-          <TextField
-            label="Email"
-            className="w-full !my-4"
-            value={email}
-            onChange={handleEmailChange}
-          />
+          <FormControl variant="outlined" className={"w-full !my-4"}>
+            <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
+            <OutlinedInput
+              value={email}
+              onChange={handleEmailChange}
+              type="email" 
+              label="Email"
+            />
+          </FormControl>
           <FormControl variant="outlined" className={"w-full !my-4"}>
             <InputLabel htmlFor="outlined-adornment-password">
               Mật khẩu
