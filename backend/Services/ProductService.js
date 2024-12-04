@@ -1,13 +1,12 @@
 const Product = require('../models/product');
 
 exports.createProduct = async (product) => {
-    const { id_tag, id_shop, name, description, realprice, discount = 0, stock, images, rating, brand } = product;
+    const { category, name, description, realprice, discount = 0, stock, images, rating, brand } = product;
    
     const price = Math.ceil(realprice * (100 - discount) / 100); // Tính giá price làm tròn lên
     
     const newProduct = new Product({
-        id_tag,
-        id_shop,
+        category,
         name,
         brand,
         description,
@@ -59,11 +58,11 @@ exports.searchProductsByKeyword = async (keyword) => {
     });
 };
 
-exports.searchProductsByTagName = async (tagName) => {
-    const Tag = require("../models/tag"); // Model của Tag
-    const tag = await Tag.findOne({ name: { $regex: tagName, $options: 'i' } }); // Tìm tag theo tên
+// exports.searchProductsByTagName = async (tagName) => {
+//     const Tag = require("../models/tag"); // Model của Tag
+//     const tag = await Tag.findOne({ name: { $regex: tagName, $options: 'i' } }); // Tìm tag theo tên
 
-    if (!tag) return []; // Nếu không tìm thấy tag, trả về mảng rỗng
+//     if (!tag) return []; // Nếu không tìm thấy tag, trả về mảng rỗng
 
-    return await Product.find({ id_tag: tag._id }); // Tìm sản phẩm theo `id_tag`
-};
+//     return await Product.find({ id_tag: tag._id }); // Tìm sản phẩm theo `id_tag`
+// };

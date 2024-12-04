@@ -3,7 +3,7 @@ const imageService = require("../Services/ImageService");
 
 exports.createProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, realprice, discount, stock, rating, brand } = req.body;
+        const { category, name, description, realprice, discount, stock, rating, brand } = req.body;
         //console.log(req.files); 
         const files = req.files;
         // Xử lý upload ảnh
@@ -20,7 +20,7 @@ exports.createProduct = async (req, res) => {
                uploadedImages.push(file.path); // Lưu thông tin các ảnh đã upload
             }
         }
-        const newProduct = await productService.createProduct({ id_tag, id_shop, name, description, realprice, discount, stock, images: uploadedImages, rating, brand });
+        const newProduct = await productService.createProduct({ category, name, description, realprice, discount, stock, images: uploadedImages, rating, brand });
         res.status(201).json({ data: newProduct, status: "success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -50,7 +50,7 @@ exports.getAllProducts = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        const { id_tag, id_shop, name, description, realprice, discount, stock, rating, brand } = req.body;
+        const { category, name, description, realprice, discount, stock, rating, brand } = req.body;
 
         // Kiểm tra sản phẩm tồn tại
         const product = await productService.getProductById(req.params.id);
@@ -69,8 +69,7 @@ exports.updateProduct = async (req, res) => {
         }
 
         const updatedData = {
-            id_tag,
-            id_shop,
+            category,
             name,
             description,
             realprice,
@@ -121,17 +120,17 @@ exports.searchProducts = async (req, res) => {
     }
 };
 
-exports.searchProductsByTagName = async (req, res) => {
-    try {
-        const tagName = req.query.keyword; 
-        const products = await productService.searchProductsByTagName(tagName);
+// exports.searchProductsByTagName = async (req, res) => {
+//     try {
+//         const tagName = req.query.keyword; 
+//         const products = await productService.searchProductsByTagName(tagName);
 
-        if (products.length === 0) {
-            return res.status(404).json({ message: "Không tìm thấy sản phẩm nào", status: "fail" });
-        }
+//         if (products.length === 0) {
+//             return res.status(404).json({ message: "Không tìm thấy sản phẩm nào", status: "fail" });
+//         }
 
-        res.status(200).json({ data: products, status: "success" });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
+//         res.status(200).json({ data: products, status: "success" });
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };

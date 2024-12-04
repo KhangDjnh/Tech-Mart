@@ -1,23 +1,22 @@
 const mongoose = require('mongoose');
 
 const ProductSchema = new mongoose.Schema({
-    id_tag: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Tag', 
-        required: true 
-    },
-    brand: {
-        type: String, 
-    },
-    id_shop: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Shop', 
-        required: true 
-    },
+    // id_shop: { 
+    //     type: mongoose.Schema.Types.ObjectId, 
+    //     ref: 'Shop', 
+    //     required: true 
+    // },
     name: { 
         type: String, 
         required: true, 
         trim: true 
+    },
+    category: { 
+        type: String, 
+        enum: ['Smartphone', 'Laptop', 'Monitor'],
+    },
+    brand: {
+        type: String, 
     },
     description: { 
         type: String, 

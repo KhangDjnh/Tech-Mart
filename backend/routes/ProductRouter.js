@@ -13,8 +13,8 @@ const { upload } = require('../utils/cloudinary.js');
 
 const router = express.Router();
 
-router.route('/tags/search')
-    .get(searchProductsByTagName); 
+// router.route('/tags/search')
+//     .get(searchProductsByTagName); 
 
 router.route('/search')
     .get(searchProducts);
