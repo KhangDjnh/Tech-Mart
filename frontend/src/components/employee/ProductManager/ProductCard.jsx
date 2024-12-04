@@ -1,15 +1,16 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import DeleteWarning from "./DeleteWarning";
+import { formatNumber } from "../../../utils/formatNumber.js";
 
 
 function ProductCard({ product }) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const handleEditClick = () => {
-    navigate(`/employee/product/${product.id}`);
+    navigate(`/employee/product/${product._id}`);
   };
 
   const handleDeleteClick = () => {
@@ -18,29 +19,55 @@ function ProductCard({ product }) {
 
   return (
     <div>
-      <div className="w-[240px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
+      <div className="w-[200px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
         <div
           className="relative overflow-hidden rounded-md cursor-pointer m-0"
           onClick={handleEditClick}
+          style={{justifyContent: "center", alignItems: "center", height: "200px"}}
         >
           <img
-            src={product.image}
+            src={product.images[0]}
             alt="Không thể tải ảnh"
-            className="transition-transform duration-300 hover:scale-110"
+            className="transition-transform duration-300 hover:scale-102"
+            style={{objectFit: "contain", height: "100%"}}
           />
         </div>
 
         <div className="mt-4">
           <h3
-            className="text-lg font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0"
+            className="text-lg text-black font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0"
             onClick={handleEditClick}
           >
             {product.name}
           </h3>
-          <div className="text-black-600 text-center">{product.originalPrice}đ</div>
+          <div
+            className="text-center m-0"
+          >
+            Còn lại: <span className="text-black">{product.stock}</span> trong kho
+          </div>
+          {
+            product.price ?
+            <div>
+              <div className="text-center">
+                <span className="text-md line-through p-1">
+                {formatNumber(product.realprice)}đ
+                </span>
+                <span className="text-sm text-white bg-red-500 rounded-md p-1">
+                  - {product.discount}%
+                </span>
+              </div>
+              <div className="text-lg text-center text-black font-medium">
+                {formatNumber(product.price)}đ
+              </div>
+            </div>
+            :
+            <div className="text-lg text-center text-black font-medium">
+              {formatNumber(product.realprice)}đ
+            </div>
+          }
         </div>
 
-        <div className="flex justify-center mt-4 mb-2 m-0">
+        <div className="flex justify-center mt-2 m-0">
           <button
             onClick={handleEditClick}
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"

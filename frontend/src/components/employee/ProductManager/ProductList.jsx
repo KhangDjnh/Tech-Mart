@@ -2,19 +2,25 @@ import { Box } from '@mui/material';
 import './ProductManager.css'
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { productApi } from "../../../../api/productApi";
 
 function ProductList({}){
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
 
-  // change this
-  const products = Array.from({ length: 20 }, (_, index) => ({
-    id: index + 1,
-    image: "https://m.media-amazon.com/images/I/71JqyTBiXrL.jpg",
-    name: `Macbook Pro 13" 2019 TouchBar (MUHN2) - ${index + 1}`,
-    discount: 8,
-    discountPrice: "29.290.000",
-    originalPrice: "31.990.000",
-  }));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await productApi.getProduct();
+        setProducts(res.data.data || []);
+      } catch (e) {
+        console.error('Error fetching product data:', e);
+      }
+    };
+
+    fetchData();
+  }, []);
 
 
   const handleAddClick = () => {
@@ -50,7 +56,7 @@ function ProductList({}){
           }}
           >
           {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
           ))}
           </Box>
         </Box>
