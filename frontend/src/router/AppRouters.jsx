@@ -58,9 +58,7 @@ function AppRouters() {
             <Routes>
                 {/* Shared */}
                 <Route path="/employee" element={
-                    <PrivateRoute roles={['employee', 'manager']}>
-                        <EmployeeHome />
-                    </PrivateRoute>}>
+                    <EmployeeHome />}>
                     <Route index element={<ProductList/>} />
                     <Route path="order" element={<OrderManager />} />
                     <Route path="product" element={<ProductManager/>}>
