@@ -50,7 +50,7 @@ function Home() {
           <Navbar />
           <div className={'mt-20'}></div>
           <Slide  />
-          <Category />
+          {/* <Category /> */}
           {/*<Sale />*/}
           <Content
             priceShow={true}

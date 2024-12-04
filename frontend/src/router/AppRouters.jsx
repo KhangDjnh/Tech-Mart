@@ -104,9 +104,7 @@ function AppRouters() {
                 <Route
                     path="/products/:productID"
                     element={
-                        <PrivateRoute roles={['customer', 'employee', 'manager']}>
-                            <DetailProduct />
-                        </PrivateRoute>
+                        <DetailProduct />
                     }
                 />
                 <Route

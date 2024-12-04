@@ -16,9 +16,9 @@ const conversationRouter = require("./routes/ConversationRouter");
 const messageRouter = require("./routes/MessageRouter");
 const orderRouter = require("./routes/OrderRouter");
 const productRouter = require("./routes/ProductRouter");
-const shopRouter = require("./routes/ShopRouter");
+// const shopRouter = require("./routes/ShopRouter");
 const stripeRouter = require("./routes/StripeRouter");
-const tagRouter = require("./routes/TagRouter");
+// const tagRouter = require("./routes/TagRouter");
 
 require("dotenv").config();
 
@@ -74,8 +74,8 @@ app.use("/api/message", messageRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/product", productRouter);
 app.use("/api/stripe", stripeRouter);
-app.use("/api/shop", shopRouter);
-app.use("/api/tag", tagRouter);
+// app.use("/api/shop", shopRouter);
+// app.use("/api/tag", tagRouter);
 
 
 
