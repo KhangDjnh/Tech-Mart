@@ -14,9 +14,8 @@ const { upload } = require('../utils/cloudinary.js');
 
 const router = express.Router();
 
-router.route("/cart/:id").get(getCart);
-router.route("/:userId/cart/:productId").post(updateUserCart);
-
+// router.route("/cart/:id").get(getCart);
+// router.route("/:userId/cart/:productId").post(updateUserCart);
 
 router
   .route("/")

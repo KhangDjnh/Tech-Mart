@@ -19,6 +19,9 @@ const UserSchema = new mongoose.Schema({
         type: String, 
         required: true
     },
+    fullname: {
+        type: String,
+    },
     address: { 
         type: String, 
     },
@@ -32,7 +35,7 @@ const UserSchema = new mongoose.Schema({
     role: { 
         type: [String], 
         enum: ['customer', 'employee', 'manager'], 
-        default: ['customer', 'employee']  
+        default: ['customer']  
     },
     profilePic: { 
         type: String 
@@ -40,12 +43,12 @@ const UserSchema = new mongoose.Schema({
     coverPic: { 
         type: String 
     },
-    id_following: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Shop' 
-    }],
-    customers: [{ type: mongoose.Schema.Types.Object, ref: "User" }],
-    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
+    // id_following: [{ 
+    //     type: mongoose.Schema.Types.ObjectId, 
+    //     ref: 'Shop' 
+    // }],
+    // customers: [{ type: mongoose.Schema.Types.Object, ref: "User" }],
+    // cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);

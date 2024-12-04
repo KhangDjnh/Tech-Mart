@@ -39,6 +39,7 @@ exports.loginUser = async (req, res) => {
                 username: userInDB.username,
                 email: userInDB.email,
                 phonenumber: userInDB.phonenumber,
+                fullname: userInDB.fullname,
                 address: userInDB.address,
                 gender: userInDB.gender,
                 birthday: userInDB.birthday,

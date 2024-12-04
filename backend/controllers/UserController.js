@@ -4,7 +4,7 @@ const User = require('../models/user');
 const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
-  const { username, email, password, phonenumber, address, gender, birthday, role } = req.body;
+  const { username, email, password, phonenumber, fullname, address, gender, birthday, role } = req.body;
 
   try {
     if (!req.body || !req.body.email) {
@@ -27,7 +27,7 @@ exports.createUser = async (req, res) => {
       req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
     }
 
-    req.body.cart = req.body.cart || [];
+    //req.body.cart = req.body.cart || [];
 
     const user = await userService.createUser(req.body);
     res.status(200).json({ data: user, status: "success" });
@@ -56,7 +56,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { username, email, password, phonenumber, address, gender, birthday, role, id_shop, cart } = req.body;
+    const { username, email, password, phonenumber, fullname, address, gender, birthday, role } = req.body;
 
     let user = await userService.getUserById(req.params.id);
 
@@ -82,20 +82,20 @@ exports.updateUser = async (req, res) => {
       req.body.password = hashPassword;
     }
 
-    if (id_shop) {
-      // Kiểm tra nếu id_shop chưa có trong mảng id_following
-      if (!user.id_following.includes(id_shop)) {
-        user.id_following.push(id_shop); // Thêm id_shop vào mảng nếu chưa có
-      } else {
-        // Nếu id_shop đã có trong mảng, loại bỏ nó khỏi mảng
-        user.id_following = user.id_following.filter(shopId => shopId.toString() !== id_shop);
-      }
-    }
+    // if (id_shop) {
+    //   // Kiểm tra nếu id_shop chưa có trong mảng id_following
+    //   if (!user.id_following.includes(id_shop)) {
+    //     user.id_following.push(id_shop); // Thêm id_shop vào mảng nếu chưa có
+    //   } else {
+    //     // Nếu id_shop đã có trong mảng, loại bỏ nó khỏi mảng
+    //     user.id_following = user.id_following.filter(shopId => shopId.toString() !== id_shop);
+    //   }
+    // }
 
-    // Xử lý cart
-    if (cart && Array.isArray(cart)) {
-      req.body.cart = await userService.updateCart(user.cart, cart);
-    }
+    // // Xử lý cart
+    // if (cart && Array.isArray(cart)) {
+    //   req.body.cart = await userService.updateCart(user.cart, cart);
+    // }
 
     // Cập nhật thông tin người dùng vào cơ sở dữ liệu
     const updatedUser = await userService.updateUser(req.params.id, req.body, { new: true });
@@ -135,33 +135,33 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.updateUserCart = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const productId = req.params.productId;
+// exports.updateUserCart = async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const productId = req.params.productId;
 
-    const user = await userService.getUserById(userId);
-    if (!user.cart) {
-      user.cart = [];
-    }
-    const isProductInUserCart = user.cart.includes(productId);
+//     const user = await userService.getUserById(userId);
+//     if (!user.cart) {
+//       user.cart = [];
+//     }
+//     const isProductInUserCart = user.cart.includes(productId);
 
-    if (isProductInUserCart) {
-      return res
-        .status(409)
-        .json({ error: "The product already exists in your cart." });
-    }
+//     if (isProductInUserCart) {
+//       return res
+//         .status(409)
+//         .json({ error: "The product already exists in your cart." });
+//     }
 
-    user.cart = [...user.cart, productId];
+//     user.cart = [...user.cart, productId];
 
-    await user.save();
+//     await user.save();
 
-    res.json(user);
-  } catch (err) {
-    //console.error("Error updating user cart:", err);
-    res.status(500).json({ error: err.message });
-  }
-};
+//     res.json(user);
+//   } catch (err) {
+//     //console.error("Error updating user cart:", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 
 
 exports.createAdminUser = async () => {
@@ -174,6 +174,7 @@ exports.createAdminUser = async () => {
 
       const newAdmin = new User({
         username: 'admin',
+        fullname: 'Admin',
         password: hashedPassword,
         email: 'admin@example.com', // Email mặc định cho admin
         phonenumber: '0123456789',  // Số điện thoại mặc định
@@ -192,18 +193,18 @@ exports.createAdminUser = async () => {
   }
 };
 
-exports.getCart = async (req, res) => {
-  try {
-    const user = await userService.getUserById(req.params.id);
+// exports.getCart = async (req, res) => {
+//   try {
+//     const user = await userService.getUserById(req.params.id);
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
 
-    const cart = await userService.getCartByUserId(user);
+//     const cart = await userService.getCartByUserId(user);
 
-    res.status(200).json({ data: cart, status: 'success' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+//     res.status(200).json({ data: cart, status: 'success' });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
