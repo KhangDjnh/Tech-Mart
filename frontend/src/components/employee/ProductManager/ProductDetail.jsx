@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import "./ProductManager.css"
 import { useEffect, useState } from "react";
 import { productApi } from "../../../../api/productApi";
-// shop_id: 6748e785cfcb764cadcb1da7
+
 function ProductDetail(){
   const [images, setImages] = useState([]);
   const [product, setProduct] = useState(null)
@@ -16,6 +16,7 @@ function ProductDetail(){
         try {
           const res = await productApi.getProductById(param.id);
           setProduct(res.data.data);
+          setImages(res.data.data.images);
         } catch (e) {
           console.error('Error fetching product data:', e);
         }
@@ -25,13 +26,35 @@ function ProductDetail(){
     fetchData();
   }, [param.id]);
 
-  const createProduct = async () => {
-    const data = {};
-    let response;
+  const createAndEditProduct = async () => {
+    const formData = new FormData();
+    
+    // Add the product details to formData
+    formData.append("name", product?.name || "");
+    formData.append("brand", product?.brand || "");
+    formData.append("id_tag", product?.id_tag || "");
+    formData.append("realprice", product?.realprice || "");
+    formData.append("discount", product?.discount || "");
+    formData.append("stock", product?.stock || "");
+    formData.append("description", product?.description || "");
+    formData.append("id_shop", "6748e785cfcb764cadcb1da7");
+
+    if (images.length > 0) {
+      images.forEach((image, index) => {
+        formData.append("images", image);
+      });
+    }
+
     try {
-      response = await productApi.createProduct(data);
-    } catch(e) {
-      console.log(e);
+      if(isNew){
+        const response = await productApi.createProduct(formData);
+      }else{
+        const response = await productApi.updateProduct(formData, param.id)
+      }
+      console.log("Product created or edited successfully:", response);
+      // Handle the response if needed (e.g., redirect, success message, etc.)
+    } catch (e) {
+      console.error("Error creating product:", e);
     }
   }
   
@@ -48,7 +71,7 @@ function ProductDetail(){
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    //Do something
+    createAndEditProduct();
   }
 
   return(
@@ -73,7 +96,6 @@ function ProductDetail(){
               </div>)}
             <input type="file" name="image"
               accept="image/*" multiple
-              value={product?.images || []}
               onChange={(e) => {handleImageChange(e);}}
             /> <br />
           </div>
@@ -86,7 +108,7 @@ function ProductDetail(){
               placeholder="Nhập tên thương hiệu"/> <br />
             <label>Danh mục: </label> <br />
             <select name="id_tag" value={product?.id_tag || ""} onChange={handleInputChange} required>
-              <option value="" disabled selected>--Chọn danh mục--</option>
+              <option value="" disabled>--Chọn danh mục--</option>
               <option value="67444bf8747eab1bcf23866c">Laptop</option>
               <option value="674f5de949654035023e9389">Smart Phone</option>
               <option value="674f3357bbca38b13749be05">Màn hình</option>
@@ -96,7 +118,7 @@ function ProductDetail(){
             <input type="number" name="realprice" min="1"
              value={product?.realprice || ""} onChange={handleInputChange} required
               placeholder="Nhập giá (VNĐ)"/> <br />
-            <label>Giámr giá: </label> <br />
+            <label>Giảm giá: </label> <br />
             <input type="number" name="discount" min="1" max="100"
              value={product?.discount || ""} onChange={handleInputChange}
               placeholder="Số từ 1 đến 100 (%)"/> <br />
@@ -110,7 +132,7 @@ function ProductDetail(){
              value={product?.description || ""} onChange={handleInputChange}
               placeholder="Nhập thông tin chi tiết"
             /> <br />
-            <button type="submit"
+            <button type="submit" 
               className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"
             >{isNew ? "Thêm": "Sửa"}</button>
           </div>

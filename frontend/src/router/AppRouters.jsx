@@ -57,7 +57,10 @@ function AppRouters() {
             <ScrollToTop />
             <Routes>
                 {/* Shared */}
-                <Route path="/employee" element={<EmployeeHome />}>
+                <Route path="/employee" element={
+                    <PrivateRoute roles={['employee', 'manager']}>
+                        <EmployeeHome />
+                    </PrivateRoute>}>
                     <Route index element={<ProductList/>} />
                     <Route path="order" element={<OrderManager />} />
                     <Route path="product" element={<ProductManager/>}>
@@ -101,19 +104,17 @@ function AppRouters() {
                 <Route
                     path="/products/:productID"
                     element={
-                        <DetailProduct />
-                        // <PrivateRoute roles={['customer', 'employee', 'manager']}>
-                        //     <DetailProduct />
-                        // </PrivateRoute>
+                        <PrivateRoute roles={['customer', 'employee', 'manager']}>
+                            <DetailProduct />
+                        </PrivateRoute>
                     }
                 />
                 <Route
                     path="/cart"
                     element={
-                        <ShoppingCart />
-                        // <PrivateRoute roles={['customer']}>
-                        //     <ShoppingCart />
-                        // </PrivateRoute>
+                        <PrivateRoute roles={['customer']}>
+                            <ShoppingCart />
+                        </PrivateRoute>
                     }
                 />
 

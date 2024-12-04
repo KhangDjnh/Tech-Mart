@@ -138,6 +138,12 @@ function Navbar({ userDetails }) {
                 >
                     TECH MART
                 </a>
+                <a
+                    href={"/employee"}
+                    className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
+                >
+                    SELLER SIDE
+                </a>
 
                 <div className=" ml-[160px] flex items-center max-lg:hidden ">
                     <div

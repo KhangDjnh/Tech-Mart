@@ -1,14 +1,18 @@
+import { productApi } from "../../../../api/productApi";
 
 function DeleteWarning({ product, showModal, setShowModal }){
   const handleCancel = () => {
     setShowModal(false);
   };
 
-
-  // change this
-  const handleConfirm = () => {
-    // Delete logic here
-    setShowModal(false);
+  const handleConfirm = async () => {
+    try {
+      const response = await productApi.deleteProduct(product._id);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    } finally {
+      setShowModal(false);
+    }
   };
 
   return (
