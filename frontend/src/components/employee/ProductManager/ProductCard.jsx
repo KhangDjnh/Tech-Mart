@@ -6,7 +6,7 @@ import DeleteWarning from "./DeleteWarning";
 import { formatNumber } from "../../../utils/formatNumber.js";
 
 
-function ProductCard({ product }) {
+function ProductCard({ product, callback }) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const handleEditClick = () => {
@@ -90,7 +90,7 @@ function ProductCard({ product }) {
         </div>
       </div>
       <div>
-        <DeleteWarning product={product} showModal={showModal} setShowModal={setShowModal}/>
+        <DeleteWarning product={product} showModal={showModal} setShowModal={setShowModal} callback={callback}/>
       </div>
     </div>
   );

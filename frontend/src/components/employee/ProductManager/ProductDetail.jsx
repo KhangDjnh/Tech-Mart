@@ -1,5 +1,5 @@
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./ProductManager.css"
 import { useEffect, useState } from "react";
 import { productApi } from "../../../../api/productApi";
@@ -7,6 +7,7 @@ import { productApi } from "../../../../api/productApi";
 function ProductDetail(){
   const [images, setImages] = useState([]);
   const [product, setProduct] = useState(null)
+  const navigate = useNavigate();
   const param = useParams();
   const isNew = !param.id;
 
@@ -48,10 +49,13 @@ function ProductDetail(){
     try {
       if(isNew){
         const response = await productApi.createProduct(formData);
+        console.log("Product created successfully:", response);
+        
       }else{
-        const response = await productApi.updateProduct(formData, param.id)
+        const response = await productApi.updateProduct(formData, param.id);
+        console.log("Product edited successfully:", response);
       }
-      console.log("Product created or edited successfully:", response);
+      navigate(`/employee/product`);
       // Handle the response if needed (e.g., redirect, success message, etc.)
     } catch (e) {
       console.error("Error creating product:", e);

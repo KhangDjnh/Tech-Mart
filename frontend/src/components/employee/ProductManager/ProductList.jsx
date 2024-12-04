@@ -9,19 +9,19 @@ function ProductList({}){
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await productApi.getProduct();
-        setProducts(res.data.data || []);
-      } catch (e) {
-        console.error('Error fetching product data:', e);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const res = await productApi.getProduct();
+      setProducts(res.data.data || []);
+    } catch (e) {
+      console.error('Error fetching product data:', e);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
-
+  
 
   const handleAddClick = () => {
     navigate("/employee/product/new");
@@ -56,7 +56,7 @@ function ProductList({}){
           }}
           >
           {products.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <ProductCard key={product._id} product={product} callback={fetchData} />
           ))}
           </Box>
         </Box>

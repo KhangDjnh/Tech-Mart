@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import { productApi } from "../../../../api/productApi";
 
-function DeleteWarning({ product, showModal, setShowModal }){
+function DeleteWarning({ product, showModal, setShowModal, callback }){
   const handleCancel = () => {
     setShowModal(false);
   };
@@ -12,6 +13,7 @@ function DeleteWarning({ product, showModal, setShowModal }){
       console.error("Error deleting product:", error);
     } finally {
       setShowModal(false);
+      callback();
     }
   };
 
