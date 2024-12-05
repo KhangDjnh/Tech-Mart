@@ -1,75 +1,73 @@
 const Order = require("../models/order.js");
-const User = require("../models/user.js");
 const Product = require('../models/product'); // Đảm bảo rằng bạn đã import model Product
+const Cart = require("../models/cart.js");
 
 exports.createOrder = async (order) => {
-  const { id_user, id_product, status, address } = order;
+    const { id_user, id_product, status, address } = order;
 
-  // Khởi tạo đơn hàng mới với total_price mặc định là 0
-  const newOrder = new Order({
-    id_user,
-    id_product: id_product || [], // Nếu không có sản phẩm, khởi tạo mảng rỗng
-    total_price: 0,
-    status,
-    address,
-  });
-
-  // Tính tổng giá trị đơn hàng nếu có sản phẩm
-  if (newOrder.id_product.length > 0) {
-    let totalPrice = 0;
-    const insufficientStockProducts = [];
-
-    for (const item of newOrder.id_product) {
-      const product = await Product.findById(item.product); // Tìm product bằng ID
-      
-      if (!product) {
-        throw new Error(`Product with ID ${item.product} not found.`);
-      }
-
-      const { price, stock } = product; // Lấy giá và stock của sản phẩm
-      const quantity = item.quantity;
-
-      if (stock < quantity) {
-        insufficientStockProducts.push(product.name);
-      } else {
-        // Tính tổng giá trị khi stock hợp lệ
-        totalPrice += price * quantity;
-      }
-    }
-
-    // Nếu có sản phẩm hết hàng, trả về thông báo lỗi
-    if (insufficientStockProducts.length > 0) {
-      throw new Error(`Insufficient stock for products: ${insufficientStockProducts.join(", ")}`);
-    }
-
-    // Nếu đủ stock, tiến hành trừ stock và cập nhật
-    for (const item of newOrder.id_product) {
-      const product = await Product.findById(item.product);
-      product.stock -= item.quantity; // Trừ stock
-      await product.save(); // Lưu lại thay đổi
-    }
-
-    // Cập nhật total_price
-    newOrder.total_price = totalPrice;
-
-    // Cập nhật giỏ hàng của người dùng
-    const user = await User.findById(id_user);
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    user.cart = user.cart.filter(cartItem => {
-      const orderedItem = id_product.find(orderItem => orderItem.product.toString() === cartItem.product.toString());
-      return !orderedItem; // Loại bỏ sản phẩm đã đặt hàng khỏi cart
+    // Khởi tạo đơn hàng mới với total_price mặc định là 0
+    const newOrder = new Order({
+        id_user,
+        id_product: id_product || [], // Nếu không có sản phẩm, khởi tạo mảng rỗng
+        total_price: 0,
+        status,
+        address,
     });
 
-    await user.save(); // Lưu thay đổi giỏ hàng
-  }
+    // Tính tổng giá trị đơn hàng nếu có sản phẩm
+    if (newOrder.id_product.length > 0) {
+        let totalPrice = 0;
+        const insufficientStockProducts = [];
 
-  return await newOrder.save(); // Lưu và trả về đơn hàng
+        for (const item of newOrder.id_product) {
+            const product = await Product.findById(item.product); // Tìm product bằng ID
+            
+            if (!product) {
+                throw new Error(`Product with ID ${item.product} not found.`);
+            }
+
+            const { price, stock } = product; // Lấy giá và stock của sản phẩm
+            const quantity = item.quantity;
+
+            if (stock < quantity) {
+                insufficientStockProducts.push(product.name);
+            } else {
+                // Tính tổng giá trị khi stock hợp lệ
+                totalPrice += price * quantity;
+            }
+        }
+
+        // Nếu có sản phẩm hết hàng, trả về thông báo lỗi
+        if (insufficientStockProducts.length > 0) {
+            throw new Error(`Insufficient stock for products: ${insufficientStockProducts.join(", ")}`);
+        }
+
+        // Nếu đủ stock, tiến hành trừ stock và cập nhật
+        for (const item of newOrder.id_product) {
+            const product = await Product.findById(item.product);
+            product.stock -= item.quantity; // Trừ stock
+            await product.save(); // Lưu lại thay đổi
+        }
+
+        // Cập nhật total_price
+        newOrder.total_price = totalPrice;
+
+        // Cập nhật giỏ hàng dựa trên userId
+        const cart = await Cart.findOne({ id_user });
+        if (!cart) {
+            throw new Error("Cart not found for the user.");
+        }
+
+        cart.cart = cart.cart.filter(cartItem => {
+            const orderedItem = id_product.find(orderItem => orderItem.product.toString() === cartItem.product_id.toString());
+            return !orderedItem; // Loại bỏ sản phẩm đã đặt hàng khỏi cart
+        });
+
+        await cart.save(); // Lưu thay đổi giỏ hàng
+    }
+
+    return await newOrder.save(); // Lưu và trả về đơn hàng
 };
-
-
 
 exports.getAllOrders = async () => {
   return await Order.find();
@@ -109,8 +107,6 @@ exports.updateOrder = async (id, orderData) => {
 
   return updatedOrder;
 };
-
-
 
 exports.deleteOrder = async (id) => {
   const deletedOrder = await Order.findByIdAndDelete(id);
