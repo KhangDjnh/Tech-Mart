@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const ConversationSchema = new mongoose.Schema({
-    id_user: { 
+    participants: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',  // Tham chiếu đến model User 
-        required: true 
-    },
-    
-    id_shop: {
+        required: true,
+        unique: true
+    }],
+    lastMessage: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Shop'  // Tham chiếu đến Shop
+        ref: 'Message' 
     }
 }, { timestamps: true }); 
 

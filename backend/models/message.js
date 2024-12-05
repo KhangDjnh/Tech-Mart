@@ -6,26 +6,22 @@ const MessageSchema = new mongoose.Schema({
         ref: 'Conversation', 
         required: true 
     },
+    sender: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true 
+    }, 
+    receiver: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true 
+    }, 
     content: {
         type: String,
     },
     messImages:[{
         type: String,
     }],
-    id_user: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',  // Người dùng gửi tin nhắn
-        required: function() {
-            return !this.id_shop;  // Bắt buộc nếu không có id_shop
-        }
-    },
-    id_shop: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Shop',  // Cửa hàng gửi tin nhắn
-        required: function() {
-            return !this.id_user;  // Bắt buộc nếu không có id_user
-        }
-    },
     read: {
         type: Boolean, 
         default: false 
