@@ -15,8 +15,8 @@ router.route('/')
     .post(createCart); 
 
 router.route('/:id')
-    .get(isCustomer, getCartById) 
-    .put(isCustomer, updateCart)  
-    .delete(isCustomer, deleteCart); 
+    .get(getCartById) 
+    .put(updateCart)  
+    .delete(deleteCart); 
 
 module.exports = router;

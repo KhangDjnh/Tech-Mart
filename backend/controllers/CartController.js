@@ -1,4 +1,5 @@
 const cartService = require("../Services/CartService");
+const userService = require("../Services/UserService");
 
 exports.createCart = async (req, res) => {
   try {
@@ -33,19 +34,30 @@ exports.getAllCarts = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
   try {
-    const { id_product } = req.body;  // Chỉ cập nhật mảng id_product
-    const cart = await cartService.getCartById(req.params.id);
+      const userId = req.params.id; // Lấy user_id từ params
 
-    if (!cart) {
-      return res.status(404).json({ error: 'Cart not found' });
-    }
+      // Kiểm tra userId hợp lệ bằng userService
+      const user = await userService.getUserById(userId);
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
+      }
 
-    const updatedCart = await cartService.updateCart(req.params.id, { id_product });
-    res.status(200).json({ data: updatedCart, status: "success" });
+      const cartData = req.body; // Lấy cartData từ body
+
+      if (!cartData || !Array.isArray(cartData)) {
+          return res.status(400).json({ error: "Cart data must be a valid array." });
+      }
+
+      // Cập nhật cart dựa trên userId và cartData
+      const updatedCart = await cartService.updateCart(userId, cartData);
+
+      // Trả về phản hồi với giỏ hàng đã cập nhật
+      res.status(200).json({ data: updatedCart, status: "success" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
   }
 };
+
 
 exports.deleteCart = async (req, res) => {
   try {
@@ -61,3 +73,5 @@ exports.deleteCart = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+

@@ -6,8 +6,8 @@ const CartSchema = new mongoose.Schema({
         ref: 'User',  // Tham chiếu đến model User (chủ sở hữu cart)
         required: true 
     },
-    id_product: [{ 
-        product: {
+    cart: [{ 
+        product_id: {
             type: mongoose.Schema.Types.ObjectId, 
             ref: 'Product',  // Tham chiếu đến model Product (sản phẩm trong giỏ hàng)
             required: true 
