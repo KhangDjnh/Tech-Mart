@@ -66,3 +66,12 @@ exports.searchProductsByKeyword = async (keyword) => {
 
 //     return await Product.find({ id_tag: tag._id }); // Tìm sản phẩm theo `id_tag`
 // };
+
+exports.updateProductRating = async (id_product, newRating) => {
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(id_product, { rating: newRating }, { new: true });
+        return updatedProduct;
+    } catch (err) {
+        throw new Error("Không thể cập nhật rating của sản phẩm: " + err.message);
+    }
+};

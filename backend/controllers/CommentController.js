@@ -60,3 +60,13 @@ exports.deleteComment = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getCommentsByProductId = async (req, res) => {
+    try {
+        const { id_product } = req.params;
+        const comments = await commentService.getCommentsByProductId(id_product);
+        res.status(200).json({ data: comments, status: "success" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

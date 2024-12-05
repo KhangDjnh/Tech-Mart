@@ -6,7 +6,9 @@ const {
     updateProduct,
     deleteProduct,
     searchProducts,
-    searchProductsByTagName
+    searchProductsByTagName,
+    getProductWithComments,
+    updateProductRating
 } = require('../controllers/ProductController');
 const { isManager, isCustomer, isEmployee } = require('../middleware/auth');
 const { upload } = require('../utils/cloudinary.js');
@@ -28,4 +30,7 @@ router.route('/:id')
     .put(isEmployee, upload.array('images', 10), updateProduct)  
     .delete(isEmployee, deleteProduct); 
 
+router.get("/comment/:id_product", getProductWithComments)
+    .put("/:id_product/rating", updateProductRating); 
+    
 module.exports = router;

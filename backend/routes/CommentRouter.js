@@ -4,7 +4,8 @@ const {
     getCommentById,
     createComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    getCommentsByProductId
 } = require('../controllers/CommentController');
 const { isCustomer, isManager } = require('../middleware/auth');
 
@@ -19,5 +20,7 @@ router.route('/:id')
     .get(isCustomer, getCommentById) 
     .put(isCustomer, updateComment) 
     .delete(isCustomer, deleteComment); 
+
+router.get("/product/:id_product", getCommentsByProductId);
 
 module.exports = router;

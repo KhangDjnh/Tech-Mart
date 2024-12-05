@@ -1,5 +1,5 @@
 const productService = require("../Services/ProductService");
-const imageService = require("../Services/ImageService");
+const commentService = require("../Services/CommentService");
 
 exports.createProduct = async (req, res) => {
     try {
@@ -134,3 +134,48 @@ exports.searchProducts = async (req, res) => {
 //         res.status(500).json({ error: err.message });
 //     }
 // };
+
+exports.getProductWithComments = async (req, res) => {
+    try {
+        const { id_product } = req.params;
+
+        // Lấy thông tin sản phẩm
+        const product = await productService.getProductById(id_product);
+        if (!product) {
+            return res.status(404).json({ error: "Sản phẩm không tồn tại" });
+        }
+
+        // Lấy tất cả comment của sản phẩm
+        const comments = await commentService.getCommentsByProductId(id_product);
+
+        // Trả về cả sản phẩm và các comment
+        res.status(200).json({ product, comments, status: "success" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Cập nhật rating cho sản phẩm
+exports.updateProductRating = async (req, res) => {
+    try {
+        const { id_product } = req.params;
+
+        // Lấy tất cả comment của sản phẩm
+        const comments = await commentService.getCommentsByProductId(id_product);
+
+        if (comments.length === 0) {
+            return res.status(404).json({ error: "Không có comment cho sản phẩm này" });
+        }
+
+        // Tính toán rating trung bình của sản phẩm
+        const totalRating = comments.reduce((sum, comment) => sum + comment.rating, 0);
+        const averageRating = totalRating / comments.length;
+
+        // Cập nhật rating của sản phẩm
+        const updatedProduct = await productService.updateProductRating(id_product, averageRating);
+
+        res.status(200).json({ data: updatedProduct, status: "success" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

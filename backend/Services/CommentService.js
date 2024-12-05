@@ -36,3 +36,12 @@ exports.deleteComment = async (id) => {
   const deletedComment = await Comment.findByIdAndDelete(id);
   return deletedComment;
 };
+
+exports.getCommentsByProductId = async (id_product) => {
+  try {
+      const comments = await Comment.find({ id_product: id_product }); 
+      return comments;
+  } catch (err) {
+      throw new Error("Không thể lấy comment: " + err.message);
+  }
+};
