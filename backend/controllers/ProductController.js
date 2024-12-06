@@ -61,12 +61,17 @@ exports.updateProduct = async (req, res) => {
         const files = req.files;
         // Xử lý upload ảnh
         let uploadedImages = [];
+        // Nếu có ảnh mới, upload chúng
         if (files && files.length > 0) {
             for (const file of files) {
-               console.log(file.path); // TODO: Remove, for debug only
-               uploadedImages.push(file.path); // Lưu thông tin các ảnh đã upload
+                console.log(file.path); // Debug, xóa khi không cần
+                uploadedImages.push(file.path); // Lưu đường dẫn ảnh mới đã upload
             }
+        } else {
+            // Nếu không có ảnh mới, giữ ảnh cũ từ sản phẩm hiện tại
+            uploadedImages = product.images;  // Lấy ảnh cũ từ sản phẩm
         }
+
 
         const updatedData = {
             category,
