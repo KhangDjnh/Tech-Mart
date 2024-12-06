@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./ProductManager.css"
 import { useEffect, useState } from "react";
 import { productApi } from "../../../../api/productApi";
+import axios from "axios";
 
 function ProductDetail(){
   const [images, setImages] = useState([]);
@@ -10,7 +11,7 @@ function ProductDetail(){
   const navigate = useNavigate();
   const param = useParams();
   const isNew = !param.id;
-
+  
   useEffect(() => {
     const fetchData = async () => {
       if(param.id){
@@ -27,10 +28,12 @@ function ProductDetail(){
     fetchData();
   }, [param.id]);
 
+  useEffect(() => {
+    console.log("Images updated:", images);
+  }, [images]);
+
   const createAndEditProduct = async () => {
     const formData = new FormData();
-    
-    // Add the product details to formData
     formData.append("name", product?.name || "");
     formData.append("brand", product?.brand || "");
     formData.append("category", product?.category || "");
@@ -39,12 +42,16 @@ function ProductDetail(){
     formData.append("stock", product?.stock || "");
     formData.append("description", product?.description || "");
     // formData.append("id_shop", "6748e785cfcb764cadcb1da7");
-
+    console.log(images);
     if (images.length > 0) {
       images.forEach((image) => {
         formData.append("images", image);
       });
     }
+
+    // for (const pair of formData.entries()) {
+    //   if(pair[0] == "images") console.log(`FormData entries: ${pair[0]}, ${pair[1]}`);
+    // }
 
     try {
       if(isNew){
@@ -54,16 +61,40 @@ function ProductDetail(){
         const response = await productApi.updateProduct(formData, param.id);
         console.log("Product edited successfully:", response);
       }
-      navigate(`/employee/product`);
+      navigate("/employee/product");
     } catch (e) {
       if(isNew) console.error("Error creating product:", e);
       else console.error("Error editing product:", e);
     }
   }
   
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
-    setImages(files);
+
+  const uploadImageToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "befrjyrf");
+    formData.append("folder", "TechMart-Product")
+
+    try {
+      const response = await axios.post("https://api.cloudinary.com/v1_1/djhnuocm0/image/upload", formData);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error("Error uploading image to Cloudinary:", error);
+      return null;
+    }
+  };
+
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+    const uploadedImageUrls = [];
+
+    for (const file of files) {
+      const url = await uploadImageToCloudinary(file);
+      if (url) {
+        uploadedImageUrls.push(url);
+      }
+    }
+    setImages(uploadedImageUrls);
   };
   const handleInputChange = (e) => {
     const {name, value} = e.target;
@@ -120,8 +151,8 @@ function ProductDetail(){
             <label>Hình ảnh: </label> <br />
             {images.length > 0 && (
               <div className="imagesContainer">
-                {Array.from(images).map((image) => (
-                  <img src={image} className="imageP"/>
+                {Array.from(images).map((image, index) => (
+                  <img src={image} key={index} className="imageP"/>
                 ))}
               </div>)}
             <input type="file" name="images" style={{marginBottom: "10px"}}

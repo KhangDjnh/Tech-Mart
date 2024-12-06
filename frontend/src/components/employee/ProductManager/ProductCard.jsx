@@ -10,6 +10,7 @@ function ProductCard({ product, callback }) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const handleEditClick = () => {
+    console.log(product);
     navigate(`/employee/product/${product._id}`);
   };
 
