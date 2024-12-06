@@ -69,10 +69,14 @@ exports.updateUser = async (req, res) => {
     // Xử lý hình ảnh nếu có
     if (req.files && req.files.profilePic) {
       req.body.profilePic = req.files.profilePic[0].path;  // Lấy URL ảnh từ file tải lên
+    } else {
+      req.body.profilePic = user.profilePic;
     }
 
     if (req.files && req.files.coverPic) {
       req.body.coverPic = req.files.coverPic[0].path;  // Lấy URL ảnh từ file tải lên
+    } else {
+      req.body.coverPic = user.coverPic;
     }
 
     // Hash mật khẩu nếu có cập nhật
