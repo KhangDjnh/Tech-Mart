@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import { productApi } from "../../../../api/productApi";
 
 function DeleteWarning({ product, showModal, setShowModal, callback }){

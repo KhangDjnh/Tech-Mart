@@ -19,34 +19,36 @@ function ProductCard({ product, callback }) {
 
   return (
     <div>
-      <div className="w-[200px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
+      <div className="flex flex-col w-[200px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
         <div
-          className="relative overflow-hidden rounded-md cursor-pointer m-0"
+          className="justify-center items-center relative w-full overflow-hidden rounded-md cursor-pointer m-0"
           onClick={handleEditClick}
-          style={{justifyContent: "center", alignItems: "center", height: "200px"}}
+          style={{height: "200px"}}
         >
           <img
             src={product.images[0]}
             alt="Không thể tải ảnh"
-            className="transition-transform duration-300 hover:scale-102"
-            style={{objectFit: "contain", height: "100%"}}
+            className="w-full h-full transition-transform duration-300 hover:scale-102"
+            style={{objectFit: "contain"}}
           />
         </div>
 
-        <div className="mt-4">
+        <div className="flex justify-center items-center px-4 mt-4" style={{height: "84px"}}>
           <h3
             className="text-lg text-black font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0"
             onClick={handleEditClick}
           >
             {product.name}
           </h3>
-          <div
-            className="text-center m-0"
-          >
-            Còn lại: <span className="text-black">{product.stock}</span> trong kho
-          </div>
+        </div>
+        <div className="flex justify-center"
+          style={{marginTop: "auto"}}>
+          Còn lại:&nbsp;<span className="text-black">{product.stock}</span>&nbsp;trong kho
+        </div>
+        <div className="flex justify-center"
+          style={{alignItems: "center", height: "60px"}}>
           {
-            product.price ?
+            product.discount ?
             <div>
               <div className="text-center">
                 <span className="text-md line-through p-1">
@@ -67,7 +69,7 @@ function ProductCard({ product, callback }) {
           }
         </div>
 
-        <div className="flex justify-center mt-2 m-0">
+        <div className="flex justify-center mb-2 mt-1">
           <button
             onClick={handleEditClick}
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"

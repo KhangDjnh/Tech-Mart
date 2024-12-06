@@ -45,7 +45,7 @@ function ProductList({}){
           sx={{
           flex: 1,
           padding: "0px 0",
-          margin: "10px 50px",
+          margin: "10px 25px",
           }}
         >
           <Box

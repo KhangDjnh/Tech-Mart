@@ -34,7 +34,8 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.textSide > input[type="text"], input[type="number"], textarea, select{
+.productForm input[type="text"], .productForm input[type="number"], 
+.productForm textarea, .productForm select{
     width: 100%;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -51,9 +52,32 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 1rem 1rem;
     color: black;
 }
-.imageSide{
+.leftSide{
     width: 40%;
+    padding: 0 1rem;
 }
-.textSide{
+.rightSide{
     width: 60%;
+    padding: 0 1rem;
+}
+
+.imagesContainer{
+    margin: 5px 0;
+    padding: 0px 16px 15px 16px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 220px;
+    gap: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.imagesContainer > .imageP{
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+
 }
