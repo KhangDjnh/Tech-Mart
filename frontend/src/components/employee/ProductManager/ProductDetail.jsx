@@ -1,13 +1,15 @@
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import "./ProductManager.css"
 import { useEffect, useState } from "react";
 import { productApi } from "../../../../api/productApi";
+import { Breadcrumbs} from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import axios from "axios";
 
 function ProductDetail(){
   const [images, setImages] = useState([]);
-  const [product, setProduct] = useState(null)
+  const [product, setProduct] = useState(null);
   const navigate = useNavigate();
   const param = useParams();
   const isNew = !param.id;
@@ -28,10 +30,6 @@ function ProductDetail(){
     fetchData();
   }, [param.id]);
 
-  useEffect(() => {
-    console.log("Images updated:", images);
-  }, [images]);
-
   const createAndEditProduct = async () => {
     const formData = new FormData();
     formData.append("name", product?.name || "");
@@ -42,16 +40,12 @@ function ProductDetail(){
     formData.append("stock", product?.stock || "");
     formData.append("description", product?.description || "");
     // formData.append("id_shop", "6748e785cfcb764cadcb1da7");
-    console.log(images);
+
     if (images.length > 0) {
       images.forEach((image) => {
         formData.append("images", image);
       });
     }
-
-    // for (const pair of formData.entries()) {
-    //   if(pair[0] == "images") console.log(`FormData entries: ${pair[0]}, ${pair[1]}`);
-    // }
 
     try {
       if(isNew){
@@ -67,7 +61,7 @@ function ProductDetail(){
       else console.error("Error editing product:", e);
     }
   }
-  
+
 
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
@@ -83,7 +77,6 @@ function ProductDetail(){
       return null;
     }
   };
-
   const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
     const uploadedImageUrls = [];
@@ -112,7 +105,21 @@ function ProductDetail(){
   return(
     <div> 
       <div className="headerInProductManager">
-        {isNew ? "Thêm sản phẩm mới" : "Chỉnh sửa sản phẩm"}
+        <Breadcrumbs maxItems={3} separator={<NavigateNextIcon fontSize="large"/>}
+          aria-label="breadcrumb" className="cursor-pointer">
+          <Link className="hover:underline" color="inherit" to="/employee/product">
+              <div className="items-center">
+                  <div style={{fontSize: "25px", fontWeight: "bold", color: "#A6ADC1"}}>
+                    Sản phẩm
+                  </div>
+              </div>
+          </Link>
+          <div color="text.primary" className="line-clamp-1 w-[300px]"
+            style={{fontSize: "25px", fontWeight: "bold", color: "gray"}}
+          >
+            {isNew ? "Thêm sản phẩm mới" : "Chỉnh sửa sản phẩm"}
+          </div>
+        </Breadcrumbs>
       </div>
       <div className="bodyInProductManager">
         <form className="productForm" onSubmit={handleSubmit}>
@@ -152,7 +159,9 @@ function ProductDetail(){
             {images.length > 0 && (
               <div className="imagesContainer">
                 {Array.from(images).map((image, index) => (
-                  <img src={image} key={index} className="imageP"/>
+                  <div className="imageW" key={index}>
+                    <img src={image} className="imageP"/>
+                  </div>
                 ))}
               </div>)}
             <input type="file" name="images" style={{marginBottom: "10px"}}
