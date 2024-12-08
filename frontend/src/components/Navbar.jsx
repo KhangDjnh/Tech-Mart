@@ -41,14 +41,12 @@ function Navbar({ userDetails }) {
     const fetchData = async (id) => {
         try {
             const res = await productApi.getUserCart(id);
-            const cartItems = res.data?.data || [];
-            console.log('Response data:', res.data);
-            console.log('Cart items:', cartItems);
+            const cartItems = res.data?.data.cart || [];
 
             const cartData = product
-                .filter(item => cartItems.some(cartItem => cartItem.product._id === item._id))
+                .filter(item => cartItems.some(cartItem => cartItem.product_id === item._id))
                 .map(item => {
-                    const foundItem = cartItems.find(cartItem => cartItem.product._id === item._id);
+                    const foundItem = cartItems.find(cartItem => cartItem.product_id === item._id);
                     return {
                         ...item,
                         quantity: foundItem ? foundItem.quantity : 0,

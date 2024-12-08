@@ -89,13 +89,19 @@ function DetailProductContent({ product }) {
                     <div className="hidden md:grid grid-cols-2 mt-8 gap-3 ">
                     <Button variant="contained" startIcon={<AddShoppingCartIcon />}
                         onClick={async () => {
-                            notify('info', 'Added to cart');
-                            //await productApi.updateUserCart(userID, productShow._id);
-                            dispatch(addCart({
-                                ...productShow,
-                                quantity: count,
-                                checked: true
-                            }));
+                            if (count > 0) {
+                                const cartItems = [{ id: productShow._id, quantity: count }];
+                                console.log('cartItems: ', cartItems);
+                                notify('info', 'Added to cart');
+                                await productApi.updateUserCart(userID, cartItems);
+                                dispatch(addCart({
+                                    ...productShow,
+                                    quantity: count,
+                                    checked: true
+                                }));
+                            } else {
+                                notify('error', 'Please select at least 1 item');
+                            }
                         }}>Thêm vào giỏ hàng</Button>
 
                         <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1}

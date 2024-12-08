@@ -18,7 +18,7 @@ const cartReducer = (state = initState, action) => {
             return {
                 ...state,
                 data: [...state.data, action.payload]
-            };       
+            };
         case cartActionTypes.DELETE:
             const filteredData = state.data.filter(item => item._id !== action.id);
             return {

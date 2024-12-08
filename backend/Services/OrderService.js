@@ -1,5 +1,5 @@
 const Order = require("../models/order.js");
-const Product = require('../models/product'); // Đảm bảo rằng bạn đã import model Product
+const Product = require('../models/product');
 const Cart = require("../models/cart.js");
 
 exports.createOrder = async (order) => {

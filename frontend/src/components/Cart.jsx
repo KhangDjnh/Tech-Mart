@@ -14,7 +14,6 @@ import { checkoutApi, productApi } from "../../api/productApi.js";
 
 function Cart() {
     const productsWithQuantity = useSelector(state => state.cart.data)
-    console.log('productsWithQuantity:', productsWithQuantity);
     const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
     const [numberOfProductsPurchased, setNumberOfProductsPurchased] = useState(0)
     const [totalPayment, setTotalPayment] = useState(0)

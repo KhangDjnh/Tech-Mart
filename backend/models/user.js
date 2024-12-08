@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema({
     //     type: mongoose.Schema.Types.ObjectId, 
     //     ref: 'Shop' 
     // }],
-    // customers: [{ type: mongoose.Schema.Types.Object, ref: "User" }],
+    customers: [{ type: mongoose.Schema.Types.Object, ref: "User" }],
     // cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
 }, { timestamps: true });
 

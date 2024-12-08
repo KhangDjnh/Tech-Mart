@@ -6,12 +6,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import ManIcon from '@mui/icons-material/Man';
 import { userApi } from "../../api/userApi.js"
 
-// import { useDispatch, useSelector } from "react-redux";
 
 function DetailUser(props) {
     const { userDetails } = JSON.parse(localStorage.getItem('session'))
     const [infor, setInfor] = useState({});
-    // Test Api - done
     useEffect(() => {
         const fetchData = async (userId) => {
             try {
@@ -24,14 +22,6 @@ function DetailUser(props) {
         fetchData(userDetails._id);
     }, []);
     console.log(infor)
-    // const handleUpdate = () => {
-    //     setInfor({
-    //         name: 'new value',
-    //         email: 'new email',
-    //         phone: 'new phone',
-    //         gender: 'new gender'
-    //     });
-    // }
 
     return (
         <div className={'mt-20'}>
@@ -48,7 +38,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Tên</div>
-                                <div className={' text-[#1C1C28]'}>{infor?.name}</div>
+                                <div className={' text-[#1C1C28]'}>{infor?.fullname}</div>
                             </div>
                         </div>
                         <div className={'flex gap-3 items-center'}>
@@ -57,19 +47,9 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Số điện thoại</div>
-                                <div className={' text-[#1C1C28]'}>{infor?.phone}</div>
+                                <div className={' text-[#1C1C28]'}>{infor?.phonenumber}</div>
                             </div>
                         </div>
-
-                        {/*<div className={'flex gap-3 items-center'}>*/}
-                        {/*    <div>*/}
-                        {/*        <ManIcon />*/}
-                        {/*    </div>*/}
-                        {/*    <div>*/}
-                        {/*        <div className={'text-[#8F90A6]'}>Giới tính</div>*/}
-                        {/*        <div className={'text-[#1C1C28]'}>{infor?.gender}</div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
 
                         <div className={'flex gap-3 items-center'}>
                             <div>
@@ -91,23 +71,6 @@ function DetailUser(props) {
                             </div>
                         </div>
 
-
-                        {/* <p className={`font-normal hover:text-[#1F3368] text-[#1F3368] underline hover:underline cursor-pointer ${isShow ? '' : '  hidden'}`}
-                            onClick={showModal}>Cập nhật thông tin</p>
-                        <Modal title="Cập nhật thông tin liên hệ"
-                            open={open}
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                            footer={[
-                                <Button key="back" onClick={handleCancel}>
-                                    Huỷ
-                                </Button>,
-                                <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-                                    Lưu thông tin
-                                </Button>,
-                            ]}>
-                            <ModalCustomerInfor userInfo={userInfor} />
-                        </Modal> */}
                     </div>
                     <div className={'w-full flex justify-end mt-16'}>
                         <button type="button"

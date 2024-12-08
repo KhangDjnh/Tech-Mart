@@ -78,17 +78,20 @@ function AppRouters() {
                 <Route
                     path="/orderstatus"
                     element={
-                        <PrivateRoute roles={['customer']}>
-                            <OrderStatus />
-                        </PrivateRoute>
+                        // <PrivateRoute roles={['customer']}>
+                        //     <OrderStatus />
+                        // </PrivateRoute>
+                        <OrderStatus />
+
                     }
                 />
                 <Route
                     path="/category/:categoryID"
                     element={
-                        <PrivateRoute roles={['customer']}>
-                            <CategoryItem />
-                        </PrivateRoute>
+                        // <PrivateRoute roles={['customer']}>
+                        //     <CategoryItem />
+                        // </PrivateRoute>
+                        <CategoryItem />
                     }
                 />
                 <Route
@@ -108,9 +111,10 @@ function AppRouters() {
                 <Route
                     path="/cart"
                     element={
-                        <PrivateRoute roles={['customer']}>
-                            <ShoppingCart />
-                        </PrivateRoute>
+                        // <PrivateRoute roles={['customer']}>
+                        //     <ShoppingCart />
+                        // </PrivateRoute>
+                        <ShoppingCart />
                     }
                 />
 

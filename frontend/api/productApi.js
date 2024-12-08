@@ -24,13 +24,18 @@ export const productApi = {
     return api.put(url, data, setHeaders());
   },
   getUserCart(userId) {
-    const url = `/user/cart/${userId}`;
+    const url = `/cart/${userId}`;
     return api.get(url, setHeaders());
   },
-  updateUserCart(userId, productId) {
-    const url = `/user/${userId}/cart/${productId}`;
-    return api.post(url, setHeaders());
+  updateUserCart(userId, cartItems) {
+    const url = `/cart/${userId}`;
+    const payload = cartItems.map(item => ({
+        product_id: item.id,
+        quantity: item.quantity,
+    }));
+    return api.put(url, payload, setHeaders());
   },
+
   deleteUserCart(userId, cartItems) {
     console.log(">>>>", cartItems);
     const url = `/user/${userId}/cart`;

@@ -1,5 +1,3 @@
-import { productApi } from "../../../api/productApi";
-
 export const cartActionTypes = {
   ADD: 'ADD',
   DELETE: 'DELETE',
@@ -14,24 +12,10 @@ export const cartActionTypes = {
 } 
 
 export const addCart = (product) => {
-  return async (dispatch) => {
-    const userID = JSON.parse(localStorage.getItem("session"))?.userDetails?._id;
-
-    if (!userID) {
-      console.error("User ID is not defined");
-      return;
-    }
-    console.log('Khangvl', userID, product._id);
-    await productApi.updateUserCart(userID, product._id);
-
-    dispatch({
-        type: cartActionTypes.ADD,
-        payload: product
-    });
-
-    const cartItems = await productApi.getUserCart(userID);
-    dispatch(getCart(cartItems));
-};
+  return {
+      type: cartActionTypes.ADD,
+      payload: product
+  };
 }
 export const deleteCart= (id) => {
   return {
