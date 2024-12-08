@@ -20,7 +20,7 @@ function ProductCard({ product, callback }) {
 
   return (
     <div>
-      <div className="flex flex-col w-[200px] h-[450px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
+      <div className="flex flex-col w-[200px] bg-white shadow-lg rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 py-2">
         <div
           className="justify-center items-center relative w-full overflow-hidden rounded-md cursor-pointer m-0"
           onClick={handleEditClick}
@@ -34,20 +34,15 @@ function ProductCard({ product, callback }) {
           />
         </div>
 
-        <div className="flex justify-center items-center px-4 mt-4" style={{height: "84px"}}>
-          <h3
-            className="text-lg text-black font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0"
-            onClick={handleEditClick}
-          >
-            {product.name}
-          </h3>
+        <div className="px-4 mt-4 text-lg text-black font-medium cursor-pointer hover:text-blue-600 transition-colors duration-300 text-center m-0 line-clamp-1"
+          onClick={handleEditClick}
+        >
+          {product.name}
         </div>
-        <div className="flex justify-center"
-          style={{marginTop: "auto"}}>
+        <div className="flex justify-center my-1">
           Còn lại:&nbsp;<span className="text-black">{product.stock}</span>&nbsp;trong kho
         </div>
-        <div className="flex justify-center items-center"
-          style={{height: "60px"}}>
+        <div className="flex justify-center items-center my-1">
           {
             product.discount ?
             <div>
@@ -70,7 +65,7 @@ function ProductCard({ product, callback }) {
           }
         </div>
 
-        <div className="flex justify-center mb-2 mt-1">
+        <div className="flex justify-center mb-2 mt-2">
           <button
             onClick={handleEditClick}
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"

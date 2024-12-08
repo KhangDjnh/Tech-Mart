@@ -20,7 +20,7 @@
 }
 .sellerPage > .main > .sidebar{
     position: fixed;
-    width: 250px;
+    width: 150px;
     height: 100vh;
     margin-top: 10vh;
     z-index: 100;
@@ -29,6 +29,6 @@
     flex: 1;
     padding: 16px;
     margin-top: 10vh;
-    margin-left: 250px;
+    margin-left: 150px;
     min-height: 90vh;
 }

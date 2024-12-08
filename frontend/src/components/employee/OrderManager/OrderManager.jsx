@@ -28,7 +28,7 @@ function OrderManager(){
     <div style={{display: "flex", flexDirection: "row"}}>
       <div className="halfPage" style={{paddingRight: "10px", width: "50%"}}>
         <div className="headerInOrderManager">
-          Danh sách đơn hàng
+          Danh Sách Đơn Hàng
         </div>
         <ul className="orderList">
           {orders.slice().reverse().map((order) => (<OrderCard key={order._id} order={order} setShowUserInfo={setUserInfo} isOrderOpen={isOderOpen} setIsOrderOpen={setIsOrderOpen}/>))}
@@ -38,7 +38,7 @@ function OrderManager(){
                                         position: "fixed", right: "16px"}}>
         <div>
           <div className="headerInOrderManager">
-            Thông tin khách hàng
+            Thông Tin Khách Hàng
           </div>
           <div className="customerInfoBlock">
             <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
