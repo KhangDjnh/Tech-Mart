@@ -46,8 +46,8 @@ function ProductCard({ product, callback }) {
           style={{marginTop: "auto"}}>
           Còn lại:&nbsp;<span className="text-black">{product.stock}</span>&nbsp;trong kho
         </div>
-        <div className="flex justify-center"
-          style={{alignItems: "center", height: "60px"}}>
+        <div className="flex justify-center items-center"
+          style={{height: "60px"}}>
           {
             product.discount ?
             <div>
