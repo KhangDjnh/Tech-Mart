@@ -8,7 +8,8 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import axios from "axios";
 
 function ProductDetail(){
-  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
   const param = useParams();
@@ -19,8 +20,15 @@ function ProductDetail(){
       if(param.id){
         try {
           const res = await productApi.getProductById(param.id);
-          setProduct(res.data.data);
-          setImages(res.data.data.images);
+          const productData = res.data.data;
+          setProduct(productData);
+          setImagePreviews(productData.images);
+          const files = await Promise.all(
+            productData.images.map((url, index) =>
+              urlToFile(url, `image-${index + 1}`)
+            )
+          );
+          setImageFiles(files);
         } catch (e) {
           console.error('Error fetching product data:', e);
         }
@@ -41,9 +49,9 @@ function ProductDetail(){
     formData.append("description", product?.description || "");
     // formData.append("id_shop", "6748e785cfcb764cadcb1da7");
 
-    if (images.length > 0) {
-      images.forEach((image) => {
-        formData.append("images", image);
+    if (imageFiles.length > 0) {
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
       });
     }
 
@@ -62,32 +70,31 @@ function ProductDetail(){
     }
   }
 
-
-  const uploadImageToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "befrjyrf");
-    formData.append("folder", "TechMart-Product")
-
+  const urlToFile = async (url, filename) => {
     try {
-      const response = await axios.post("https://api.cloudinary.com/v1_1/djhnuocm0/image/upload", formData);
-      return response.data.secure_url;
+      const response = await fetch(url);
+      const blob = await response.blob();
+  
+      const mimeType = blob.type;
+      const extension = mimeType.split('/')[1];
+      const correctedFilename = `${filename}.${extension}`;
+  
+      const file = new File([blob], correctedFilename, { type: mimeType });
+      return file;
     } catch (error) {
-      console.error("Error uploading image to Cloudinary:", error);
-      return null;
+      console.error("Error converting URL to file:", error);
+      throw error;
     }
   };
-  const handleImageChange = async (e) => {
+  const handleImageRemove = (index) => {
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+  const handleImageAdd = (e) => {
     const files = Array.from(e.target.files);
-    const uploadedImageUrls = [];
-
-    for (const file of files) {
-      const url = await uploadImageToCloudinary(file);
-      if (url) {
-        uploadedImageUrls.push(url);
-      }
-    }
-    setImages(uploadedImageUrls);
+    setImageFiles(prev => [...prev, ...files]);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews(prev => [...prev, ...previews]);
   };
   const handleInputChange = (e) => {
     const {name, value} = e.target;
@@ -151,22 +158,28 @@ function ProductDetail(){
               placeholder="Nhập số lượng"   
             /> <br />
             <button type="submit" 
-              className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"
+              className="bg-blue-500 text-white mt-4 px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"
             >{isNew ? "Thêm": "Sửa"}</button>
           </div>
           <div className="rightSide">
             <label>Hình ảnh: </label> <br />
-            {images.length > 0 && (
+            {imagePreviews.length > 0 && (
               <div className="imagesContainer">
-                {Array.from(images).map((image, index) => (
+                {Array.from(imagePreviews).map((image, index) => (
                   <div className="imageW" key={index}>
                     <img src={image} className="imageP"/>
+                    <button type="button" className="deleteImgBtn" onClick={() => handleImageRemove(index)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" id="delete">
+                        <path fill="#000" d="M15 3a1 1 0 0 1 1 1h2a1 1 0 1 1 0 2H6a1 1 0 0 1 0-2h2a1 1 0 0 1 1-1h6Z"></path>
+                        <path fill="#000" d="M6 7h12v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7Zm3.5 2a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 1 0v-9a.5.5 0 0 0-.5-.5Zm5 0a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 1 0v-9a.5.5 0 0 0-.5-.5Z"></path>
+                      </svg>
+                    </button>
                   </div>
                 ))}
               </div>)}
             <input type="file" name="images" style={{marginBottom: "10px"}}
               accept="image/*" multiple
-              onChange={(e) => {handleImageChange(e);}}
+              onChange={(e) => {handleImageAdd(e);}}
             /> <br />
             <label>Mô tả chi tiết: </label> <br />
             <textarea name="description" rows="5"
