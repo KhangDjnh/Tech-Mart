@@ -45,6 +45,14 @@ function ProductList({}){
   };
 
   useEffect(() => {
+    try{
+      if(localStorage.getItem("token")){
+      }else{
+        navigate("/login");
+      }
+    }catch (e){
+      console.log(e);
+    }
     fetchData();
   }, []);
 

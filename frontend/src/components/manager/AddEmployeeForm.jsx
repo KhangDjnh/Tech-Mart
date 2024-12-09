@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function AddEmployeeForm({action, showModal, setShowModal}){
-  const [employee, setEmployee] = useState(null);
+function AddEmployeeForm({action, showModal, setShowModal, employeeInfo, setEmployeeInfo}){
+  const [employee, setEmployee] = useState(employeeInfo);
   const [isHidden, setIsHidden] = useState(true);
+  const [isNew, setIsNew] = useState(true);
 
   const handleCancel = () => {
     setShowModal(false);
     setEmployee(null);
     setIsHidden(true);
+    setEmployeeInfo(null);
+    setIsNew(true);
   };
+
+  useEffect(() => {
+    setEmployee(employeeInfo);
+    if(employeeInfo == null)  setIsNew(true);
+    else  setIsNew(false);
+  },[showModal]);
 
   const handleInputChange = (e) => {
     const {name, value} = e.target;
@@ -28,8 +37,11 @@ function AddEmployeeForm({action, showModal, setShowModal}){
     formData.append("phonenumber", employee?.phonenumber || "");
     formData.append("username", employee?.username || "");
     formData.append("password", employee?.password || "");
-    
-    action(formData);
+    if(isNew){
+      action(formData, null);
+    } else{
+      action(formData, employee._id);
+    }
   }
 
   return(
@@ -37,14 +49,14 @@ function AddEmployeeForm({action, showModal, setShowModal}){
       {showModal && (
         <div style={modalStyles}>
           <div style={modalContentStyles}>
-            <h2 style={{fontSize: "20px", fontWeight: "bold"}}>Thêm nhân viên mới</h2>
+            <h2 style={{fontSize: "20px", fontWeight: "bold"}}>{isNew? "Thêm nhân viên mới" : "Sửa thông tin nhân"}</h2>
 
             <form className="employeeForm" onSubmit={handleSubmit} style={{textAlign: "left"}}>
               <label>Tên nhân viên</label> <br />
               <input type="text" name="fullname" value={employee?.fullname || ""}
                onChange={handleInputChange} required placeholder="Nguyễn Văn A"/> <br />
               <label>Email</label> <br />
-              <input type="text" name="email" value={employee?.email || ""}
+              <input type="email" name="email" value={employee?.email || ""}
                onChange={handleInputChange} required placeholder="employee001@ẽample.com"/> <br />
               <label>Số diện thoại</label> <br />
               <input type="text" name="phonenumber" value={employee?.phonenumber || ""}
@@ -78,7 +90,7 @@ function AddEmployeeForm({action, showModal, setShowModal}){
                 <button type="submit"
                 className="bg-blue-500 text-white px-4 py-2 mx-8 mt-4 rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300"
                 >
-                  Tạo
+                  {isNew ? "Tạo" : "Sửa"}
                 </button>
                 <button type="button" onClick={handleCancel}
                 className="bg-red-500 text-white px-4 py-2 mx-8 mt-4 rounded-md shadow-md hover:bg-red-600 transition-colors duration-300"

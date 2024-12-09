@@ -55,11 +55,15 @@
 .employeeRecord:hover .removeEmployeeButton g{
     stroke: red;
 }
+.employeeRecord:hover .editEmployeeButton path{
+    fill: #2563eb;
+}
 .employeeTable tr:last-child td {
     border-bottom: none;
 }
 
-.employeeForm input[type="text"], .employeeForm input[type="password"]{
+.employeeForm input[type="text"], .employeeForm input[type="password"],
+.employeeForm input[type="email"]{
     width: 500px;
     margin-top: 5px;
     margin-bottom: 15px;
