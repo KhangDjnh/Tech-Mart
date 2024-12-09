@@ -6,6 +6,7 @@ function SellerSidebar() {
   const sellerMenuItems = [
     { id: 'order', label: 'Đơn Hàng'},
     { id: 'product', label: 'Sản Phẩm'},
+    { id: 'employee_manager', label: 'Nhân viên'}
   ];
 
   return <Sidebar sidebarItems={sellerMenuItems} isActive={(id) => activeItemId === id} onClick={(id) => setActiveItemId(id)}/>;

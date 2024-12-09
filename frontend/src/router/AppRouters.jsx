@@ -27,7 +27,7 @@ import EmployeeHome from '../pages/employee/EmployeeHome';
 import ProductList from '../components/employee/ProductManager/ProductList';
 import ProductDetail from '../components/employee/ProductManager/ProductDetail';
 import OrderManager from '../components/employee/OrderManager/OrderManager.jsx';
-import ChatSupport from '../pages/employee/ChatSupport';
+import EmployeeManager from '../components/manager/EmployeeManager.jsx';
 import ProductManager from '../pages/employee/ProductManager';
 
 function ScrollToTop() {
@@ -65,7 +65,7 @@ function AppRouters() {
                         <Route path="new" element={<ProductDetail />} />
                         <Route path=":id" element={<ProductDetail />} />
                     </Route>
-                    <Route path="chat-support" element={<ChatSupport />} />
+                    <Route path="employee_manager" element={<EmployeeManager />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/confirmemail" element={<ConfirmEmail />} />

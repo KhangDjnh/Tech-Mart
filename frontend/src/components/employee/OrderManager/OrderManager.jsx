@@ -3,7 +3,7 @@ import './OrderManager.css';
 import OrderCard from './OrderCard';
 import { orderApi } from '../../../../api/orderApi';
 import PersonIcon from '@mui/icons-material/Person';
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
 
 function OrderManager(){
@@ -48,7 +48,7 @@ function OrderManager(){
                   <td>{userInfo.username}</td>
                 </tr>
                 <tr>
-                  <th style={{width: "150px", padding: "2px 0"}}><PhoneIphoneIcon /> Số điện thoại: </th>
+                  <th style={{width: "150px", padding: "2px 0"}}><PhoneIcon /> Số điện thoại: </th>
                   <td>{userInfo.phonenumber}</td>
                 </tr>
                 <tr>

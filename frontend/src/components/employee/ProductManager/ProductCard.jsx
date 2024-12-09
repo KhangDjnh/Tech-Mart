@@ -1,9 +1,9 @@
 
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import DeleteWarning from "./DeleteWarning";
+import { useNavigate} from "react-router-dom";
+import DeleteWarning from "../../DeleteWarning.jsx";
 import { formatNumber } from "../../../utils/formatNumber.js";
+import { productApi } from "../../../../api/productApi.js";
 
 
 function ProductCard({ product, callback }) {
@@ -16,6 +16,17 @@ function ProductCard({ product, callback }) {
 
   const handleDeleteClick = () => {
     setShowModal(true);
+  };
+
+  const handleDeleteAction = async () => {
+    try {
+      const response = await productApi.deleteProduct(product._id);
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    } finally {
+      setShowModal(false);
+      callback();
+    }
   };
 
   return (
@@ -88,7 +99,7 @@ function ProductCard({ product, callback }) {
         </div>
       </div>
       <div>
-        <DeleteWarning product={product} showModal={showModal} setShowModal={setShowModal} callback={callback}/>
+        <DeleteWarning action={handleDeleteAction} showModal={showModal} setShowModal={setShowModal} text={"sản phẩm"}/>
       </div>
     </div>
   );

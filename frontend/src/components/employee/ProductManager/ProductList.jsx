@@ -11,7 +11,6 @@ function ProductList({}){
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [productShow, setProductShow] = useState([]);
-  const [isPrice, setIsPrice] = useState();
   const [isBrand, setIsBrand] = useState();
   const [isSale, setIsSale] = useState();
   const [isCategory, setIsCategory] = useState();
@@ -19,22 +18,15 @@ function ProductList({}){
   
   const [filterBrand, setFilterBrand] = useState([]);
   const [filterName, setFilterName] = useState([]);
-  const [filterPrice, setFilterPrice] = useState([]);
   const [filterSale, setFilterSale] = useState([]);
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterStock, setFilterStock] = useState([]);
 
   const [brandShow, setBrandShow] = useState(true);
-  const [priceShow, setPriceShow] = useState(true);
   const [stockShow, setstockShow] = useState(true);
   const [saleShow, setSaleShow] = useState(true);
   const [categoryShow, setCategoryShow] = useState(true);
 
-  const segment = [
-    'Dưới 1.000.000',
-    'Từ 1.000.000 đến 5.000.000',
-    'Từ 5.000.000'
-  ];
   const [brand, setBrand] = useState([]);
   const sale = ['Yes', 'No'];
   const stock = ['Còn hàng', 'Hết hàng'];
@@ -61,7 +53,6 @@ function ProductList({}){
     setFilterBrand(products);
     setFilterCategory(products);
     setFilterName(products);
-    setFilterPrice(products);
     setFilterSale(products);
     setFilterStock(products);
   }, [products]);
@@ -71,7 +62,6 @@ function ProductList({}){
   }
 
   function removeAllState() {
-    setIsPrice(null);
     setIsBrand(null);
     setIsSale(null);
     setIsStock(null);
@@ -80,7 +70,6 @@ function ProductList({}){
     setFilterBrand(products);
     setFilterStock(products);
     setFilterSale(products);
-    setFilterPrice(products);
     setFilterCategory(products);
   }
 
@@ -94,27 +83,6 @@ function ProductList({}){
       setFilterName(arr);
     } else {
       setFilterName(products);
-    }
-  }
-
-  function searchSegment(e, i) {
-    setIsPrice(i);
-    switch (i) {
-      case 0:
-        setFilterPrice(products.filter(e => {
-          return e.price < 1000000;
-        }));
-        break;
-      case 1:
-        setFilterPrice(products.filter(e => {
-          return e.price >= 1000000 && e.price < 5000000;
-        }));
-        break;
-      case 2:
-        setFilterPrice(products.filter(e => {
-          return e.price >= 5000000;
-        }));
-        break;
     }
   }
 
@@ -168,34 +136,16 @@ function ProductList({}){
   }
 
   function generalSearch() {
-    setProductShow(intersection([filterName, filterBrand, filterStock, filterCategory, filterPrice, filterSale]));
+    setProductShow(intersection([filterName, filterBrand, filterStock, filterCategory, filterSale]));
   }
 
   useEffect(() => {
     generalSearch();
-  }, [filterName, filterBrand, filterStock, filterCategory, filterPrice, filterSale]);
+  }, [filterName, filterBrand, filterStock, filterCategory, filterSale]);
 
   const drawerContent = (
     <Box sx={{ width: 250 }} role="presentation">
       <div className="font-medium my-4">
-        {priceShow && (
-          <>
-            <h1 className="mb-2">Theo phân khúc</h1>
-            <div className="max-h-[300px] overflow-y-auto">
-              {segment.map((e, i) => (
-                <div key={i}>
-                  <FormControlLabel
-                    value={e}
-                    control={<Radio />}
-                    label={e}
-                    checked={isPrice === i}
-                    onChange={() => searchSegment(e, i)}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        )}
         {brandShow && (
           <>
             <h1 className="mb-2">Theo hãng</h1>
@@ -287,7 +237,7 @@ function ProductList({}){
       </div>
       <div className="bodyInProductManager">
         <div className="headerInProductManager">
-          Số sản phẩm: {products ? (products.length) : 0}
+          Số sản phẩm: {productShow ? (productShow.length) : 0} {productShow.length < products.length ? "với lọc" : ""}
           <button className='addProductButton' onClick={handleAddClick}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox='0 0 24 24' fill="none" id="plus">
                 <path fill="#fff" d="M12 5a1 1 0 0 0-1 1v5H6a1 1 0 1 0 0 2h5v5a1 1 0 1 0 2 0v-5h5a1 1 0 1 0 0-2h-5V6a1 1 0 0 0-1-1Z"></path>
