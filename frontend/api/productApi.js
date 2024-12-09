@@ -37,10 +37,12 @@ export const productApi = {
   },
 
   deleteUserCart(userId, cartItems) {
-    console.log(">>>>", cartItems);
-    const url = `/user/${userId}/cart`;
-    const res = api.post(url, cartItems, setHeaders());
-    console.log(res);
+    //console.log("cartItems",cartItems);
+    //console.log("cartItems",cartItems.cartItems[0]);
+    const url = `/cart/${userId}/cart`;
+    const payload = { cartItems: String(cartItems.cartItems[0]) };
+    const res = api.post(url, payload, setHeaders());
+    console.log('res: ',res);
     return res;
   },
 };

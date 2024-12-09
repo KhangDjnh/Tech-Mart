@@ -32,7 +32,9 @@ exports.deleteCart = async (id) => {
   const deletedCart = await Cart.findByIdAndDelete(id);
   return deletedCart;
 };
-
+exports.getCartByUserId = async (userId) => {
+  return await Cart.findOne({ id_user: userId }).populate("cart.product_id");
+};
 exports.updateCart = async (userId, cartData) => {
   // Tìm kiếm giỏ hàng theo userId
   let cart = await Cart.findOne({ id_user: userId });

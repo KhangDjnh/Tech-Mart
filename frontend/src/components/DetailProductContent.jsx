@@ -91,7 +91,7 @@ function DetailProductContent({ product }) {
                         onClick={async () => {
                             if (count > 0) {
                                 const cartItems = [{ id: productShow._id, quantity: count }];
-                                console.log('cartItems: ', cartItems);
+                                //console.log('cartItems: ', cartItems);
                                 notify('info', 'Added to cart');
                                 await productApi.updateUserCart(userID, cartItems);
                                 dispatch(addCart({
