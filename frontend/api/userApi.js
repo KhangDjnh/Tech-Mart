@@ -31,6 +31,15 @@ export const userApi = {
             console.error("Error during updating user:", error);
         }
     },
+
+    async updateUser2(data, userId) {
+        try {
+            const url = `/user/${userId}`;
+            return await api.put(url, data, setHeaders())
+        } catch (error) {
+            console.error("Error during updating user:", error);
+        }
+    },
     async getUserById(userId) {
         try {
             const url = `/user/${userId}`;

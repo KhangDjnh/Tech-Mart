@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './OrderManager.css';
 import OrderCard from './OrderCard';
 import { orderApi } from '../../../../api/orderApi';
@@ -10,6 +11,7 @@ function OrderManager(){
   const [orders, setOrders] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [isOderOpen, setIsOrderOpen] = useState(null);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try{
@@ -21,6 +23,14 @@ function OrderManager(){
   }
 
   useEffect(() => {
+    try{
+      if(localStorage.getItem("token")){
+      }else{
+        navigate("/login");
+      }
+    }catch (e){
+      console.log(e);
+    }
     fetchData();
   }, []);
 

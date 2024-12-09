@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { productApi } from "../../../../api/productApi";
 import { Breadcrumbs} from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import axios from "axios";
 
 function ProductDetail(){
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -16,6 +15,14 @@ function ProductDetail(){
   const isNew = !param.id;
   
   useEffect(() => {
+    try{
+      if(localStorage.getItem("token")){
+      }else{
+        navigate("/login");
+      }
+    }catch (e){
+      console.log(e);
+    }
     const fetchData = async () => {
       if(param.id){
         try {
