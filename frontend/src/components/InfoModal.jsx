@@ -10,7 +10,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import {useEffect, useState} from "react";
 import {userApi} from "../../api/userApi.js";
 import TextField from "@mui/material/TextField";
-//import {notify} from "../utils/toastify.js";
+import {notify} from "../utils/toastify.js";
 import eventEmitter from "../utils/eventEmitter.js";
 import KeyIcon from '@mui/icons-material/Key';
 
@@ -59,8 +59,8 @@ export default function InfoModal() {
     }
 
     function handleInput(e) {
-        const {name, value} = e.target;
-        setUpdateData({...infor, [name]: value});
+        const {fullname, value} = e.target;
+        setUpdateData({...infor, [fullname]: value});
     }
 
   async  function handleUpdatePassword() {
@@ -101,7 +101,7 @@ try {
                                     </div>
                                     <div>
                                         <div className={'text-[#8F90A6]'}>Tên</div>
-                                        <div className={' text-[#1C1C28]'}>{infor?.name}</div>
+                                        <div className={' text-[#1C1C28]'}>{infor?.fullname}</div>
                                     </div>
                                 </div>
                                 <div className={'flex gap-3 items-center'}>
@@ -110,7 +110,7 @@ try {
                                     </div>
                                     <div>
                                         <div className={'text-[#8F90A6]'}>Số điện thoại</div>
-                                        <div className={' text-[#1C1C28]'}>{infor?.phone}</div>
+                                        <div className={' text-[#1C1C28]'}>{infor?.phonenumber}</div>
                                     </div>
                                 </div>
 

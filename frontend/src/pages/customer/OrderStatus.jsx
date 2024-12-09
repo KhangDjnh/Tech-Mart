@@ -13,7 +13,7 @@ function OrderStatus() {
     const fetchOrders = useCallback(async () => {
         try {
             const res = await orderApi.getOrderByUserId(userID);
-            setOrderProducts(res.data);
+            setOrderProducts(res.data.data);
         } catch (error) {
             console.error("Failed to fetch orders", error);
         }
@@ -72,8 +72,7 @@ function OrderStatus() {
                                                     <div className="bg-white p-4 rounded-xl ">
                                                         <p>Giao cho: {order.shipping?.name}</p>
                                                         <p>Số điện thoại: {order.shipping?.phone}</p>
-                                                        <p>Địa
-                                                            chỉ: {order.shipping?.address?.line1}, {order.shipping?.address?.city}, {order.shipping?.address?.state}, {order.shipping?.address?.country}</p>
+                                                        <p>Địa chỉ: {order.shipping?.address}</p>
                                                     </div>
                                                 </div>
                                             </div>

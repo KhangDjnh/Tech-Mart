@@ -74,4 +74,42 @@ exports.deleteCart = async (req, res) => {
   }
 };
 
+exports.deleteCartItem = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const cartItem = req.body.cartItems;
+    console.log('cartItem: ', userId, cartItem)
+
+    // Kiểm tra đầu vào
+    if (!userId || !cartItem) {
+      return res.status(400).json({ error: "Invalid userId or cartItem." });
+    }
+
+    // Tìm cart của user
+    const cart = await cartService.getCartByUserId(userId);
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found." });
+    }
+    console.log('cart: ',cart)
+    // Loại bỏ sản phẩm trong cart
+    const updatedCart = cart.cart.filter((item) => {
+      console.log('product_id',item.product_id)
+      return item.product_id._id.toString() !== cartItem;
+    });
+
+    if (updatedCart.length === cart.cart.length) {
+      return res.status(400).json({ error: "Product not found in cart." });
+    }
+
+    cart.cart = updatedCart;
+    await cart.save();
+
+    // Trả về kết quả
+    res.status(200).json({ data: cart, message: "Product removed from cart." });
+  } catch (error) {
+    console.error("Error in deleteCartItem:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 

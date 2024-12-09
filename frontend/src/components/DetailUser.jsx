@@ -8,18 +8,31 @@ import { userApi } from "../../api/userApi.js"
 
 
 function DetailUser(props) {
+    console.log('Session data:', localStorage);
     const { userDetails } = JSON.parse(localStorage.getItem('session'))
+    console.log('Session data:', localStorage.getItem('session'));
     const [infor, setInfor] = useState({});
     useEffect(() => {
         const fetchData = async (userId) => {
             try {
+                if (!userId) {
+                    console.warn("User ID is undefined.");
+                    return;
+                }
+                console.log('Chua fetch data')
                 const res = await userApi.getUserById(userId);
+                console.log('Respond: ', res);
                 setInfor(res.data.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
-        fetchData(userDetails._id);
+        //fetchData(userDetails._id);
+        if (userDetails?._id) {
+            fetchData(userDetails._id);
+        } else {
+            console.error("userDetails._id is not available.");
+        }
     }, []);
     console.log(infor)
 

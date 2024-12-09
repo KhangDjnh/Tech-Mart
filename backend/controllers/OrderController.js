@@ -76,9 +76,7 @@ exports.deleteOrder = async (req, res) => {
 
 exports.getOrdersByUser = async (req, res) => {
   try {
-    const userId = req.params.id; // Lấy user_id từ URL params
-
-    // Gọi phương thức tìm kiếm đơn hàng theo user_id
+    const userId = req.params.id;
     const orders = await orderService.getOrdersByUserId(userId);
 
     res.status(200).json({

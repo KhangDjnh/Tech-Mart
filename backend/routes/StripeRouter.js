@@ -175,41 +175,89 @@ router.post(
     }
 
     // Handle the event
+    // if (eventType === "checkout.session.completed") {
+    //   const session = req.body.data.object;
+    //   const user = await userService.getUserById(session.metadata.userId);
+
+    //   const cartItems = JSON.parse(session.metadata.cartItems);
+    //   const cartProductIds = cartItems.map((item) => item.id);
+
+    //   stripe.customers
+    //     .retrieve(data.customer)
+    //     .then((customer) => {
+    //       stripe.checkout.sessions.listLineItems(
+    //         data.id,
+    //         {},
+    //         function (err) {
+    //           if (err) {
+    //             console.log(err);
+    //             return;
+    //           }
+    //           console.log("lineItemData: " + lineItemsData,);
+    //           createOrder(customer, data, lineItemsData);
+    //         }
+    //       );
+    //     })
+    //     .catch((err) => console.log(err.message));
+
+
+    //   // console.log(cartProductIds);
+    //   // const updatedCartItems = user.cart.filter(
+    //   //   (productId) => !cartProductIds.includes(String(productId))
+    //   // );
+    //   // console.log(updatedCartItems);
+
+    //   // user.cart = updatedCartItems;
+    //   // await user.save();
+    // }
     if (eventType === "checkout.session.completed") {
       const session = req.body.data.object;
-      const user = await userService.getUserById(session.metadata.userId);
-
-      const cartItems = JSON.parse(session.metadata.cartItems);
-      const cartProductIds = cartItems.map((item) => item.id);
-
-      stripe.customers
-        .retrieve(data.customer)
-        .then((customer) => {
-          stripe.checkout.sessions.listLineItems(
-            data.id,
-            {},
-            function (err) {
-              if (err) {
-                console.log(err);
-                return;
+      console.log('Da thanh toan thanh cong')
+      try {
+        // Lấy userId và cartItems từ metadata
+        const userId = session.metadata.userId;
+        const cartItems = JSON.parse(session.metadata.cartItems);
+        const cartProductIds = cartItems.map((item) => item.id); // ID sản phẩm đã thanh toán
+    
+        // Lấy thông tin giỏ hàng của người dùng
+        const userCart = await Cart.findOne({ id_user: userId });
+        if (!userCart) {
+          console.error(`Cart not found for user: ${userId}`);
+          return;
+        }
+        console.log('userCart: ', userCart);
+        // Lọc giỏ hàng để giữ lại sản phẩm chưa thanh toán
+        userCart.cart = userCart.cart.filter(
+          (item) => !cartProductIds.includes(String(item.product_id))
+        );
+    
+        // Lưu giỏ hàng đã cập nhật
+        await userCart.save();
+    
+        // Gửi log để kiểm tra
+        console.log(`Updated cart for user ${userId}:`, userCart.cart);
+    
+        // Xử lý order
+        stripe.customers
+          .retrieve(data.customer)
+          .then((customer) => {
+            stripe.checkout.sessions.listLineItems(
+              data.id,
+              {},
+              function (err) {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
+                createOrder(customer, data, lineItemsData);
               }
-              console.log("lineItemData: " + lineItemsData,);
-              createOrder(customer, data, lineItemsData);
-            }
-          );
-        })
-        .catch((err) => console.log(err.message));
-
-
-      // console.log(cartProductIds);
-      // const updatedCartItems = user.cart.filter(
-      //   (productId) => !cartProductIds.includes(String(productId))
-      // );
-      // console.log(updatedCartItems);
-
-      // user.cart = updatedCartItems;
-      // await user.save();
-    }
+            );
+          })
+          .catch((err) => console.log(err.message));
+      } catch (error) {
+        console.error("Error processing checkout.session.completed:", error);
+      }
+    }    
     // Return a 200 response to acknowledge receipt of the event
     res.send().end();
   }

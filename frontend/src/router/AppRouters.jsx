@@ -121,9 +121,10 @@ function AppRouters() {
                 <Route
                     path="/checkout-success"
                     element={
-                        <PrivateRoute roles={['customer']}>
-                            <ConfirmCheckout />
-                        </PrivateRoute>
+                        // <PrivateRoute roles={['customer']}>
+                        //     <ConfirmCheckout />
+                        // </PrivateRoute>
+                        <ConfirmCheckout />
                     }
                 />
 

@@ -4,11 +4,14 @@ const {
     getCartById,
     createCart,
     updateCart,
-    deleteCart
+    deleteCart,
+    deleteCartItem
 } = require('../controllers/CartController');
 const { isManager, isCustomer } = require('../middleware/auth');
 
 const router = express.Router();
+
+router.route('/:userId/cart').post(deleteCartItem);
 
 router.route('/')
     .get(getAllCarts) 

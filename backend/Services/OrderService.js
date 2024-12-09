@@ -116,7 +116,7 @@ exports.deleteOrder = async (id) => {
 exports.getOrdersByUserId = async (userId) => {
   try {
     // Tìm tất cả đơn hàng có id_user trùng với userId
-    const orders = await Order.find({ id_user: userId });
+    const orders = await Order.find({ userId: userId });
 
     // Nếu không tìm thấy đơn hàng nào
     if (orders.length === 0) {
