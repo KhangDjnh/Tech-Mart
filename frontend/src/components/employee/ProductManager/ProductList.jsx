@@ -6,7 +6,7 @@ import { productApi } from "../../../../api/productApi";
 import { Button, FormControlLabel, Radio, Box, IconButton, Drawer, Checkbox } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import unidecode from "unidecode";
-import { formatCatergory } from '../../../utils/formatCategory';
+import { formatCategory } from '../../../utils/formatCategory';
 
 function ProductList({}){
   const navigate = useNavigate();
@@ -210,7 +210,7 @@ function ProductList({}){
                   <FormControlLabel
                     value={e}
                     control={<Radio />}
-                    label={formatCatergory(e)}
+                    label={formatCategory(e)}
                     checked={isCategory === i}
                     onChange={() => searchCategory(e, i)}
                   />

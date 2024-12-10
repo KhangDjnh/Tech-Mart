@@ -1,4 +1,4 @@
-export function formatCatergory(category){
+export function formatCategory(category){
     switch (category){
         case "Laptop": return "Laptop";
         case "Smartphone": return "Smartphone";
