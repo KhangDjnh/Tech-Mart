@@ -11,7 +11,7 @@ function EmployeeHome() {
         <Box sx={{ marginLeft: '100px', display: 'flex', alignItems: 'center' }}>
           <a
             href={"/"}
-            className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
+            className="text-white font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3 hover:rounded-full  hover:border-[3px] hover:border-[white]"
           >
             TECH MART
           </a>
