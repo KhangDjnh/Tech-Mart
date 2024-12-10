@@ -16,6 +16,7 @@ import Divider from "@mui/material/Divider";
 import { productApi } from "../../api/productApi.js";
 import eventEmitter from "../utils/eventEmitter.js";
 import InfoModal from "./InfoModal.jsx";
+import { formatCategory } from "../utils/formatCategory.js";
 
 function Navbar({ userDetails }) {
     const product = useSelector(state => state.products.data)
@@ -139,9 +140,9 @@ function Navbar({ userDetails }) {
                 </a>
                 {(role?.includes("employee") || role?.includes("manager")) && <a
                     href={"/employee"}
-                    className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
+                    className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3 hover:rounded-full  hover:border-[3px] hover:border-[white]"
                 >
-                    SELLER SIDE
+                    KÊNH BÁN
                 </a>}
 
                 <div className=" ml-[160px] flex items-center max-lg:hidden ">
@@ -163,7 +164,7 @@ function Navbar({ userDetails }) {
                                         "text-black font-medium text-[12px] text-center hover:bg-[#231f20] hover:text-white  p-2 w-24 line-clamp-1"
                                     }
                                 >
-                                    {e}
+                                    {formatCategory(e)}
                                 </Link>
                             ))}
                         </div>
@@ -176,7 +177,7 @@ function Navbar({ userDetails }) {
                                     key={i}
                                     className={`mx-2 font-medium p-4 hover:scale-110 ${i > 3 ? 'max-2xl:hidden' : ''} ${i > 1 ? 'max-xl:hidden' : ''} max-lg:hidden `}
                                 >
-                                    {e}
+                                    {formatCategory(e)}
                                 </Link>
                             ))}
                         </div>
