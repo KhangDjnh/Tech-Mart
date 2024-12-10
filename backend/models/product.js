@@ -13,7 +13,7 @@ const ProductSchema = new mongoose.Schema({
     },
     category: { 
         type: String, 
-        enum: ['Smartphone', 'Laptop', 'Monitor'],
+        enum: ['Smartphone', 'Laptop', 'Monitor', 'Mouse', 'Keyboard', 'Headphone']
     },
     brand: {
         type: String, 
