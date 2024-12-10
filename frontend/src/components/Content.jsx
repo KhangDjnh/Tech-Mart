@@ -5,6 +5,7 @@ import Card from "./Card.jsx";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Button, FormControlLabel, Radio, Box, IconButton, Drawer } from "@mui/material";
+import { formatCategory } from '../utils/formatCategory.js';
 
 function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, product }) {
     const [productShow, setProductShow] = useState(product);
@@ -235,7 +236,7 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                                     <FormControlLabel
                                         value={e}
                                         control={<Radio />}
-                                        label={e}
+                                        label={formatCategory(e)}
                                         checked={isCategory === i}
                                         onChange={() => searchCategory(e, i)}
                                     />
