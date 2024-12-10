@@ -3,7 +3,7 @@ import React from 'react';
 function Footer() {
     return (
         <div>
-            <footer className="footer p-10 bg-gray-800 text-white rounded">
+            <footer className="footer p-10 bg-gray-800 text-white rounded h-[200px] flex flex-col items-center justify-center space-y-4">
                 {/* Menu Links */}
                 <nav className="flex justify-center space-x-8 mb-4">
                     <a className="link link-hover text-gray-300 hover:text-white" href="#">About us</a>
