@@ -154,7 +154,7 @@ try {
                                     </div>
                                     <div className={'w-full'}>
                                         <TextField className={'w-full'} name={'name'} label="Tên" variant="outlined"
-                                                   size={'small'} value={updateData?.name || infor?.name}
+                                                   size={'small'} value={updateData?.fullname || infor?.fullname}
                                                    onChange={handleInput}/>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@ try {
                                     <div className={'w-full'}>
                                         <TextField className={'w-full'} name={'phone'} label="Số điện thoại"
                                                    variant="outlined" size={'small'}
-                                                   value={updateData?.phone || infor?.phone} onChange={handleInput}/>
+                                                   value={updateData?.phonenumber || infor?.phonenumber} onChange={handleInput}/>
                                     </div>
                                 </div>
 

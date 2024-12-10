@@ -29,7 +29,7 @@ function DetailUser(props) {
         };
         //fetchData(userDetails._id);
         if (userDetails?._id) {
-            fetchData(userDetails._id);
+            fetchData(userDetails?._id);
         } else {
             console.error("userDetails._id is not available.");
         }
