@@ -13,13 +13,13 @@ const router = express.Router();
 
 // Routes for comments
 router.route('/')
-    .get(isCustomer, getAllComments) 
-    .post(isCustomer, createComment); 
+    .get( getAllComments) 
+    .post( createComment); 
 
 router.route('/:id')
-    .get(isCustomer, getCommentById) 
-    .put(isCustomer, updateComment) 
-    .delete(isCustomer, deleteComment); 
+    .get( getCommentById) 
+    .put( updateComment) 
+    .delete(deleteComment); 
 
 router.get("/product/:id_product", getCommentsByProductId);
 

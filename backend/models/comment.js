@@ -23,6 +23,14 @@ const CommentSchema = new mongoose.Schema({
         min: 0,  // Giá trị tối thiểu của đánh giá là 0
         max: 5   // Giá trị tối đa của đánh giá là 5
     },
+    parentCommentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment"
+    },
+    replies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment"
+    }]
 }, { timestamps: true }); 
 
 module.exports = mongoose.model('Comment', CommentSchema);
