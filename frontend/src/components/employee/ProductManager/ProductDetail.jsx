@@ -113,6 +113,19 @@ function ProductDetail(){
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setProduct((prev) => {
+      const trimmedProduct = {};
+      for (const key in prev) {
+        if (typeof prev[key] === "string") {
+          trimmedProduct[key] = prev[key].trim();
+        } else {
+          trimmedProduct[key] = prev[key];
+        }
+      }
+      return trimmedProduct;
+    });
+
     createAndEditProduct();
   }
 
