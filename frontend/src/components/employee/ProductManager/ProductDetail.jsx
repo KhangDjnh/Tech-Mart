@@ -151,7 +151,7 @@ function ProductDetail(){
               <option value='Smartphone'>Smart Phone</option>
               <option value='Monitor'>Màn hình</option>
               <option value='Mouse'>Chuột</option>
-              <option value='Keyboardr'>Bàn phím</option>
+              <option value='Keyboard'>Bàn phím</option>
               <option value='Headphone'>Tai nghe</option>
             </select> <br />
             <label>Giá bán: </label> <br />
