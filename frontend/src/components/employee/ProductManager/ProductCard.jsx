@@ -50,7 +50,7 @@ function ProductCard({ product, callback }) {
         >
           {product.name}
         </div>
-        <div className="flex justify-center my-1">
+        <div className="flex justify-center my-1" style={{color: "#A6ADBB"}}>
           Còn lại:&nbsp;<span className="text-black">{product.stock}</span>&nbsp;trong kho
         </div>
         <div className="flex justify-center items-center my-1">
@@ -58,8 +58,8 @@ function ProductCard({ product, callback }) {
             product.discount ?
             <div>
               <div className="text-center">
-                <span className="text-md line-through p-1">
-                {formatNumber(product.realprice)}đ
+                <span className="text-md line-through p-1" style={{color: "#A6ADBB"}}>
+                  {formatNumber(product.realprice)}đ
                 </span>
                 <span className="text-sm text-white bg-red-500 rounded-md p-1">
                   - {product.discount}%

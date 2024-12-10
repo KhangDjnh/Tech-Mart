@@ -63,7 +63,7 @@ function DetailProductContent({ product }) {
                     <p>Hãng: <span>{productShow?.brand}</span></p>
                     <p>Thông tin sản phẩm: </p>
                     <br />
-                    <span>{productShow?.description}</span>
+                    <pre>{productShow?.description}</pre>
                     <br />
                     <Rating name="size-large" defaultValue={productShow?.rate} className="my-6" precision={0.5} readOnly />
                     <p className="text-gray-600 line-clamp-1 italic mb-4">{productShow?.desc}</p>

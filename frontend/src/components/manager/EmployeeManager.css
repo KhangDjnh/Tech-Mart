@@ -47,6 +47,9 @@
     background-color: #f4f4f4;
     font-weight: bold;
 }
+.employeeRecord{
+    color: #A6ADBB;
+}
 .employeeRecord:hover {
     color: #000;
     background-color: #f9f9f9;
