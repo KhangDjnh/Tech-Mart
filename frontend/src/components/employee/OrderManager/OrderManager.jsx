@@ -36,7 +36,7 @@ function OrderManager(){
 
   return(
     <div style={{display: "flex", flexDirection: "row"}}>
-      <div className="halfPage" style={{paddingRight: "10px", width: "50%"}}>
+      <div className="halfPage">
         <div className="headerInOrderManager">
           Danh Sách Đơn Hàng
         </div>
@@ -44,26 +44,40 @@ function OrderManager(){
           {orders.slice().reverse().map((order) => (<OrderCard key={order._id} order={order} setShowUserInfo={setUserInfo} isOrderOpen={isOderOpen} setIsOrderOpen={setIsOrderOpen}/>))}
         </ul>
       </div>
-      {userInfo && (<div className="halfPage" style={{paddingLeft: "10px", width: "35%", flex: "1",
+      {userInfo && (<div className="halfPage" style={{paddingLeft: "10px", width: "42%", flex: "1",
                                         position: "fixed", right: "16px"}}>
         <div>
           <div className="headerInOrderManager">
             Thông Tin Khách Hàng
           </div>
           <div className="customerInfoBlock">
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+            <table>
               <tbody>
                 <tr>
-                  <th style={{width: "150px", padding: "2px 0"}}><PersonIcon /> Tên tài khoản: </th>
-                  <td>{userInfo.username}</td>
+                  <th style={{paddingBottom: "10px"}}>Tên tài khoản: </th>
+                  <td style={{paddingBottom: "10px"}}>{userInfo.username}</td>
                 </tr>
                 <tr>
-                  <th style={{width: "150px", padding: "2px 0"}}><PhoneIcon /> Số điện thoại: </th>
+                  <th><PersonIcon /> Họ và tên: </th>
+                  <td>{userInfo.fullname}</td>
+                </tr>
+                <tr>
+                  <th><PhoneIcon /> Số điện thoại: </th>
                   <td>{userInfo.phonenumber}</td>
                 </tr>
                 <tr>
-                  <th style={{width: "150px", padding: "2px 0"}}><HomeIcon /> Địa chỉ: </th>
-                  <td>{userInfo.address}</td>
+                  <th><HomeIcon /> Địa chỉ: </th>
+                  {
+                    userInfo.currentAddress ? 
+                      <td>{userInfo.currentAddress}</td>
+                    :
+                      <td>
+                        {userInfo.orderAddress.line2} -&nbsp;
+                        {userInfo.orderAddress.line1} -&nbsp;
+                        {userInfo.orderAddress.city} -&nbsp;
+                        {userInfo.orderAddress.country}
+                      </td>
+                  }
                 </tr>
               </tbody>
             </table>

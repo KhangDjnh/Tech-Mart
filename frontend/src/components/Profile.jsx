@@ -41,7 +41,7 @@ function Profiles() {
           <Avatar
             sx={{ width: 36, height: 36 }}
             alt='anhnong247'
-            src='https://kenh14cdn.com/203336854389633024/2021/12/24/photo-1-16403154970581655966552.jpg'
+            src='https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg'
           />
         </IconButton>
       </Tooltip>
@@ -54,7 +54,7 @@ function Profiles() {
           'aria-labelledby': 'basic-button-profiles'
         }}
       >
-        <MenuItem >
+        {/* <MenuItem >
           <Avatar alt='anhnong247' src='https://kenh14cdn.com/203336854389633024/2021/12/24/photo-1-16403154970581655966552.jpg' sx={{ width: 28, height: 28, mr: 2 }}/> Profile
         </MenuItem>
         <MenuItem >
@@ -72,7 +72,7 @@ function Profiles() {
             <Settings fontSize="small" style={{ color: '7BD3EA' }}/>
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={handleLogout} >
           <ListItemIcon>
             <Logout fontSize="small" style={{ color: '7BD3EA' }}/>

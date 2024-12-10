@@ -15,12 +15,12 @@ function OrderCard({order, setShowUserInfo, isOrderOpen, setIsOrderOpen}){
 
   const fetchProductData = async () => {
     try {
-      const productIds = order.id_product;
-      const productPromises = productIds.map((productWrapper) => productApi.getProductById(productWrapper.product));
+      const productWrappers = order.products;
+      const productPromises = productWrappers.map((productWrapper) => productApi.getProductById(productWrapper.id));
       const productWrapper = await Promise.all(productPromises);
       const res = productWrapper.map(element => element.data.data);
       setProduct(res);
-      const quantityArray = productIds.map((productWrapper) => productWrapper.quantity);
+      const quantityArray = productWrappers.map((productWrapper) => productWrapper.quantity);
       setQuantities(quantityArray);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -28,7 +28,7 @@ function OrderCard({order, setShowUserInfo, isOrderOpen, setIsOrderOpen}){
   };
   const fetchUserData = async () => {
     try {
-      const res = await userApi.getUserById(order.id_user);
+      const res = await userApi.getUserById(order.userId);
       setUser(res.data.data);
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -42,7 +42,19 @@ function OrderCard({order, setShowUserInfo, isOrderOpen, setIsOrderOpen}){
   useEffect(() => {
     if(isOrderOpen === order._id) {
       if(!showInfo) {
-        setShowUserInfo(user);
+        const userObj = {
+          username: user.username,
+          phonenumber: user.phonenumber,
+          fullname: order.shipping.name,
+          orederAddress: {
+            country: order.shipping.address.country,
+            city: order.shipping.address.city,
+            line1: order.shipping.address.line1,
+            line2: order.shipping.address.line2
+          },
+          currentAddress: user.address
+        };
+        setShowUserInfo(userObj);
       } else setShowUserInfo(null);
       setShowInfo(prev => !prev);
     }else {
@@ -62,23 +74,31 @@ function OrderCard({order, setShowUserInfo, isOrderOpen, setIsOrderOpen}){
   return(
     <div>
       <div className={showInfo ? "orderInfo expanded" : "orderInfo"} onClick={handleOnClick}>
-        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+        <table>
           <tbody>
             <tr>
-              <th style={{width: "130px"}}>Đơn:</th>
+              <th>Đơn:</th>
               <td>{order._id}</td>
             </tr>
             <tr>
-              <th style={{width: "130px"}}>Tổng giá:</th>
-              <td>{formatNumber(order.total_price)}đ</td>
+              <th>Tổng giá:</th>
+              <td>{formatNumber(order.subtotal)}đ</td>
             </tr>
             <tr>
-              <th style={{width: "130px"}}>Trạng thái:</th>
-              <td>{formatStatus(order.status)}</td>
+              <th>Thanh toán:</th>
+              <td>{formatStatus(order.payment_status)}</td>
             </tr>
             <tr>
-              <th style={{width: "130px"}}>Nơi nhận hàng:</th>
-              <td>{order.address}</td>
+              <th>Vận chuyển:</th>
+              <td>{formatStatus(order.delivery_status)}</td>
+            </tr>
+            <tr>
+              <th>Nơi nhận hàng:</th>
+              <td>{order.shipping.address.line2} -&nbsp;
+                {order.shipping.address.line1} -&nbsp;
+                {order.shipping.address.city} -&nbsp;
+                {order.shipping.address.country}
+              </td>
             </tr>
           </tbody>
         </table>
