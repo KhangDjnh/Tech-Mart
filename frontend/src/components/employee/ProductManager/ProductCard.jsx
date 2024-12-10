@@ -70,8 +70,10 @@ function ProductCard({ product, callback }) {
               </div>
             </div>
             :
-            <div className="text-lg text-center text-black font-medium">
-              {formatNumber(product.realprice)}đ
+            <div className="text-lg text-center text-black font-medium" style={{height: "52px"}}>
+              <span>
+                {formatNumber(product.realprice)}đ
+              </span>
             </div>
           }
         </div>
