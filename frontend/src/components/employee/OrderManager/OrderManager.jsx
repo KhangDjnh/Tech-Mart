@@ -44,13 +44,12 @@ function OrderManager(){
           {orders.slice().reverse().map((order) => (<OrderCard key={order._id} order={order} setShowUserInfo={setUserInfo} isOrderOpen={isOderOpen} setIsOrderOpen={setIsOrderOpen}/>))}
         </ul>
       </div>
-      {userInfo && (<div className="halfPage" style={{paddingLeft: "10px", width: "42%", flex: "1",
-                                        position: "fixed", right: "16px"}}>
+      <div className="halfPage" style={{paddingLeft: "10px", width: "42%", flex: "1", position: "fixed", right: "16px"}}>
         <div>
           <div className="headerInOrderManager">
             Thông Tin Khách Hàng
           </div>
-          <div className="customerInfoBlock">
+          {userInfo && (<div className="customerInfoBlock">
             <table>
               <tbody>
                 <tr>
@@ -81,9 +80,9 @@ function OrderManager(){
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div>)}
         </div>
-      </div>)}
+      </div>
     </div>
   )
 }

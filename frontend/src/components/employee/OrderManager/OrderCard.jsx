@@ -108,8 +108,12 @@ function OrderCard({order, setShowUserInfo, isOrderOpen, setIsOrderOpen}){
         {products.map((product, index) => (<li className="productInOrder" key={index}>
           <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
             <img src={product.images[0]} style={{width: "100px", objectFit: "contain"}}/>
-            <table style={{ width: "100%", borderCollapse: "collapse", marginLeft:"20px", textAlign: "left"}}>
+            <table style={{marginLeft:"20px"}}>
               <tbody>
+                <tr>
+                  <th>Mã sản phẩm:</th>
+                  <td>{product._id}</td>
+                </tr>
                 <tr>
                   <th>Sản phẩm:</th>
                   <td>{product.name}</td>
