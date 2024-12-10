@@ -23,6 +23,7 @@ const stripeRouter = require("./routes/StripeRouter");
 require("dotenv").config();
 
 const app = express();
+app.use("/api/stripe/webhook", express.raw({ type: "application/json" }));
 app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 

@@ -9,7 +9,7 @@ function OrderProductChild({ products }) {
     const getFullProductDetails = useCallback(async (products) => {
         try {
             const productDetailsPromises = products.map(async (product) => {
-                const details = await productApi.getProductById(product.product_id);
+                const details = await productApi.getProductById(product.id);
                 return {
                     ...details.data.data,
                     quantity: product.quantity,
