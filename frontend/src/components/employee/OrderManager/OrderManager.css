@@ -2,6 +2,12 @@
     display: flex;
     flex-direction: column;
     margin: 0 1rem;
+    width: 47.5%;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
 }
 
 .headerInOrderManager{
@@ -37,7 +43,9 @@
     background-color: rgb(96, 104, 111);
     color: white;
 }
-
+.orderInfo th{
+    width: 130px;
+}
 .orderInfo > .bi-chevron-down.toggle-btn::before{
     transition: transform .3s;
 }
@@ -58,6 +66,9 @@
     border-radius: 5px;
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
 }
+.productInOrder th{
+    width: 110px;
+}
 
 .customerInfoBlock{
     display: flex;
@@ -71,4 +82,8 @@
     color: white;
     border-radius: 5px;
     box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+.customerInfoBlock th{
+    width: 150px;
+    padding: 2px 0;
 }

@@ -106,13 +106,26 @@ function ProductDetail(){
   const handleInputChange = (e) => {
     const {name, value} = e.target;
     
-    setProduct(prev => ({
+    setProduct((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value.trimStart()
     }));
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setProduct((prev) => {
+      const trimmedProduct = {};
+      for (const key in prev) {
+        if (typeof prev[key] === "string") {
+          trimmedProduct[key] = prev[key].trim();
+        } else {
+          trimmedProduct[key] = prev[key];
+        }
+      }
+      return trimmedProduct;
+    });
+
     createAndEditProduct();
   }
 
@@ -150,6 +163,9 @@ function ProductDetail(){
               <option value='Laptop'>Laptop</option>
               <option value='Smartphone'>Smart Phone</option>
               <option value='Monitor'>Màn hình</option>
+              <option value='Mouse'>Chuột</option>
+              <option value='Keyboard'>Bàn phím</option>
+              <option value='Headphone'>Tai nghe</option>
             </select> <br />
             <label>Giá bán: </label> <br />
             <input type="number" name="realprice" min="1"

@@ -1,8 +1,11 @@
 export function formatStatus(status){
-    if(status == "pending") return "Đang xử lý";
-    else if(status == "confirmed") return "Đã xác nhận";
-    else if(status == "shipped") return "Đang vận chuyển";
-    else if(status == "delivered") return "Đã giao hàng";
-    else if(status == "canceled") return "Đơn hủy";
-    else return "Đơn lỗi";
+    switch (status){
+        case "pending": return "Đang xử lý";
+        case "confirmed": return "Đã xác nhận";
+        case "shipped": return "Đang vận chuyển";
+        case "delivered": return "Đã giao hàng";
+        case "canceled": return "Đơn hủy";
+        case "paid": return "Đã thanh toán";
+        default: return "Đơn lỗi";
+    }
 }
