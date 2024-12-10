@@ -6,6 +6,7 @@ import { productApi } from "../../../../api/productApi";
 import { Button, FormControlLabel, Radio, Box, IconButton, Drawer, Checkbox } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import unidecode from "unidecode";
+import { formatCategory } from '../../../utils/formatCategory';
 
 function ProductList({}){
   const navigate = useNavigate();
@@ -45,14 +46,6 @@ function ProductList({}){
   };
 
   useEffect(() => {
-    try{
-      if(localStorage.getItem("token")){
-      }else{
-        navigate("/login");
-      }
-    }catch (e){
-      console.log(e);
-    }
     fetchData();
   }, []);
 
@@ -152,7 +145,7 @@ function ProductList({}){
   }, [filterName, filterBrand, filterStock, filterCategory, filterSale]);
 
   const drawerContent = (
-    <Box sx={{ width: 250 }} role="presentation">
+    <Box sx={{ width: 200 }} role="presentation">
       <div className="font-medium my-4">
         {brandShow && (
           <>
@@ -213,11 +206,11 @@ function ProductList({}){
             <h1 className="mb-2">Loại sản phẩm</h1>
             <div className="max-h-[300px] overflow-y-auto">
               {category?.map((e, i) => (
-                <div key={i}>
+                <div key={i}> 
                   <FormControlLabel
                     value={e}
                     control={<Radio />}
-                    label={e}
+                    label={formatCategory(e)}
                     checked={isCategory === i}
                     onChange={() => searchCategory(e, i)}
                   />

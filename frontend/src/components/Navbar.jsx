@@ -19,7 +19,8 @@ import InfoModal from "./InfoModal.jsx";
 
 function Navbar({ userDetails }) {
     const product = useSelector(state => state.products.data)
-    const userID = JSON.parse(localStorage.getItem('session'))?.userDetails?._id
+    const userID = JSON.parse(localStorage.getItem('session'))?.userDetails?._id;
+    const role = JSON.parse(localStorage.getItem('session'))?.userDetails?.role;
     const dispatch = useDispatch()
     const { isLoggedIn } = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false }
     const cart = useSelector(state => state.cart.data)
@@ -136,12 +137,12 @@ function Navbar({ userDetails }) {
                 >
                     TECH MART
                 </a>
-                <a
+                {(role?.includes("employee") || role?.includes("manager")) && <a
                     href={"/employee"}
                     className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
                 >
                     SELLER SIDE
-                </a>
+                </a>}
 
                 <div className=" ml-[160px] flex items-center max-lg:hidden ">
                     <div
