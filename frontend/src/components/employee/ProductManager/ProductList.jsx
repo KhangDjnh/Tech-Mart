@@ -255,7 +255,7 @@ function ProductList({}){
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[17%,83%] mt-6 ml-4">
-        <div className="bg-white w-[9%] p-4 shadow-md rounded-lg">
+        <div className="bg-white w-auto p-4 shadow-md rounded-lg">
           <div className="flex items-center">
             <h1 className='font-bold text-xl max-lg:hidden '>Bộ lọc</h1>
           </div>

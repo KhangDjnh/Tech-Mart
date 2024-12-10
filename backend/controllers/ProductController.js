@@ -41,8 +41,8 @@ exports.getProductById = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1; 
-        const limit = parseInt(req.query.limit) || 12;
+        // const page = parseInt(req.query.page) || 1; 
+        // const limit = parseInt(req.query.limit) || 12;
 
         const products = await productService.getAllProducts(page, limit);
         res.status(200).json({ data: products, status: "success", page, limit });
