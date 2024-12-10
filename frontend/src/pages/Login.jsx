@@ -15,8 +15,16 @@ import { connect } from "react-redux";
 import { getActions } from "../store/actions/authAction.js";
 import { notify } from "../utils/toastify.js";
 import eventEmitter from "../utils/eventEmitter.js";
+import bgImg from "../assets/bg_login.jpg"
 
 function Login({ login }) {
+  const style = {
+    backgroundImage: `url(${bgImg})`, // Đường dẫn đến ảnh
+    backgroundSize: 'cover', // Đảm bảo ảnh lấp đầy vùng nền
+    backgroundRepeat: 'no-repeat', // Ảnh không bị lặp lại
+    backgroundPosition: 'center', // Canh giữa ảnh
+  };
+  
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -62,7 +70,7 @@ function Login({ login }) {
     };
   }, []);
   return (
-    <div className={" w-full h-[100vh] flex justify-center items-center"}>
+    <div className={" w-full h-[100vh] flex justify-center items-center"} style={style}>
       <div className="flex flex-col justify-center items-center w-[36vw] bg-white shadow-[0px_0px_10px] shadow-gray-500 relative rounded-3xl">
         {/*<Link to="/" className="absolute top-0 right-0 text-gray-500 hover:text-gray-700">*/}
         {/*  <Close />*/}
@@ -70,13 +78,14 @@ function Login({ login }) {
         <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
         <div className="px-10 pb-5 rounded-md  flex flex-col justify-center items-center w-full mt-10 ">
           <h1 className="font-medium text-xl mb-6 mt-3">Đăng nhập</h1>
-          <FormControl variant="outlined" className={"w-full !my-4"}>
+          <FormControl variant="outlined" className={"w-full !my-4 "}>
             <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
             <OutlinedInput
               value={email}
               onChange={handleEmailChange}
               type="email"
               label="Email"
+              className="!rounded-[10px]"
             />
           </FormControl>
           <FormControl variant="outlined" className={"w-full !my-4"}>
@@ -85,6 +94,8 @@ function Login({ login }) {
             </InputLabel>
             <OutlinedInput
               value={password}
+              className="!rounded-[10px]"
+
               onChange={handlePasswordChange}
               type={showPassword ? "text" : "password"}
               endAdornment={
@@ -104,7 +115,7 @@ function Login({ login }) {
           </FormControl>
           <Button
             variant="contained"
-            className={"!my-4"}
+            className={"!my-4 !rounded-[10px] !px-4 !py-2"}
             onClick={loginHandling}
           >
             Đăng nhập

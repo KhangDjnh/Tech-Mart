@@ -76,20 +76,17 @@ function AppRouters() {
                 <Route
                     path="/orderstatus"
                     element={
-                        // <PrivateRoute roles={['customer']}>
-                        //     <OrderStatus />
-                        // </PrivateRoute>
-                        <OrderStatus />
-
+                        <PrivateRoute roles={['customer']}>
+                            <OrderStatus />
+                        </PrivateRoute>
                     }
                 />
                 <Route
                     path="/category/:categoryID"
                     element={
-                        // <PrivateRoute roles={['customer']}>
-                        //     <CategoryItem />
-                        // </PrivateRoute>
-                        <CategoryItem />
+                        <PrivateRoute roles={['customer']}>
+                            <CategoryItem />
+                        </PrivateRoute>
                     }
                 />
                 <Route
@@ -109,20 +106,18 @@ function AppRouters() {
                 <Route
                     path="/cart"
                     element={
-                        // <PrivateRoute roles={['customer']}>
-                        //     <ShoppingCart />
-                        // </PrivateRoute>
-                        <ShoppingCart />
+                        <PrivateRoute roles={['customer']}>
+                            <ShoppingCart />
+                        </PrivateRoute>
                     }
                 />
 
                 <Route
                     path="/checkout-success"
                     element={
-                        // <PrivateRoute roles={['customer']}>
-                        //     <ConfirmCheckout />
-                        // </PrivateRoute>
-                        <ConfirmCheckout />
+                        <PrivateRoute roles={['customer']}>
+                            <ConfirmCheckout />
+                        </PrivateRoute>
                     }
                 />
 

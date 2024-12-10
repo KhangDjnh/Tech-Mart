@@ -266,8 +266,8 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                         <SearchIcon className="text-gray-400 max-sm:hidden " />
 
                     </div>
-            <div className="grid grid-cols-1 lg:grid-cols-[17%,83%] mt-6">
-                <div className="bg-white w-[95%] p-2">
+            <div className="grid grid-cols-1 lg:grid-cols-[17%,83%] mt-6 gap-10">
+                <div className="bg-white p-2">
                     <div className="flex items-center">
                         <h1 className='font-bold text-xl max-lg:hidden '>Bộ lọc</h1>
                         <IconButton onClick={() => setDrawerOpen(true)} className="lg:hidden ml-auto">
