@@ -25,10 +25,13 @@ exports.getProductById = async (id) => {
     return await Product.findById(id); 
 };
 
-exports.getAllProducts = async (page = 1, limit = 12) => {
-    const skip = (page - 1) * limit; 
-    return await Product.find().skip(skip).limit(limit); 
-    // return await Product.find()
+// exports.getAllProducts = async (page = 1, limit = 12) => {
+//     const skip = (page - 1) * limit; 
+//     return await Product.find().skip(skip).limit(limit); 
+// };
+
+exports.getAllProducts = async () => {
+    return await Product.find(); 
 };
 
 exports.updateProduct = async (id, productData) => {
