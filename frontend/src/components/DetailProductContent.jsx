@@ -63,9 +63,11 @@ function DetailProductContent({ product }) {
                     <p>Hãng: <span>{productShow?.brand}</span></p>
                     <p>Thông tin sản phẩm: </p>
                     <br />
-                    <pre>{productShow?.description}</pre>
+                    <pre className="max-w-[600px] overflow-auto break-words whitespace-pre-wrap">
+                        {productShow?.description}
+                    </pre>
                     <br />
-                    <Rating name="size-large" defaultValue={productShow?.rate} className="my-6" precision={0.5} readOnly />
+                    <Rating name="size-large" defaultValue={4.5} className="my-6" precision={0.5} readOnly />
                     <p className="text-gray-600 line-clamp-1 italic mb-4">{productShow?.desc}</p>
                     {productShow?.sale ? (
                         <div className="text-start">
