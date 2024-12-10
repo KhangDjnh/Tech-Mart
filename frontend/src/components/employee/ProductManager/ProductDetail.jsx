@@ -150,6 +150,9 @@ function ProductDetail(){
               <option value='Laptop'>Laptop</option>
               <option value='Smartphone'>Smart Phone</option>
               <option value='Monitor'>Màn hình</option>
+              <option value='Mouse'>Chuột</option>
+              <option value='Keyboardr'>Bàn phím</option>
+              <option value='Headphone'>Tai nghe</option>
             </select> <br />
             <label>Giá bán: </label> <br />
             <input type="number" name="realprice" min="1"
