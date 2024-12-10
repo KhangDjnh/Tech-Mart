@@ -106,9 +106,9 @@ function ProductDetail(){
   const handleInputChange = (e) => {
     const {name, value} = e.target;
     
-    setProduct(prev => ({
+    setProduct((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value.trimStart()
     }));
   }
   const handleSubmit = (e) => {
