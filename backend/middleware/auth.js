@@ -14,41 +14,42 @@ const auth = (req, res, next) => {
     }
 };
 
+// Kiểm tra nếu role tồn tại trong mảng role của người dùng
+const hasRole = (userRoles, requiredRoles) => {
+    return requiredRoles.some(role => userRoles.includes(role));
+};
 
 // For Customer Profile
 const isCustomer = (req, res, next) => {
     auth(req, res, () => {
-        if ((req.user && ((req.user._id === req.params.id && req.user.role == "customer")) || req.user.role == "employee" || req.user.role == "manager")) {
+        if (req.user && (hasRole(req.user.role, ["customer"]) && req.user._id === req.params.id) || hasRole(req.user.role, ["employee", "manager"])) {
             next();
         } else {
             res.status(403).send("Access denied. Not authorized...");
         }
     });
 };
-
 
 // For Employee Profile
 const isEmployee = (req, res, next) => {
     auth(req, res, () => {
-        if (req.user && (req.user.role == "employee" || req.user.role == "manager")) {
+        if (req.user && hasRole(req.user.role, ["employee", "manager"])) {
             next();
         } else {
-            res.status(403).send("Access denied. Not authorized...");
+            res.status(403).send("Access denied. Not authorized em");
         }
     });
 };
-
 
 // For Manager
 const isManager = (req, res, next) => {
     auth(req, res, () => {
-        if (req.user && req.user.role == "manager") {
+        if (req.user && hasRole(req.user.role, ["manager"])) {
             next();
         } else {
             res.status(403).send("Access denied. Not authorized...");
         }
     });
 };
-
 
 module.exports = { isCustomer, isEmployee, isManager };

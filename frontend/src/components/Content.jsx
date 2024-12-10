@@ -285,7 +285,7 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                 <div className=" w-full p-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
                         {productShow.map((e, i) => (
-                            <div key={i} className="mr-1 mb-1">
+                            <div key={i} className="mr-1 mb-1"zzz>
                                 <Card product={e} />
                             </div>
                         ))}
