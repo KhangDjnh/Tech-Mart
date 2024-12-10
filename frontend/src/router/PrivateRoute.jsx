@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 function PrivateRoute(props) {
+    console.log('props:: ', props)
     const session = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false, userDetails: {} };
     const { isLoggedIn, userDetails } = session;
     const { role } = userDetails;
@@ -25,7 +26,7 @@ function PrivateRoute(props) {
     }
 
     if (isLoggedIn) {
-        if (props.roles && !props.roles.includes(role)) {
+        if (props.roles && props.roles.includes(role)) {
             return (
                 <div className="mx-20">
                     <Navbar />

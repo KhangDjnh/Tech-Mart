@@ -78,6 +78,7 @@ function DetailProduct() {
 
                     </Box>
                     <SuggestProduct/>
+                    <div className="pt-10"></div>
                     <Footer/>
                 </div>
             </div>

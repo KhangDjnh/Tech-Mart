@@ -17,9 +17,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { notify } from "../../utils/toastify.js";
 import eventEmitter from "../../utils/eventEmitter.js";
 import CircularProgress from '@mui/material/CircularProgress';
+import bgImg from "../../assets/bg_login.jpg"
 
 
 function CreateAccount({ register }) {
+    const style = {
+        backgroundImage: `url(${bgImg})`, // Đường dẫn đến ảnh
+        backgroundSize: 'cover', // Đảm bảo ảnh lấp đầy vùng nền
+        backgroundRepeat: 'no-repeat', // Ảnh không bị lặp lại
+        backgroundPosition: 'center', // Canh giữa ảnh
+      };
     const profilePic =
         "https://res.cloudinary.com/dlgyapagf/image/upload/v1712984661/TechMarket-User/avatar_default/avatar-default_l2kmh0.jpg";
     const navigate = useNavigate();
@@ -86,11 +93,11 @@ function CreateAccount({ register }) {
     }, []);
 
     return (
-        <div className={" w-full h-[100vh] flex justify-center items-center"}>
-            <div className="flex flex-col justify-center items-center w-[40vw] bg-white   shadow-[0px_0px_10px] shadow-gray-500 my-44 relative">
-                <Link to="/" className="absolute top-0 right-0 text-gray-500 hover:text-gray-700">
+        <div className={" w-full h-[100vh] flex justify-center items-center"} style={style}>
+            <div className="flex flex-col justify-center items-center w-[40vw] bg-white   shadow-[0px_0px_10px] shadow-gray-500 my-44 relative rounded-[30px]">
+                {/* <Link to="/" className="absolute top-0 right-0 text-gray-500 hover:text-gray-700">
                     <Close />
-                </Link>
+                </Link> */}
 
                 <div className={"uppercase font-bold text-3xl mt-8"}>TeckMart</div>
                 <div className="px-10  rounded-md  flex flex-col justify-center items-center w-full  mt-10">
@@ -103,6 +110,7 @@ function CreateAccount({ register }) {
                             onChange={handleNameChange}
                             label="UserName"
                             type="username"
+                            className="!rounded-[10px]"
                         />
                     </FormControl>
 
@@ -115,6 +123,8 @@ function CreateAccount({ register }) {
                                 onChange={handleEmailChange}
                                 type="email"
                                 label="Email"
+                            className="!rounded-[10px]"
+
                             />
                         </FormControl>
 
@@ -126,6 +136,8 @@ function CreateAccount({ register }) {
                                 onChange={handlePhoneChange}
                                 label="Số điện thoại"
                                 type="phonenumber"
+                            className="!rounded-[10px]"
+
                             />
                         </FormControl>
                     </div>
@@ -138,6 +150,8 @@ function CreateAccount({ register }) {
                             </InputLabel>
                             <OutlinedInput
                                 value={password}
+                            className="!rounded-[10px]"
+
                                 onChange={handlePasswordChange}
                                 type={showPassword ? "text" : "password"}
                                 endAdornment={
@@ -161,6 +175,8 @@ function CreateAccount({ register }) {
                             </InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password"
+                            className="!rounded-[10px]"
+
                                 type={showPassword ? "text" : "password"}
                                 endAdornment={
                                     <InputAdornment position="end">
@@ -182,7 +198,7 @@ function CreateAccount({ register }) {
                         {
                             !loading ? <Button
                                 variant="contained"
-                                className={"!my-4 w-[200px] h-[50px]"}
+                                className={"!my-4 w-[200px] h-[50px] !rounded-[10px]"}
                                 onClick={registerHandling}
                             >
                                 Tạo tài khoản

@@ -16,7 +16,7 @@ import { checkoutApi, productApi } from "../../api/productApi.js";
 function DetailProductContent({ product }) {
     const dispatch = useDispatch();
     const { productID } = useParams();
-    const userID = JSON.parse(localStorage.getItem('session')).userDetails._id;
+    const userID = JSON.parse(localStorage.getItem('session'))?.userDetails._id;
     const [productPurchased, setProductPurchased] = useState([{ id: productID, quantity: 0 }]);
     const [productShow, setProductShow] = useState(product);
     const [count, setCount] = useState(0);
@@ -35,6 +35,7 @@ function DetailProductContent({ product }) {
     }
 
     const discountedPrice = productShow?.price * (100 - parseFloat(productShow?.sale)) / 100;
+    //console.log('ProductShow',productShow);
 
     useEffect(() => {
         setProductPurchased(state => [{ id: productID, quantity: count }]);
@@ -60,6 +61,10 @@ function DetailProductContent({ product }) {
                 <div className="lg:basis-1/2 mt-4 lg:mt-0">
                     <h1 className="font-bold text-2xl lg:text-lg">{productShow?.name}</h1>
                     <p>Hãng: <span>{productShow?.brand}</span></p>
+                    <p>Thông tin sản phẩm: </p>
+                    <br />
+                    <span>{productShow?.description}</span>
+                    <br />
                     <Rating name="size-large" defaultValue={productShow?.rate} className="my-6" precision={0.5} readOnly />
                     <p className="text-gray-600 line-clamp-1 italic mb-4">{productShow?.desc}</p>
                     {productShow?.sale ? (

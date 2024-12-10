@@ -121,7 +121,7 @@ function Navbar({ userDetails }) {
     }, [lastScrollY]);
 
     return (
-        <div className={`fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'
+        <div className={`fixed flex bg-blue-500 right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'
             }`}>
             <div className="flex items-center">
                 <div className="hidden max-lg:block ml-8 hover:scale-125">
@@ -132,7 +132,7 @@ function Navbar({ userDetails }) {
                 </Drawer>
                 <a
                     href={"/"}
-                    className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
+                    className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3 hover:rounded-full  hover:border-[3px] hover:border-[white]"
                 >
                     TECH MART
                 </a>

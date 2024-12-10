@@ -60,6 +60,7 @@ function Home() {
             stockShow={true}
             product={products}
           />
+          <div className="pt-10"></div>
           <Footer />
         </div>
         <ChatIcon />
