@@ -3,11 +3,12 @@ import { createComment, getComments, updateComment } from "../../store/actions/c
 import CommentForm from "./CommentForm.jsx";
 import CommentChild from "./Comment.jsx";
 
-const Comments = ({ currentUserId, productID ,userName}) => {
+const Comments = ({ currentUserId, productID }) => {
     const [comments, setComments] = useState([]);
 
     const fetchComments = async () => {
         const fetchedComments = await getComments(productID);
+        console.log('fetchedComments :', fetchedComments);
         setComments(fetchedComments);
     };
 
@@ -17,19 +18,22 @@ const Comments = ({ currentUserId, productID ,userName}) => {
 
     const addComment = async (text) => {
         const newComment = {
+            id_product: productID,
             userId: currentUserId,
-            comment: text,
-            userName:userName
+            content: text,
+            rating : 4.6
         };
-         await createComment(productID, newComment);
+        console.log('newComment: ',newComment );
+        await createComment(newComment);
         fetchComments()
     };
 
     const replyComment = async (text, commentId) => {
         const newComment = {
+            id_product: productID,
             userId: currentUserId,
-            comment: text,
-            userName:userName
+            content: text,
+            rating : '4.6'
         };
         await updateComment(productID, commentId, newComment);
         fetchComments();

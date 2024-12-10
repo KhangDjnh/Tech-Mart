@@ -17,7 +17,7 @@ const CommentChild = ({ comment, replies, currentUserId, beReply, replyComment }
                 <Avatar {...stringAvatar(comment?.userName)} />
                 <span className="font-bold ">{comment?.userName}</span>
             </div>
-            <p className="ml-12 mt-2">{comment?.comment}</p>
+            <p className="ml-12 mt-2">{comment?.content}</p>
             {currentUserId && beReply && (
                 <div className="ml-10">
                     <Button

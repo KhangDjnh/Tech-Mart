@@ -61,13 +61,30 @@ export const checkoutApi = {
 
 export const commentApi = {
   getAllComments(productId) {
-    const url = `/product/${productId}/comment`;
+    const url = `/comment/product/${productId}/`;
     return api.get(url, setHeaders());
   },
 
-  createComment(productId, comment) {
-    const url = `/product/${productId}/comment`;
-    return api.post(url, comment, setHeaders());
+  createComment(comment) {
+    const url = `/comment/`;
+    console.log('newComment1: ', comment);
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(comment), // Chuyển dữ liệu thành JSON string
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Chuyển kết quả trả về thành JSON
+    })
+    .catch((error) => {
+        console.error('Error in createComment:', error);
+    });
   },
 
   reply(productId, commentId, comment) {
