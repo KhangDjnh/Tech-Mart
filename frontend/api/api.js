@@ -3,7 +3,7 @@ import axios from "axios";
 // import process from "../.eslintrc.cjs";
 // require("dotenv").config();
 //const baseURL = import.meta.env.VITE_SERVER;
-const baseURL = "http://localhost:5000/api/"
+const baseURL = "https://tech-mart-z0nd.onrender.com/api/"
 export const url = baseURL
 
 export const setHeaders = () => {
