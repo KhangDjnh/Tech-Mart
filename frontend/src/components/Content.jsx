@@ -256,6 +256,16 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
     return (
         <div className="mt-20">
             <h1 className="font-bold text-2xl text-center">CÁC MẶT HÀNG</h1>
+            <div className="w-full flex items-center px-4 py-1 mt-4   border-[1px] border-gray-500 rounded-full">
+                        <input
+                            type="text"
+                            placeholder="Tìm kiếm sản phẩm"
+                            className="focus:outline-none p-2  block w-full"
+                            onChange={onInputSearch}
+                        />
+                        <SearchIcon className="text-gray-400 max-sm:hidden " />
+
+                    </div>
             <div className="grid grid-cols-1 lg:grid-cols-[17%,83%] mt-6">
                 <div className="bg-white w-[95%] p-2">
                     <div className="flex items-center">
@@ -272,19 +282,7 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                     </div>
                 </div>
 
-                <div className="bg-white w-full p-2">
-                    <div className="flex items-center relative w-full outline outline-1 outline-gray-400">
-                        <input
-                            type="text"
-                            placeholder="Tìm kiếm sản phẩm"
-                            className="p-4 w-full "
-                            onChange={onInputSearch}
-                        />
-                        <div className="absolute top-1/2 right-0 hover:cursor-pointer translate-y-[-50%] mr-4">
-                            <SearchIcon className="text-gray-400 max-sm:hidden" />
-                        </div>
-                    </div>
-
+                <div className=" w-full p-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
                         {productShow.map((e, i) => (
                             <div key={i} className="mr-1 mb-1">

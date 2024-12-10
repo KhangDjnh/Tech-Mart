@@ -1,6 +1,3 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './App.css';
 import AppRouter from "./router/AppRouters";
 import Toastify from "./components/toastify/Toastify"
 import { BrowserRouter } from "react-router-dom";
@@ -10,16 +7,16 @@ import { PersistGate } from "redux-persist/integration/react";
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter future={{ v7_startTransition: true }}>
-          <AppRouter />
-          <Toastify />
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
-  )
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <BrowserRouter future={{ v7_startTransition: true }}>
+                    <AppRouter />
+                    <Toastify />
+                </BrowserRouter>
+            </PersistGate>
+        </Provider>
+    )
 }
 
 export default App;

@@ -43,14 +43,14 @@ function Home() {
         <CircularProgress />
       </Box>
     );
-  } else
+  }
     return (
       <div className={"bg-gray-50  relative"}>
         <div className={"mx-20 "}>
           <Navbar />
           <div className={'mt-20'}></div>
           <Slide  />
-          {/* <Category /> */}
+          <Category />
           {/*<Sale />*/}
           <Content
             priceShow={true}

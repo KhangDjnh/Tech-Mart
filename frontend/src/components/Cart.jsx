@@ -105,7 +105,7 @@ function Cart() {
         <div className="mt-20">
             <div>
                 <h1 className="pt-8 text-2xl font-bold uppercase">Giỏ hàng</h1>
-                <div className="mt-4 max-h-96 overflow-y-auto">
+                <div className="mt-4">
                     <ProductCart />
                 </div>
                 <div className="flex flex-col md:flex-row items-center justify-between mt-10 mb-20">
