@@ -17,5 +17,5 @@ exports.confirmEmail = async (req, res) => {
   user.confirmationExpires = undefined;
   await user.save();
 
-  res.redirect("http://localhost:5173/confirmemail");
+  res.redirect("https://techmarket20204568.web.app/confirmemail");
 };
