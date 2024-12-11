@@ -34,7 +34,7 @@ const login = (userDetails, navigate) => {
   return async (dispatch) => {
     const response = await loginUser(userDetails);
     if (response.error) {
-      eventEmitter.emit("error", response.exception.response.data);
+      eventEmitter.emit("error", response.exception.response?.data);
     } else {
       eventEmitter.emit("success");
       const token = response?.data?.token;
